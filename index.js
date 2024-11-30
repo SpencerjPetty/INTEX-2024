@@ -17,11 +17,11 @@ app.use(express.urlencoded({extended: true})); // Allows the server to work with
 const knex = require("knex") ({ // Connecting to our Postgres Database
     client : "pg",
     connection : {
-        host : "localhost",
-        user : "postgres",
-        password : "Roman$EatLargeT0gas", // This would need to change
-        database : "intex",
-        port : 5432
+        host : process.env.RDS_HOSTNAME || "localhost",
+        user : process.env.RDS_USERNAME || "postgres",
+        password : process.env.RDS_PASSWORD || "Roman$EatLargeT0gas", // This would need to change
+        database : process.env.RDS_DB_NAME || "intex",
+        port : process.env.RDS_PORT || 5432
     }
 });
 
