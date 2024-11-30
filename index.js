@@ -1,3 +1,5 @@
+// INTEX Group 2-2
+
 let express = require("express"); // Importing the express class/library
 
 let app = express(); // Creating an express object
