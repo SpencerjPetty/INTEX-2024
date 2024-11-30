@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to INTEX</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            font-size: 4rem;
+            color: #333;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="welcome-text">WELCOME TO INTEX</h1>
+
+    <script>
+        const colors = ['#FF5733', '#33FF57', '#3357FF', '#F3FF33', '#FF33D1', '#33FFF3'];
+        let colorIndex = 0;
+
+        document.getElementById('welcome-text').addEventListener('click', () => {
+            colorIndex = (colorIndex + 1) % colors.length;
+            document.getElementById('welcome-text').style.color = colors[colorIndex];
+        });
+    </script>
+</body>
+</html>
