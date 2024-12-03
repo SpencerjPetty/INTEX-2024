@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Volunteer Form</title>
+  <style>
+    /* Include your CSS styles from the template */
+  </style>
+</head>
+<body>
+  <h1>Volunteer Application</h1>
+  <form action="/volunteerForm" method="POST">
+    <!-- Volunteer Information -->
+    <h2>Volunteer Information</h2>
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" name="first_name" required><br>
+  
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" name="last_name" required><br>
+  
+    <label for="referralSource">How did you hear about us?</label>
+    <select id="referralSource" name="referral_source_id" required>
+      <option value="" disabled selected hidden>Select referral source</option>
+      <% ref_types.forEach(refs => { %>
+        <option value="<%= refs.referral_source_id %>"><%= refs.referral_description %></option>
+      <% }) %>
+      <option value="O">Other</option>
+    </select>
+    <input type="text" id="referralOtherText" name="referral_other_text" placeholder="Other" hidden><br>
+  
+    <label for="sewingLevel">Sewing Level:</label>
+    <select id="sewingLevel" name="sewing_level" required>
+      <option value="" disabled selected hidden>Select sewing level</option>
+      <option value="B">Beginner</option>
+      <option value="I">Intermediate</option>
+      <option value="E">Expert</option>
+    </select><br>
+  
+    <label for="hoursPerMonth">Estimated Volunteer Hours Per Month:</label>
+    <input type="number" id="hoursPerMonth" name="estimated_hours_per_month" min="1" required><br>
+  
+    <label for="travelRadius">How far are you willing to travel for events?</label>
+    <input type="number" id="travelRadius" name="travel_mile_radius" min="0" required><br>
+  
+    <label for="willingToLead">Are you willing to lead an event?</label>
+    <select id="willingToLead" name="willing_to_lead_flag" required>
+      <option value="" disabled selected hidden>Select an option</option>
+      <option value="true">Yes</option>
+      <option value="false">No</option>
+    </select><br>
+  
+    <label for="teachSewing">Are you willing to teach sewing to participants?</label>
+    <select id="teachSewing" name="teach_sewing_flag" required>
+      <option value="" disabled selected hidden>Select an option</option>
+      <option value="true">Yes</option>
+      <option value="false">No</option>
+    </select><br>
+  
+    <!-- Contact Information -->
+    <h2>Contact Information</h2>
+    <label for="dob">Date of Birth:</label>
+    <input type="date" id="dob" name="date_of_birth" required><br>
+  
+    <label for="gender">Gender:</label>
+    <select id="gender" name="gender" required>
+      <option value="" disabled selected hidden>Select gender</option>
+      <option value="M">Male</option>
+      <option value="F">Female</option>
+      <option value="O">Other</option>
+      <option value="N">Prefer Not to Say</option>
+    </select><br>
+  
+    <label for="phone">Phone Number:</label>
+    <input type="tel" id="phone" name="phone_number" required><br>
+  
+    <label for="email">Email Address:</label>
+    <input type="email" id="email" name="email_address" required><br>
+  
+    <label for="street">Street Address:</label>
+    <input type="text" id="street" name="street_address"><br>
+  
+    <label for="city">City:</label>
+    <input type="text" id="city" name="city"><br>
+  
+    <label for="state">Event State:</label>
+    <select id="state" name="event_state" required>
+      <option value="" disabled selected hidden>Select state</option>
+      <option value="AL">Alabama</option>
+      <option value="AK">Alaska</option>
+      <option value="AZ">Arizona</option>
+      <option value="AR">Arkansas</option>
+      <option value="CA">California</option>
+      <option value="CO">Colorado</option>
+      <option value="CT">Connecticut</option>
+      <option value="DE">Delaware</option>
+      <option value="FL">Florida</option>
+      <option value="GA">Georgia</option>
+      <option value="HI">Hawaii</option>
+      <option value="ID">Idaho</option>
+      <option value="IL">Illinois</option>
+      <option value="IN">Indiana</option>
+      <option value="IA">Iowa</option>
+      <option value="KS">Kansas</option>
+      <option value="KY">Kentucky</option>
+      <option value="LA">Louisiana</option>
+      <option value="ME">Maine</option>
+      <option value="MD">Maryland</option>
+      <option value="MA">Massachusetts</option>
+      <option value="MI">Michigan</option>
+      <option value="MN">Minnesota</option>
+      <option value="MS">Mississippi</option>
+      <option value="MO">Missouri</option>
+      <option value="MT">Montana</option>
+      <option value="NE">Nebraska</option>
+      <option value="NV">Nevada</option>
+      <option value="NH">New Hampshire</option>
+      <option value="NJ">New Jersey</option>
+      <option value="NM">New Mexico</option>
+      <option value="NY">New York</option>
+      <option value="NC">North Carolina</option>
+      <option value="ND">North Dakota</option>
+      <option value="OH">Ohio</option>
+      <option value="OK">Oklahoma</option>
+      <option value="OR">Oregon</option>
+      <option value="PA">Pennsylvania</option>
+      <option value="RI">Rhode Island</option>
+      <option value="SC">South Carolina</option>
+      <option value="SD">South Dakota</option>
+      <option value="TN">Tennessee</option>
+      <option value="TX">Texas</option>
+      <option value="UT">Utah</option>
+      <option value="VT">Vermont</option>
+      <option value="VA">Virginia</option>
+      <option value="WA">Washington</option>
+      <option value="WV">West Virginia</option>
+      <option value="WI">Wisconsin</option>
+      <option value="WY">Wyoming</option>
+    </select><br>
+  
+    <label for="zip">Zip Code:</label>
+    <input type="text" id="zip" name="zip" pattern="\d{5}(-\d{4})?" title="Valid ZIP: 12345 or 12345-6789"><br>
+  
+    <label for="preferredContact">Preferred Contact Method:</label>
+    <select id="preferredContact" name="preferred_contact_method" required>
+      <option value="E" selected>Email</option>
+      <option value="P">Phone Call</option>
+      <option value="T">Text</option>
+    </select><br>
+  
+    <button type="submit">Submit</button>
+  </form>
+  
+  <script>
+    // Show the "Other" referral input only if "Other" is selected
+    const referralSource = document.getElementById('referralSource');
+    const referralOtherText = document.getElementById('referralOtherText');
+    referralSource.addEventListener('change', function () {
+      referralOtherText.hidden = this.value !== 'O';
+    });
+  </script>  
+</body>
+</html>
