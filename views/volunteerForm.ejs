@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Volunteer Form</title>
+  <style>
+    /* Include your CSS styles from the template */
+  </style>
+</head>
+<body>
+  <h1>Volunteer Application</h1>
+  <form action="/submitVolunteerApplication" method="POST">
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" name="first_name" required><br>
+
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" name="last_name" required><br>
+
+    <label for="referralSource">Referral Source:</label>
+    <select id="referralSource" name="referral_source_id" required>
+      <option value="1">Online Search</option>
+      <option value="2">Word of Mouth</option>
+      <option value="3">Flyer</option>
+    </select>
+    <input type="text" name="referral_other_text" placeholder="Other"><br>
+
+    <label for="sewingLevel">Sewing Level:</label>
+    <select id="sewingLevel" name="sewing_level" required>
+      <option value="B">Beginner</option>
+      <option value="I">Intermediate</option>
+      <option value="E">Expert</option>
+    </select><br>
+
+    <label for="hoursPerMonth">Estimated Hours Per Month:</label>
+    <input type="number" id="hoursPerMonth" name="estimated_hours_per_month" min="1" required><br>
+
+    <label for="dateJoined">Date Joined:</label>
+    <input type="date" id="dateJoined" name="date_joined" required><br>
+
+    <button type="submit">Submit</button>
+  </form>
+</body>
+</html>
