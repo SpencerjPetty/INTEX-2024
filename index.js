@@ -27,9 +27,9 @@ const knex = require("knex") ({ // Connecting to our Postgres Database
     connection : {
         host : process.env.RDS_HOSTNAME || "localhost",
         user : process.env.RDS_USERNAME || "postgres",
-        password : process.env.RDS_PASSWORD || "Roman$EatLargeT0gas", // This would need to change
+        password : process.env.RDS_PASSWORD || "eldonpostgressends", // This would need to change
         // set password to admin and database to intex before committing
-        database : process.env.RDS_DB_NAME || "intex",
+        database : process.env.RDS_DB_NAME || "practiceLogin",
         port : process.env.RDS_PORT || 5432,
         ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
     }
@@ -249,78 +249,77 @@ app.get('/admin/addEvent', (req, res) => {
 // Handle Add Event form
 app.post('/admin/addEvent', (req, res) => {
   const {
-    org_name,
-    event_type,
-    total_attendance_estimate,
-    children_estimate,
-    youth_estimate,
-    adult_estimate,
-    sewers_estimate,
-    machine_estimate,
-    table_type,
-    room_size,
-    planned_date,
-    alt_date_1,
-    alt_date_2,
-    event_street_address,
-    event_city,
-    event_state,
-    event_zip,
-    start_time,
-    planned_hour_duration,
-    contact_name,
-    contact_phone,
-    contact_email,
-    story_flag,
-    story_length_minutes,
-    donation_flag,
-    donation_amount,
-    event_status
+    created_by,
+    username,
+    password,
+    first_name,
+    last_name,
+    date_of_birth,
+    gender,
+    phone_number,
+    email_address,
+    street_address,
+    city,
+    state,
+    zip,
+    preferred_contact_method
   } = req.body;
 
-  // Prepare data for insertion
-  const newEventRequest = {
-    org_name: org_name || null,
-    event_type: event_type || 'N',
-    total_attendance_estimate: parseInt(total_attendance_estimate, 10) || 0,
-    children_estimate: parseInt(children_estimate, 10) || 0,
-    youth_estimate: parseInt(youth_estimate, 10) || 0,
-    adult_estimate: parseInt(adult_estimate, 10) || 0,
-    sewers_estimate: parseInt(sewers_estimate, 10) || 0,
-    machine_estimate: parseInt(machine_estimate, 10) || 0,
-    table_type: table_type || 'R',
-    room_size: room_size || 'M',
-    planned_date: planned_date || null,
-    alt_date_1: alt_date_1 || null,
-    alt_date_2: alt_date_2 || null,
-    event_street_address: event_street_address || '', 
-    event_city: event_city || '', 
-    event_state: event_state || null, 
-    event_zip: event_zip || '', 
-    start_time: start_time || null,
-    planned_hour_duration: parseInt(planned_hour_duration, 10) || null, 
-    contact_name: contact_name || '',
-    contact_phone: contact_phone || '',
-    contact_email: contact_email || '',
-    story_flag: story_flag === 'true',
-    story_length_minutes: parseInt(story_length_minutes, 10) || null,
-    donation_flag: donation_flag === 'true',
-    donation_amount: donation_flag === 'true' ? parseInt(donation_amount, 10) || null : null,
-    event_status: event_status || 'P',
-    time_submitted: new Date() // To capture the current timestamp when the form is submitted
+  // Prepare Contact data
+  const newAdminContact = {
+    first_name: first_name,
+    last_name: last_name,
+    date_of_birth: date_of_birth,
+    gender: gender || 'N',
+    phone_number: phone_number,
+    email_address: email_address,
+    street_address: street_address || null,
+    city: city || null,
+    state: state || null,
+    zip: zip || null,
+    preferred_contact_method: preferred_contact_method || 'E',
+    volunteer_flag: false // Default to 'E' if not provided
   };
 
-  // Insert into the database
-    knex('event_details')
-    .insert(newEventRequest)
+  // Insert into Contact table and retrieve contact_id
+  knex('contact')
+    .insert(newAdminContact)
+    .returning('contact_id')
+    .then(contactIdArray => {
+      const contact_id = contactIdArray[0].contact_id; // Explicitly extract the contact_id field
+
+      // Prepare Admin Login data
+      const newAdminLogin = {
+        contact_id: contact_id,
+        username: username,
+        password: password,
+      };
+
+      // Insert into Admin Login table
+      return knex('admin_login')
+        .insert(newAdminLogin)
+        .then(() => {
+          // Prepare Admin data
+          const newAdmin = {
+            contact_id: contact_id,
+            created_by: created_by,
+            created_date: new Date() // Automatically capture the timestamp when the form is submitted
+          };
+
+          // Insert into Admin table
+          return knex('admin')
+            .insert(newAdmin);
+        });
+    })
     .then(() => {
-        res.redirect('/admin/manageEvents');
+      res.redirect('/admin/manageAdmins'); // Redirect to manage events after successful insertion
     })
     .catch(error => {
-      console.error('Error submitting event request:', error);
+      console.error('Error submitting admin form:', error);
       res.status(500).send('Internal Server Error');
     });
 });
+
 
 // Getting the Edit Event page
 app.get('/admin/editEvent/:id', (req, res) => {
