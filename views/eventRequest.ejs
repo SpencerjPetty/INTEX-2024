@@ -34,6 +34,7 @@
 
     <!-- Attendance Group -->
     <fieldset>
+      <label for="organization_title" class="title">Attendance</label>
       <label for="attendanceEstimate">Total Attendance Estimate: <span class="required">*</span></label>
       <input type="number" id="attendanceEstimate" name="total_attendance_estimate" min="1" required><br>
       <label for="childrenEstimate">Total Children Attending (10 and under):</label>
@@ -48,6 +49,7 @@
 
     <!-- Equipment Group -->
     <fieldset>
+      <label for="organization_title" class="title">Equipment</label>
       <label for="machineEstimate">Number of Sewing Machines Being Provided:</label>
       <input type="number" id="machineEstimate" name="machine_estimate" min="0"><br>
       <label for="tableType">Type of Tables at Location: <span class="required">*</span></label>
@@ -69,6 +71,7 @@
 
     <!-- Date Group -->
     <fieldset>
+      <label for="organization_title" class="title">Date</label>
       <label for="plannedDate">Planned Date: <span class="required">*</span></label>
       <input type="date" id="plannedDate" name="planned_date" required><br>
       <label for="altDate1">Alternate Date Option 1:</label>
@@ -83,6 +86,7 @@
 
     <!-- Event Location Group -->
     <fieldset>
+      <label for="organization_title" class="title">Event Location</label>
       <label for="streetAddress">Event Street Address: <span class="required">*</span></label>
       <input type="text" id="streetAddress" name="event_street_address" required><br>
       <label for="city">Event City: <span class="required">*</span></label>
@@ -149,6 +153,7 @@
 
     <!-- Contact Information Group -->
     <fieldset>
+      <label for="organization_title" class="title">Contact Information</label>
       <label for="contactName">Contact Name: <span class="required">*</span></label>
       <input type="text" id="contactName" name="contact_name" required><br>
       <label for="contactPhone">Contact Phone: <span class="required">*</span></label>
@@ -159,6 +164,7 @@
 
     <!-- Jen's Story Group -->
     <fieldset>
+      <label for="organization_title" class="title">Jen's Story</label>
       <label for="storyFlag">Do you want Jen to share her story?</label>
       <input type="checkbox" id="storyFlag" name="story_flag" value="true" onclick="toggleStoryLength()"><br>
       <div id="storyLengthContainer" style="display: none;">
@@ -169,6 +175,7 @@
 
     <!-- Donation Group -->
     <fieldset>
+      <label for="organization_title" class="title">Donation</label>
       <label for="donationFlag">Would you like to make a donation to Turtle Shelter Project?</label>
       <input type="checkbox" id="donationFlag" name="donation_flag" value="true">
       

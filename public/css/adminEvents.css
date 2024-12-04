@@ -1,0 +1,153 @@
+/* Importing Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap');
+
+body {
+    background-color: #f4f4f4;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mainTitle {
+    font-size: 3em;
+    font-weight: bold;
+    margin: 0.5px 0 32px; /* Retained margin */
+    display: block;
+    color: rgb(120, 140, 130);
+    background-color: white; /* Slightly off-white background */
+    padding: 10px 20px; /* Padding for the cushion effect */
+    width: 53.2%; /* Adjust width to allow text to wrap */
+    word-wrap: break-word; /* Ensure long words break to the next line */
+    text-align: center; /* Center the text within the block */
+    border: 3px solid rgb(120, 140, 130);
+}
+
+.title {
+    font-size: 1.5em;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: .5px 0 25px;
+    display: block;
+    color: white;
+}
+
+.header-image img {
+    width: 50%;              /* Match the width of .mainTitle */
+    height: auto;            /* Maintain aspect ratio */
+    object-fit: cover;       /* Ensure the image scales correctly */
+    margin: 0 auto;          /* Center the image horizontally */
+    display: block;          /* Ensure it behaves like a block element */
+    padding-bottom: 20px
+}
+
+h1 {
+    font-family: 'Open Sans', serif;
+    color: rgb(41, 77, 74);
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2.5rem;
+}
+
+form {
+    width: 100%;
+    max-width: 800px;
+}
+
+fieldset {
+    background-color: rgb(120, 140, 130); /* Lighter green-grey */
+    border: none;
+    margin-bottom: 40px; /* Increased spacing between fieldsets */
+    padding: 40px 20px; /* Added padding to prevent cutting off titles */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative; /* Prevent overflow */
+}
+
+label {
+    display: block;
+    font-size: 1rem;
+    color: white;
+    margin-bottom: 8px;
+    font-family: 'Open Sans', serif;
+}
+
+input, select, button {
+    width: 100%;
+    padding: 10px 8px;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    border: 2px solid rgb(230, 230, 230);
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type="checkbox"] {
+    width: auto; /* Set to auto for proper alignment */
+    margin-right: 10px; /* Add space between checkbox and label */
+}
+
+fieldset label input[type="checkbox"] {
+    display: inline-block; /* Align checkboxes properly */
+    margin-left: 0; /* Align with text */
+}
+
+button {
+    background-color: rgb(41, 77, 74); /* Match branding */
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 15px 40px;  /* Adjust padding for better appearance */
+    border: none; /* Remove default button border */
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+    width: auto; /* Allows the button to fit its content */
+    max-width: 200px; /* Set a maximum width (adjust as needed) */
+    display: inline-block; 
+    margin: 0 auto !important;
+    text-align: center !important;
+    font-size: 1.5rem; /* Increase font size */
+}
+
+.button-container {
+    display: flex;
+    justify-content: center; /* Center the button horizontally */
+    margin-top: 20px; /* Optional: Adjust the space above the button */
+    font-size: xx-large;
+}
+
+button:hover {
+    background-color: rgb(59, 108, 106); /* Maintain the same color on hover */
+    opacity: 0.8; /* Slightly fade on hover for a visual effect */
+}
+
+/* Initially hide the donation amount field */
+.donationAmountContainer {
+    display: none;
+}
+
+/* When the checkbox is checked, show the donation amount field */
+input[type="checkbox"]:checked + .donationAmountContainer {
+    display: block;
+}
+
+.required {
+    color: #D32F2F;
+    font-size: 0.8em;  /* Smaller size */
+    margin-left: 5px;
+}
+
+.required-info {
+    margin-top: 0px;
+    font-size: 0.9em; /* Slightly smaller text */
+}
+
+.required {
+    color: #D32F2F;
+    font-size: 1.2em; /* Larger red star */
+}
+
+.required-text {
+    margin-left: 0px;
+    color: #013220
+}
