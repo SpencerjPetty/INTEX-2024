@@ -49,7 +49,7 @@ app.post('/login', async (req, res) => {
 
     try {
         // Query the database for the user record
-        const user = await knex('admin_login').where({ username });
+        const user = await knex('admin_login').where({ username }).first();
 
     // Check if the user exists and the password matches
     if (user && user.password === password) {
@@ -62,7 +62,7 @@ app.post('/login', async (req, res) => {
     } else {
       // Authentication failed, set error message in session
         req.session.isAuthenticated = false;
-        res.redirect('/admin')
+        res.redirect('/login')
     }
     } catch (error) {
     res.status(500).send('Database query failed: ' + error.message);
