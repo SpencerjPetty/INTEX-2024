@@ -27,7 +27,6 @@ const knex = require("knex") ({ // Connecting to our Postgres Database
     connection : {
         host : process.env.RDS_HOSTNAME || "localhost",
         user : process.env.RDS_USERNAME || "postgres",
-<<<<<<< Updated upstream
         password : process.env.RDS_PASSWORD || "Roman$EatLargeT0gas", // This would need to change
         // set password to admin and database to intex before committing
         database : process.env.RDS_DB_NAME || "intex",
@@ -111,13 +110,13 @@ app.get('/admin/manageAdmins', (req, res) => {
     }); // Error handling for Knex queries
 });
 
-<<<<<<< Updated upstream
 // main admin page 
 // if (req.session.isAuthenticated) {
 //  res.send(`Welcome, ${req.session.username}! This is the internal landing page.`);
 // } else {
 //  res.status(403).send('Access denied. Please log in.');
 // }
+
 app.get('/admin', (req, res) => {
   res.render('admin'); 
 =======
@@ -215,7 +214,6 @@ app.post('/admin/deleteAdmin/:id', (req, res) => {
       console.error('Error deleting volunteer:', error);
       res.status(500).send('Internal Server Error');
     });
->>>>>>> Stashed changes
 });
 
 
