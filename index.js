@@ -82,12 +82,37 @@ res.render("index", { title: "TSP Landing Page" });
 
 
 
-// display all admin users
+
+
 app.get('/admin/manageAdmins', (req, res) => {
-      res.render('manageAdmins');
+  knex('admin') 
+    .join('admin_login', 'admin.contact_id', 'admin_login.contact_id')
+    .join('contact', 'admin.contact_id', 'contact.contact_id')// Querying the event_details table
+    .select(
+      'admin_login.username',
+      'contact.first_name',
+      'contact.last_name',
+      'contact.date_of_birth',
+      'contact.gender',
+      'contact.phone_number',
+      'contact.email_address',
+      'contact.city',
+      'contact.state',
+      'contact.preferred_contact_method',
+      'admin.created_by',
+      'admin.created_date'
+    )
+    .orderBy('contact.last_name', 'asc')
+    .orderBy('contact.first_name', 'asc') // Sort by first and last name in ascending order
+    .then(admins => {
+      // Render the manageAdmins.ejs template and pass the data
+      res.render('manageAdmins', { admins });
+    })
+    .catch(error => {
+      console.error('Error querying database:', error);
+      res.status(500).send('Internal Server Error');
+    }); // Error handling for Knex queries
 });
-
-
 
 
 
