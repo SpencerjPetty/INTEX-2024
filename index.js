@@ -213,8 +213,17 @@ app.post('/admin/deleteAdmin/:id', (req, res) => {
     });
 });
 
+// Get Add Admin page
 app.get('/admin/addAdmin', (req, res) => {
-  res.render('adminAddAdim');
+  knex('admin_login') // Fetch any necessary data (if needed)
+    .select('username', 'contact_id')
+    .then(usernames => {
+    res.render('adminAddAdmin', { usernames });
+    })
+    .catch(error => {
+        console.error('Error fetching usernames:', error);
+        res.status(500).send('Internal Server Error');
+    });
 });
 
 
