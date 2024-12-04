@@ -316,5 +316,29 @@ const newContact = {
 // });
 
 
+app.get('/manageEvents', (req, res) => {
+  knex('event_details') // Querying the event_details table
+    .select(
+      'event_details.event_id',
+      'event_details.org_name',
+      'event_details.total_attendance_estimate',
+      'event_details.event_type',
+      'event_details.planned_date',
+      'event_details.start_time',
+      'event_details.planned_hour_duration',
+      'event_details.event_status'
+    )
+    .orderBy('event_details.planned_date', 'asc') // Sort by planned date in ascending order
+    .then(events => {
+      // Render the manageEvents.ejs template and pass the data
+      res.render('manageEvents', { events });
+    })
+    .catch(error => {
+      console.error('Error querying database:', error);
+      res.status(500).send('Internal Server Error');
+    }); // Error handling for Knex queries
+});
+
+
 app.listen(port, () => console.log("Express App has started and server is listening!"));
 
