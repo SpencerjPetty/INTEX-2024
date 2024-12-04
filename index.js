@@ -36,11 +36,16 @@ const knex = require("knex") ({ // Connecting to our Postgres Database
     }
 });
 
+app.get('/login', (req, res) => {
+res.render('login', {})
+});
+
+
 app.post('/login', async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
-    if (!username || !password) { return res.status(400).send("Username and password are required."); }
+    // if (!username || !password) { return res.status(400).send("Username and password are required."); }
 
     try {
         // Query the database for the user record
@@ -78,11 +83,6 @@ app.get('/admin', (req, res) => {
 app.get("/", (req, res) => {
 res.render("index", { title: "TSP Landing Page" });
 });
-
-
-
-
-
 
 app.get('/admin/manageAdmins', (req, res) => {
   knex('admin') 
