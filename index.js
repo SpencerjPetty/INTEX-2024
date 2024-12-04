@@ -39,7 +39,6 @@ app.get('/login', (req, res) => {
 res.render('login', {})
 });
 
-
 app.post('/login', async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
@@ -116,6 +115,8 @@ app.get('/admin', (req, res) => {
   res.render('admin', {})
 });
 
+// app.get('/admin', (req, res) => {
+//   res.render('admin'); 
 app.get('/admin/editAdmin/:id', (req, res) => {
   let id = req.params.id;
   // Query the Admin by ID first
