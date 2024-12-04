@@ -29,9 +29,15 @@ const knex = require("knex") ({ // Connecting to our Postgres Database
     connection : {
         host : process.env.RDS_HOSTNAME || "localhost",
         user : process.env.RDS_USERNAME || "postgres",
+<<<<<<< Updated upstream
         password : process.env.RDS_PASSWORD || "Roman$EatLargeT0gas", // This would need to change
         // set password to admin and database to intex before committing
         database : process.env.RDS_DB_NAME || "intex",
+=======
+        password : process.env.RDS_PASSWORD || "Jimmer32*", // This would need to change
+        // set password to admin and database to intex before committing
+        database : process.env.RDS_DB_NAME || "Intex",
+>>>>>>> Stashed changes
         port : process.env.RDS_PORT || 5432,
         ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
     }
@@ -71,15 +77,6 @@ app.post('/login', async (req, res) => {
 });
 
 
-// Internal route - only accessible to authenticated users
-app.get('/admin', (req, res) => {
-  // Check if the user is authenticated
-    if (req.session.isAuthenticated) {
-        res.send(`Welcome, ${req.session.username}! This is the internal landing page.`);
-    } else {
-        res.status(403).send('Access denied. Please log in.');
-    }
-});
 
 app.get("/", (req, res) => {
 res.render("index", { title: "TSP Landing Page" });
@@ -115,8 +112,21 @@ app.get('/admin/manageAdmins', (req, res) => {
     }); // Error handling for Knex queries
 });
 
+// main admin page 
+// if (req.session.isAuthenticated) {
+//  res.send(`Welcome, ${req.session.username}! This is the internal landing page.`);
+// } else {
+//  res.status(403).send('Access denied. Please log in.');
+// }
+app.get('/admin', (req, res) => {
+  res.render('admin'); 
+});
 
 
+// test
+app.get('/manageEvents', (req, res) => {
+  res.redirect('/admin/manageEvents'); 
+});
 
 // Display the Event Request Form
 app.get('/eventRequest', (req, res) => {
