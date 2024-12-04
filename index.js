@@ -29,7 +29,7 @@ const knex = require("knex") ({ // Connecting to our Postgres Database
     connection : {
         host : process.env.RDS_HOSTNAME || "localhost",
         user : process.env.RDS_USERNAME || "postgres",
-        password : process.env.RDS_PASSWORD || "admin", // This would need to change
+        password : process.env.RDS_PASSWORD || "Roman$EatLargeT0gas", // This would need to change
         database : process.env.RDS_DB_NAME || "intex",
         port : process.env.RDS_PORT || 5432,
         ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
@@ -81,6 +81,110 @@ res.render("index", { title: "TSP Landing Page" });
 app.get('/eventRequest', (req, res) => {
       res.render('eventRequest');
 });
+
+// Display the Event Request Form
+app.get('/admin/addEvent', (req, res) => {
+  res.render('adminAddEvent');
+});
+
+// Handle Add Event from
+app.post('/admin/addEvent', (req, res) => {
+  const {
+    org_name,
+    event_type,
+    total_attendance_estimate,
+    children_estimate,
+    youth_estimate,
+    adult_estimate,
+    sewers_estimate,
+    machine_estimate,
+    table_type,
+    room_size,
+    planned_date,
+    alt_date_1,
+    alt_date_2,
+    event_street_address,
+    event_city,
+    event_state,
+    event_zip,
+    start_time,
+    planned_hour_duration,
+    contact_name,
+    contact_phone,
+    contact_email,
+    story_flag,
+    story_length_minutes,
+    donation_flag,
+    donation_amount,
+    event_status
+  } = req.body;
+
+  // Prepare data for insertion
+  const newEventRequest = {
+    org_name: org_name || null,
+    event_type: event_type || 'N',
+    total_attendance_estimate: parseInt(total_attendance_estimate, 10) || 0,
+    children_estimate: parseInt(children_estimate, 10) || 0,
+    youth_estimate: parseInt(youth_estimate, 10) || 0,
+    adult_estimate: parseInt(adult_estimate, 10) || 0,
+    sewers_estimate: parseInt(sewers_estimate, 10) || 0,
+    machine_estimate: parseInt(machine_estimate, 10) || 0,
+    table_type: table_type || 'R',
+    room_size: room_size || 'M',
+    planned_date: planned_date || null,
+    alt_date_1: alt_date_1 || null,
+    alt_date_2: alt_date_2 || null,
+    event_street_address: event_street_address || '', 
+    event_city: event_city || '', 
+    event_state: event_state || null, 
+    event_zip: event_zip || '', 
+    start_time: start_time || null,
+    planned_hour_duration: parseInt(planned_hour_duration, 10) || null, 
+    contact_name: contact_name || '',
+    contact_phone: contact_phone || '',
+    contact_email: contact_email || '',
+    story_flag: story_flag === 'true',
+    story_length_minutes: parseInt(story_length_minutes, 10) || null,
+    donation_flag: donation_flag === 'true',
+    donation_amount: donation_flag === 'true' ? parseInt(donation_amount, 10) || null : null,
+    event_status: event_status || 'P',
+    time_submitted: new Date() // To capture the current timestamp when the form is submitted
+  };
+
+  // Insert into the database
+    knex('event_details')
+    .insert(newEventRequest)
+    .then(() => {
+        res.redirect('/admin/manageEvents');
+    })
+    .catch(error => {
+      console.error('Error submitting event request:', error);
+      res.status(500).send('Internal Server Error');
+    });
+});
+
+// Getting the Edit Event page
+app.get('/admin/editEvent/:id', (req, res) => {
+  let id = req.params.id;
+
+  // Query the event by ID
+  knex('event_details')  // Assuming your table is named 'event_details'
+    .where('event_id', id) // Query by the event ID
+    .first() // Retrieves the first matching record
+    .then(event => {
+      if (!event) {
+        return res.status(404).send('Event not found');
+      }
+
+      // Render the edit form and pass the event data
+      res.render('adminEditEvent', { event });
+    })
+    .catch(error => {
+      console.error('Error fetching Event for editing:', error);
+      res.status(500).send('Internal Server Error');
+    });
+});
+
 
 // Handle Event Request Form Submission
 app.post('/eventRequest', (req, res) => {
@@ -266,21 +370,6 @@ const newContact = {
 //     });
 // });
 
-// // Route to Delete Event Request
-// app.post('/admin/deleteEventRequest/:id', (req, res) => {
-//   const id = req.params.id;
-//   knex('event_request')
-//     .where('id', id)
-//     .del()
-//     .then(() => {
-//       res.redirect('/admin'); // Redirect back to admin page
-//     })
-//     .catch(error => {
-//       console.error('Error deleting event request:', error);
-//       res.status(500).send('Internal Server Error');
-//     });
-// });
-
 // // Route to Delete Volunteer
 // app.post('/admin/deleteVolunteer/:id', (req, res) => {
 //   const id = req.params.id;
@@ -297,7 +386,7 @@ const newContact = {
 // });
 
 
-app.get('/manageEvents', (req, res) => {
+app.get('/admin/manageEvents', (req, res) => {
   knex('event_details') // Querying the event_details table
     .select(
       'event_details.event_id',
@@ -319,6 +408,22 @@ app.get('/manageEvents', (req, res) => {
       res.status(500).send('Internal Server Error');
     }); // Error handling for Knex queries
 });
+
+// Route to Delete Event Request
+app.post('/admin/deleteEvent/:id', (req, res) => {
+  const id = req.params.id;
+  knex('event_details')
+    .where('event_id', id)
+    .del()
+    .then(() => {
+      res.redirect('/admin/manageEvents'); // Redirect back to admin page
+    })
+    .catch(error => {
+      console.error('Error deleting event:', error);
+      res.status(500).send('Internal Server Error');
+    });
+});
+
 
 
 app.listen(port, () => console.log("Express App has started and server is listening!"));
