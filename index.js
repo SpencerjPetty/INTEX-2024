@@ -30,11 +30,6 @@ const knex = require("knex") ({ // Connecting to our Postgres Database
         password : process.env.RDS_PASSWORD || "Roman$EatLargeT0gas", // This would need to change
         // set password to admin and database to intex before committing
         database : process.env.RDS_DB_NAME || "intex",
-=======
-        password : process.env.RDS_PASSWORD || "Jimmer32*", // This would need to change
-        // set password to admin and database to intex before committing
-        database : process.env.RDS_DB_NAME || "Intex",
->>>>>>> Stashed changes
         port : process.env.RDS_PORT || 5432,
         ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
     }
@@ -118,8 +113,9 @@ app.get('/admin/manageAdmins', (req, res) => {
 // }
 
 app.get('/admin', (req, res) => {
-  res.render('admin'); 
-=======
+  res.render('admin', {})
+});
+
 app.get('/admin/editAdmin/:id', (req, res) => {
   let id = req.params.id;
   // Query the Admin by ID first
