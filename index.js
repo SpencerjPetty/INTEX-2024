@@ -5,8 +5,6 @@ let path = require("path"); // Importing the path class/library
 
 const port = process.env.PORT || 4444; // This port can change
 
-
-
 app.set("view engine", "ejs"); // Telling the server that our web files will be EJS files
 app.set("views", path.join(__dirname, "views")); // Telling the server where to find the views (web pages)
 app.use(express.urlencoded({extended: true})); // Allows the server to work with the requests that are submitted
@@ -777,6 +775,123 @@ app.post('/admin/addVolunteer', (req, res) => {
       });
   });
 
+
+  // Getting the Edit Volunteer page
+app.get('/admin/editVolunteer/:id', (req, res) => {
+  const id = req.params.id;
+
+  // Query to fetch data from both contact and volunteer tables
+  knex('contact')
+    .join('volunteer', 'contact.contact_id', '=', 'volunteer.contact_id') // Join the tables
+    .select(
+      'contact.contact_id',
+      'contact.first_name',
+      'contact.last_name',
+      'contact.date_of_birth',
+      'contact.gender',
+      'contact.phone_number',
+      'contact.email_address',
+      'contact.street_address',
+      'contact.city',
+      'contact.state',
+      'contact.zip',
+      'contact.preferred_contact_method',
+      'volunteer.referral_source_id',
+      'volunteer.referral_other_text',
+      'volunteer.sewing_level',
+      'volunteer.estimated_hours_per_month',
+      'volunteer.travel_mile_radius',
+      'volunteer.willing_to_lead_flag',
+      'volunteer.teach_sewing_flag',
+      'volunteer.date_joined'
+    )
+    .where('contact.contact_id', id) // Filter by the contact ID
+    .first() // Retrieve the first matching record
+    .then(volunteer => {
+      if (!volunteer) {
+        return res.status(404).send('Volunteer not found');
+      }
+
+      // Render the edit form and pass the combined volunteer data
+      res.render('adminEditVolunteer', { volunteer });
+    })
+    .catch(error => {
+      console.error('Error fetching Volunteer for editing:', error);
+      res.status(500).send('Internal Server Error');
+    });
+});
+
+// Post for the Edit Volunteer Form (admin)
+app.post('/admin/editVolunteer/:id', (req, res) => {
+  const id = req.params.id; // This will be the contact_id from the URL
+  const {
+    first_name,
+    last_name,
+    date_of_birth,
+    gender,
+    phone_number,
+    email_address,
+    street_address,
+    city,
+    state,
+    zip,
+    preferred_contact_method,
+    referral_source_id,
+    referral_other_text,
+    sewing_level,
+    estimated_hours_per_month,
+    travel_mile_radius,
+    willing_to_lead_flag,
+    teach_sewing_flag
+  } = req.body;
+  
+  // Prepare Contact data
+  const updatedContact = {
+    first_name: first_name.trim(),
+    last_name: last_name.trim(),
+    date_of_birth: date_of_birth,
+    gender: gender || 'N',
+    phone_number: phone_number.trim(),
+    email_address: email_address.trim(),
+    street_address: street_address || null,
+    city: city || null,
+    state: state || null,
+    zip: zip || null,
+    preferred_contact_method: preferred_contact_method || 'E',
+  };
+  
+  // Prepare Volunteer data
+  const updatedVolunteer = {
+    referral_source_id: parseInt(referral_source_id, 10) || null,
+    referral_other_text: referral_other_text || null,
+    sewing_level: sewing_level || 'B',
+    estimated_hours_per_month: parseInt(estimated_hours_per_month, 10) || 0,
+    travel_mile_radius: travel_mile_radius || null,
+    willing_to_lead_flag: willing_to_lead_flag || false,
+    teach_sewing_flag: teach_sewing_flag || false
+  };
+
+  // First, update the contact table
+  knex('contact')
+    .where('contact_id', id) // Find the contact by ID
+    .update(updatedContact)
+    .then(() => {
+      // Then, update the volunteer table for the same contact
+      return knex('volunteer')
+        .where('contact_id', id) // Find the volunteer by contact_id
+        .update(updatedVolunteer);
+    })
+    .then(() => {
+      res.redirect('/admin/manageVolunteers'); // Redirect to the manage volunteers page on successful update
+    })
+    .catch(error => {
+      console.error('Error updating volunteer:', error);
+      res.status(500).send('Internal Server Error');
+    });
+});
+
+
+
 // // Admin Landing Page (Protected)
 // app.get('/admin', (req, res) => {
 //   if (!req.isAuthenticated()) { // Assuming `req.isAuthenticated()` checks login status
@@ -836,7 +951,4 @@ app.post('/admin/deleteEvent/:id', (req, res) => {
     });
 });
 
-
-
 app.listen(port, () => console.log("Express App has started and server is listening!"));
-
