@@ -29,8 +29,8 @@ const knex = require("knex") ({ // Connecting to our Postgres Database
     connection : {
         host : process.env.RDS_HOSTNAME || "localhost",
         user : process.env.RDS_USERNAME || "postgres",
-        password : process.env.RDS_PASSWORD || "Roman$EatLargeT0gas", // This would need to change
-        database : process.env.RDS_DB_NAME || "intex",
+        password : process.env.RDS_PASSWORD || "eldonpostgressends", // This would need to change
+        database : process.env.RDS_DB_NAME || "practiceLogin",
         port : process.env.RDS_PORT || 5432,
         ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
     }
@@ -76,6 +76,19 @@ app.get('/internal', (req, res) => {
 app.get("/", (req, res) => {
 res.render("index", { title: "TSP Landing Page" });
 });
+
+
+
+
+// display all admin users
+app.get('/admin/manageAdmins', (req, res) => {
+      res.render('manageAdmins');
+});
+
+
+
+
+
 
 // Display the Event Request Form
 app.get('/eventRequest', (req, res) => {
