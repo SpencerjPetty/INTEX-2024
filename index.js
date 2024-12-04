@@ -16,12 +16,12 @@ app.use(express.static('public'));
 
 // Configure session middleware
 app.use(
-  session({
-    secret: 'team22intex',   // Secret required to sign session ID cookie
-    resave: false,           // Don't save session if not modified
-    saveUninitialized: true, // Save unmodified sessions
-    cookie: { secure: false }, // Set to true for HTTPS (false for local development)
-  })
+    session({
+        secret: 'team22intex',   // Secret required to sign session ID cookie
+        resave: false,           // Don't save session if not modified
+        saveUninitialized: true, // Save unmodified sessions
+        cookie: { secure: false }, // Set to true for HTTPS (false for local development)
+    })
 );
 
 const knex = require("knex") ({ // Connecting to our Postgres Database
@@ -37,40 +37,42 @@ const knex = require("knex") ({ // Connecting to our Postgres Database
 });
 
 app.post('/login', async (req, res) => {
-  const username = req.body.username;
-  const password = req.body.password;
+    const username = req.body.username;
+    const password = req.body.password;
 
-  try {
-    // Query the database for the user record
-    const user = await knex('admin_login').where({ username }).first();
+    if (!username || !password) { return res.status(400).send("Username and password are required."); }
+
+    try {
+        // Query the database for the user record
+        const user = await knex('admin_login').where({ username });
 
     // Check if the user exists and the password matches
     if (user && user.password === password) {
       // Set session variable to indicate logged-in status
-      req.session.isAuthenticated = true;
-      req.session.username = user.username;
+        req.session.isAuthenticated = true;
+        req.session.username = user.username;
 
       // Redirect to internal landing page
-      res.redirect('/internal');
+        res.redirect('/admin');
     } else {
       // Authentication failed, set error message in session
-      req.session.isAuthenticated = false;
-      res.redirect('/internal')
+        req.session.isAuthenticated = false;
+        res.redirect('/admin')
     }
-  } catch (error) {
+    } catch (error) {
     res.status(500).send('Database query failed: ' + error.message);
-  }
+    }
 });
 
 
 // Internal route - only accessible to authenticated users
-app.get('/internal', (req, res) => {
+app.get('/admin', (req, res) => {
   // Check if the user is authenticated
-  if (req.session.isAuthenticated) {
-    res.send(`Welcome, ${req.session.username}! This is the internal landing page.`);
-  } else {
-    res.status(403).send('Access denied. Please log in.');
-  }
+    if (req.session.isAuthenticated) {
+        res.send(`Welcome, ${req.session.username}! This is the internal landing page.`);
+    } else {
+        res.status(403).send('Access denied. Please log in.');
+    }
 });
 
 app.get("/", (req, res) => {

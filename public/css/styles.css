@@ -17,7 +17,7 @@ html, body {
 
 
 /* ========== NAVBAR CUSTOM STYLES ========== */
-#mainNav {
+.navbar {
     background-color: #2b4a3f !important;
     position: fixed;
     top: 0;
@@ -30,19 +30,18 @@ html, body {
     padding: 20px 20px;
 }
 
-#mainNav .navbar-brand {
+.navbar-brand {
     display: flex;
     align-items: center; /* Vertically center the logo within the navbar */
     margin-right: 20px; /* Space between the logo and the title */
     padding-left: 20px; /* Move the logo further from the left edge */
 }
 
-#mainNav .navbar-brand img {
+.navbar-brand img {
     width: 100px; /* Logo size */
     height: auto; /* Maintain aspect ratio */
     margin: 0; /* Remove unwanted margins */
 }
-
 
 .navbar-title {
     font-size: 1.5rem;
@@ -58,7 +57,7 @@ html, body {
     justify-content: flex-end; /* Align items to the far right */
 }
 
-.navbar-nav .nav-item a {
+.nav-item a {
     font-size: 1rem;
     padding: 5px 10px; /* Reduce padding for tighter layout */
     color: white !important;
@@ -66,10 +65,31 @@ html, body {
     transition: background-color 0.3s ease;
 }
 
-.navbar-nav .nav-item a:hover {
+.nav-item a:hover {
     background-color: #013220;
     border-radius: 5px;
 }
+
+form.nav-item {
+    margin: 0;
+}
+
+form.nav-item button {
+    font-size: 1rem;
+    padding: 5px 10px; /* Reduce padding for tighter layout */
+    color: white;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+form.nav-item button:hover {
+    background-color: #013220;
+    border-radius: 5px;
+}
+
 
 /* ========== Masthead Styling ========== */
 .masthead {
@@ -166,7 +186,7 @@ flex-direction: row-reverse;
 
 .btn {
     padding: 10px 30px;
-    background-color: #2b4a3f;
+    background-color: #2b4a3f !important;
     color: white;
     border: none;
     cursor: pointer;
