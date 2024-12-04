@@ -3,7 +3,7 @@ let session = require('express-session'); // Middleware for session management
 let app = express(); // Creating an express object
 let path = require("path"); // Importing the path class/library
 
-const port = process.env.PORT || 9000; // This port can change
+const port = process.env.PORT || 4444; // This port can change
 
 app.set("view engine", "ejs"); // Telling the server that our web files will be EJS files
 app.set("views", path.join(__dirname, "views")); // Telling the server where to find the views (web pages)
@@ -76,7 +76,7 @@ app.get('/internal', (req, res) => {
   }
 });
 
-app.listen(port, () => console.log("Express App has started and server is listening!"));
+
 
 app.get("/", (req, res) => {
         // Render the index.ejs template and pass the data
