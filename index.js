@@ -20,24 +20,17 @@ app.use(
   })
 );
 
-const knex = require("knex") ({ // Connecting to our Postgres Database
-    client : "pg",
-    connection : {
-        host : process.env.RDS_HOSTNAME || "localhost",
-        user : process.env.RDS_USERNAME || "postgres",
-        password : process.env.RDS_PASSWORD || "eldonpostgressends", // This would need to change
-        database : process.env.RDS_DB_NAME || "practiceLogin",
-        port : process.env.RDS_PORT || 5432,
-        ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
-    }
-});
-
-
-// Render the login page with error message (if any)
-app.get('/', (req, res) => {
-  res.render('index', {
-  });
-});
+// const knex = require("knex") ({ // Connecting to our Postgres Database
+//     client : "pg",
+//     connection : {
+//         host : process.env.RDS_HOSTNAME || "localhost",
+//         user : process.env.RDS_USERNAME || "postgres",
+//         password : process.env.RDS_PASSWORD || "eldonpostgressends", // This would need to change
+//         database : process.env.RDS_DB_NAME || "practiceLogin",
+//         port : process.env.RDS_PORT || 5432,
+//         ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
+//     }
+// });
 
 app.post('/login', async (req, res) => {
   const username = req.body.username;
@@ -79,8 +72,24 @@ app.get('/internal', (req, res) => {
 
 
 app.get("/", (req, res) => {
-        // Render the index.ejs template and pass the data
-        res.render('index');
+//     knex('coding') // SQL query for collecting the data
+//       .select(
+//         'coding.id',
+//         'coding.language_name',
+//         'coding.created_year',
+//         'coding.creator',
+//         'coding.popularity_rank'
+//       )
+//       .first()
+//       .then(codes => {
+//         // Render the index.ejs template and pass the data
+//         res.render('index', { codes });
+//       })
+//       .catch(error => {
+//         console.error('Error querying database:', error);
+//         res.status(500).send('Internal Server Error');
+//       }); // res.send is for .html files, res.render is for .ejs files
+res.render("index", { title: "TSP Landing Page" });
 });
 
 // Display the Event Request Form
@@ -153,10 +162,10 @@ app.post('/eventRequest', (req, res) => {
   };
 
   // Insert into the database
-  knex('event_details')
+    knex('event_details')
     .insert(newEventRequest)
     .then(() => {
-      res.redirect('/');
+        res.redirect('/');
     })
     .catch(error => {
       console.error('Error submitting event request:', error);
@@ -170,7 +179,7 @@ app.get('/volunteerForm', (req, res) => {
   knex('referral_types') // Fetch any necessary data (if needed)
     .select('*')
     .then(ref_types => {
-      res.render('volunteerForm', { ref_types });
+    res.render('volunteerForm', { ref_types });
     })
     .catch(error => {
         console.error('Error fetching referral types:', error);
@@ -180,7 +189,7 @@ app.get('/volunteerForm', (req, res) => {
 
 // Handle Volunteer Form Submission
 app.post('/volunteerForm', (req, res) => {
-  const {
+const {
     first_name,
     last_name,
     date_of_birth,
@@ -199,10 +208,10 @@ app.post('/volunteerForm', (req, res) => {
     travel_mile_radius,
     willing_to_lead_flag,
     teach_sewing_flag
-  } = req.body;
+} = req.body;
 
   // Prepare Contact data
-  const newContact = {
+const newContact = {
     first_name: first_name.trim(),
     last_name: last_name.trim(),
     date_of_birth: date_of_birth,
@@ -215,7 +224,7 @@ app.post('/volunteerForm', (req, res) => {
     zip: zip || null,
     preferred_contact_method: preferred_contact_method || 'E',
     volunteer_flag: true // Indicates this contact is a volunteer
-  };
+};
 
   // Insert into Contact table and retrieve contact_id
   knex('contact')
