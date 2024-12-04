@@ -242,8 +242,12 @@ app.get('/admin/addAdmin', (req, res) => {
   res.render('adminAddAdmin');
 });
 
-// Handle Add Event from
-app.post('/admin/addAdmin', (req, res) => {
+app.get('/admin/addEvent', (req, res) => {
+  res.render('adminAddEvent');
+});
+
+// Handle Add Event form
+app.post('/admin/addEvent', (req, res) => {
   const {
     org_name,
     event_type,
