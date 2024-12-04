@@ -29,8 +29,8 @@ const knex = require("knex") ({ // Connecting to our Postgres Database
     connection : {
         host : process.env.RDS_HOSTNAME || "localhost",
         user : process.env.RDS_USERNAME || "postgres",
-        password : process.env.RDS_PASSWORD || "eldonpostgressends", // This would need to change
-        database : process.env.RDS_DB_NAME || "practiceLogin",
+        password : process.env.RDS_PASSWORD || "admin", // This would need to change
+        database : process.env.RDS_DB_NAME || "intex",
         port : process.env.RDS_PORT || 5432,
         ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
     }
@@ -225,6 +225,89 @@ app.get('/admin/editEvent/:id', (req, res) => {
     });
 });
 
+// Handle Edit Event Form Submission
+app.post('/admin/editEvent/:id', (req, res) => {
+  let id = req.params.id;
+
+  const {
+    org_name,
+    event_type,
+    total_attendance_estimate,
+    children_estimate,
+    youth_estimate,
+    adult_estimate,
+    sewers_estimate,
+    machine_estimate,
+    table_type,
+    room_size,
+    planned_date,
+    alt_date_1,
+    alt_date_2,
+    event_street_address,
+    event_city,
+    event_state,
+    event_zip,
+    start_time,
+    planned_hour_duration,
+    contact_name,
+    contact_phone,
+    contact_email,
+    story_flag,
+    story_length_minutes,
+    donation_flag,
+    donation_amount,
+    event_status
+  } = req.body;
+
+  // Prepare data for update
+  const updatedEvent = {
+    org_name: org_name || null,
+    event_type: event_type || 'N',
+    total_attendance_estimate: parseInt(total_attendance_estimate, 10) || 0,
+    children_estimate: parseInt(children_estimate, 10) || 0,
+    youth_estimate: parseInt(youth_estimate, 10) || 0,
+    adult_estimate: parseInt(adult_estimate, 10) || 0,
+    sewers_estimate: parseInt(sewers_estimate, 10) || 0,
+    machine_estimate: parseInt(machine_estimate, 10) || 0,
+    table_type: table_type || 'R',
+    room_size: room_size || 'M',
+    planned_date: planned_date || null,
+    alt_date_1: alt_date_1 || null,
+    alt_date_2: alt_date_2 || null,
+    event_street_address: event_street_address || '', 
+    event_city: event_city || '', 
+    event_state: event_state || null, 
+    event_zip: event_zip || '', 
+    start_time: start_time || null,
+    planned_hour_duration: parseInt(planned_hour_duration, 10) || null, 
+    contact_name: contact_name || '',
+    contact_phone: contact_phone || '',
+    contact_email: contact_email || '',
+    story_flag: story_flag === 'true',
+    story_length_minutes: parseInt(story_length_minutes, 10) || null,
+    donation_flag: donation_flag === 'true',
+    donation_amount: donation_flag === 'true' ? parseInt(donation_amount, 10) || null : null,
+    event_status: event_status || 'P'
+  };
+
+  // Update the database record
+  knex('event_details')
+    .where('event_id', id) // Find the event by ID
+    .update(updatedEvent) // Update the event details
+    .then(result => {
+      if (result === 0) {
+        // No rows updated (invalid ID)
+        return res.status(404).send('Event not found');
+      }
+      res.redirect('/admin/manageEvents'); // Redirect to the manage events page after editing
+    })
+    .catch(error => {
+      console.error('Error updating event:', error);
+      res.status(500).send('Internal Server Error');
+    });
+});
+
+
 
 // Handle Event Request Form Submission
 app.post('/eventRequest', (req, res) => {
@@ -301,6 +384,69 @@ app.post('/eventRequest', (req, res) => {
       res.status(500).send('Internal Server Error');
     });
 });
+
+// Handle GET request for reporting event results
+app.get('/admin/reportEvent/:id', (req, res) => {
+  const id = req.params.id;
+
+  // Query the event_details table to get total_attendance_estimate and planned_hour_duration
+  knex('event_details')
+    .where('event_id', id)
+    .select('total_attendance_estimate', 'planned_hour_duration', 'org_name', 'event_id')
+    .first() // Fetch a single record
+    .then(event => {
+      if (!event) {
+        return res.status(404).send('Event not found');
+      }
+
+      // Render the adminReportEvent.ejs page with the retrieved data
+      res.render('adminReportEvent', { event });
+    })
+    .catch(error => {
+      console.error('Error fetching event details for reporting:', error);
+      res.status(500).send('Internal Server Error');
+    });
+});
+
+
+// Handle POST request to submit event results
+app.post('/admin/reportEvent/:id', (req, res) => {
+  const eventId = req.params.id;
+  const {
+    event_date,
+    num_participants,
+    event_duration_hours,
+    pockets_produced,
+    collars_produced,
+    envelopes_produced,
+    vests_produced,
+    total_products_completed
+  } = req.body;
+
+  const newEventResult = {
+    event_id: eventId,
+    event_date: event_date || null,
+    num_participants: parseInt(num_participants, 10) || 0,
+    event_duration_hours: parseFloat(event_duration_hours) || 0,
+    pockets_produced: parseInt(pockets_produced, 10) || 0,
+    collars_produced: parseInt(collars_produced, 10) || 0,
+    envelopes_produced: parseInt(envelopes_produced, 10) || 0,
+    vests_produced: parseInt(vests_produced, 10) || 0,
+    total_products_completed: parseInt(total_products_completed, 10) || 0,
+  };
+
+  // Insert into event_results table
+  knex('event_results')
+    .insert(newEventResult)
+    .then(() => {
+      res.redirect('/admin/manageEvents'); // Redirect to the admin events page after submission
+    })
+    .catch(error => {
+      console.error('Error inserting event results:', error);
+      res.status(500).send('Internal Server Error');
+    });
+});
+
 
 
 // Display the Volunteer Form

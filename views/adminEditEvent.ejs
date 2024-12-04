@@ -1,5 +1,14 @@
 <h1>Edit Event</h1>
 <form action="/admin/editEvent/<%= event.event_id %>" method="POST">
+  <!-- Event Status -->
+  <label for="eventStatus">Approval Status:</label>
+  <select id="eventStatus" name="event_status" required>
+    <option value="P" <%= event.event_status === 'P' ? 'selected' : '' %>>Pending</option>
+    <option value="A" <%= event.event_status === 'A' ? 'selected' : '' %>>Approved</option>
+    <option value="D" <%= event.event_status === 'D' ? 'selected' : '' %>>Declined</option>
+    <option value="C" <%= event.event_status === 'C' ? 'selected' : '' %>>Completed</option>
+  </select><br>
+  
   <!-- Organization Name -->
   <label for="org_name">Organization Name:</label>
   <input type="text" id="org_name" name="org_name" value="<%= event.org_name %>" required><br>
@@ -55,15 +64,15 @@
 
   <!-- Planned Date -->
   <label for="plannedDate">Planned Date:</label>
-  <input type="date" id="plannedDate" name="planned_date" value="<%= event.planned_date %>" required><br>
+  <input type="date" id="plannedDate" name="planned_date" value="<%= event.planned_date.toISOString().split('T')[0] %>" required><br>
 
   <!-- Alternate Date 1 -->
   <label for="altDate1">Alternate Date 1:</label>
-  <input type="date" id="altDate1" name="alt_date_1" value="<%= event.alt_date_1 %>"><br>
+  <input type="date" id="altDate1" name="alt_date_1" value="<%= event.alt_date_1 ? event.alt_date_1.toISOString().split('T')[0] : null %>"><br>
 
   <!-- Alternate Date 2 -->
   <label for="altDate2">Alternate Date 2:</label>
-  <input type="date" id="altDate2" name="alt_date_2" value="<%= event.alt_date_2 %>"><br>
+  <input type="date" id="altDate2" name="alt_date_2" value="<%= event.alt_date_2 ? event.alt_date_2.toISOString().split('T')[0] : null %>"><br>
 
   <!-- Event Street Address -->
   <label for="streetAddress">Event Street Address:</label>
