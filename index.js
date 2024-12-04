@@ -213,6 +213,10 @@ app.post('/admin/deleteAdmin/:id', (req, res) => {
     });
 });
 
+app.get('/admin/addAdmin', (req, res) => {
+  res.render('adminAddAdim');
+});
+
 
 // test
 app.get('/manageEvents', (req, res) => {
@@ -225,12 +229,12 @@ app.get('/eventRequest', (req, res) => {
 });
 
 // Display the Event Request Form
-app.get('/admin/addEvent', (req, res) => {
-  res.render('adminAddEvent');
+app.get('/admin/addAdmin', (req, res) => {
+  res.render('adminAddAdmin');
 });
 
 // Handle Add Event from
-app.post('/admin/addEvent', (req, res) => {
+app.post('/admin/addAdmin', (req, res) => {
   const {
     org_name,
     event_type,
