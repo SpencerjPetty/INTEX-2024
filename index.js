@@ -29,11 +29,8 @@ const knex = require("knex") ({ // Connecting to our Postgres Database
     connection : {
         host : process.env.RDS_HOSTNAME || "localhost",
         user : process.env.RDS_USERNAME || "postgres",
-        password : process.env.RDS_PASSWORD || "admin", // This would need to change
-<<<<<<< Updated upstream
-=======
+        password : process.env.RDS_PASSWORD || "Roman$EatLargeT0gas", // This would need to change
         // set password to admin and database to intex before committing
->>>>>>> Stashed changes
         database : process.env.RDS_DB_NAME || "intex",
         port : process.env.RDS_PORT || 5432,
         ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
@@ -477,7 +474,7 @@ const {
     email_address,
     street_address,
     city,
-    event_state, // Matches the name in the HTML form for "state"
+    state,
     zip,
     preferred_contact_method,
     referral_source_id,
@@ -499,7 +496,7 @@ const newContact = {
     email_address: email_address.trim(),
     street_address: street_address || null,
     city: city || null,
-    state: event_state || null,
+    state: state || null,
     zip: zip || null,
     preferred_contact_method: preferred_contact_method || 'E',
     volunteer_flag: true // Indicates this contact is a volunteer
@@ -537,8 +534,140 @@ const newContact = {
     });
 });
 
+// Displaying the Volunteer management page
+app.get('/admin/manageVolunteers', (req, res) => {
+  knex('contact')
+    .join('volunteer', 'contact.contact_id', '=', 'volunteer.contact_id')
+    .select(
+      'contact.contact_id',
+      'contact.first_name',
+      'contact.last_name',
+      'contact.email_address',
+      'contact.phone_number',
+      'contact.preferred_contact_method',
+      'contact.gender',
+      'volunteer.sewing_level',
+      'volunteer.estimated_hours_per_month',
+      'volunteer.date_joined'
+    )
+    .orderBy('contact.last_name', 'asc') // Sort by last name for better UX
+    .then(volunteers => {
+      res.render('manageVolunteers', { volunteers });
+    })
+    .catch(error => {
+      console.error('Error fetching volunteers:', error);
+      res.status(500).send('Internal Server Error');
+    });
+});
 
+// Display the Add Volunteer Form (admin)
+app.get('/admin/addVolunteer', (req, res) => {
+  knex('referral_types') // Fetch any necessary data (if needed)
+  .select('*')
+  .then(ref_types => {
+  res.render('adminAddVolunteer', { ref_types });
+  })
+  .catch(error => {
+      console.error('Error fetching referral types:', error);
+      res.status(500).send('Internal Server Error');
+  });
+});
 
+// Post for the Add Volunteer Form (admin)
+app.post('/admin/addVolunteer', (req, res) => {
+  const {
+      first_name,
+      last_name,
+      date_of_birth,
+      gender,
+      phone_number,
+      email_address,
+      street_address,
+      city,
+      state,
+      zip,
+      preferred_contact_method,
+      referral_source_id,
+      referral_other_text,
+      sewing_level,
+      estimated_hours_per_month,
+      travel_mile_radius,
+      willing_to_lead_flag,
+      teach_sewing_flag
+  } = req.body;
+  
+    // Prepare Contact data
+  const newContact = {
+      first_name: first_name.trim(),
+      last_name: last_name.trim(),
+      date_of_birth: date_of_birth,
+      gender: gender || 'N',
+      phone_number: phone_number.trim(),
+      email_address: email_address.trim(),
+      street_address: street_address || null,
+      city: city || null,
+      state: state || null,
+      zip: zip || null,
+      preferred_contact_method: preferred_contact_method || 'E',
+      volunteer_flag: true // Indicates this contact is a volunteer
+  };
+  
+    // Insert into Contact table and retrieve contact_id
+    knex('contact')
+      .insert(newContact)
+      .returning('contact_id')
+      .then(contactIdArray => {
+        const contact_id_num = contactIdArray[0].contact_id; // Explicitly extract the contact_id field
+  
+        // Prepare Volunteer data
+        const newVolunteer = {
+          contact_id: contact_id_num,
+          referral_source_id: parseInt(referral_source_id, 10) || null,
+          referral_other_text: referral_other_text || null,
+          sewing_level: sewing_level || 'B',
+          estimated_hours_per_month: parseInt(estimated_hours_per_month, 10) || 0,
+          date_joined: new Date(), // Automatically populate the date joined
+          travel_mile_radius: travel_mile_radius || null,
+          willing_to_lead_flag: willing_to_lead_flag || false,
+          teach_sewing_flag: teach_sewing_flag || false
+        };
+  
+        // Insert into Volunteer table
+        return knex('volunteer').insert(newVolunteer);
+      })
+      .then(() => {
+        res.redirect('/admin/manageVolunteers'); // Redirect to the home page on successful submission
+      })
+      .catch(error => {
+        console.error('Error submitting volunteer form:', error);
+        res.status(500).send('Internal Server Error');
+      });
+  });
+
+  // Delete Volunteer Route
+  app.post('/admin/deleteVolunteer/:id', (req, res) => {
+    const id = req.params.id;
+  
+    knex.transaction(trx => {
+      // Delete from volunteers table first
+      return trx('volunteer')
+        .where('contact_id', id) // Ensure to use the correct field for the join
+        .del()
+        .then(() => {
+          // Then delete from contact table
+          return trx('contact')
+            .where('contact_id', id)
+            .del();
+        });
+    })
+      .then(() => {
+        res.redirect('/admin/manageVolunteers'); // Redirect back to admin page
+      })
+      .catch(error => {
+        console.error('Error deleting volunteer:', error);
+        res.status(500).send('Internal Server Error');
+      });
+  });
 
 // // Admin Landing Page (Protected)
 // app.get('/admin', (req, res) => {
@@ -556,21 +685,6 @@ const newContact = {
 //     })
 //     .catch(error => {
 //       console.error('Error fetching admin data:', error);
-//       res.status(500).send('Internal Server Error');
-//     });
-// });
-
-// // Route to Delete Volunteer
-// app.post('/admin/deleteVolunteer/:id', (req, res) => {
-//   const id = req.params.id;
-//   knex('volunteers')
-//     .where('id', id)
-//     .del()
-//     .then(() => {
-//       res.redirect('/admin'); // Redirect back to admin page
-//     })
-//     .catch(error => {
-//       console.error('Error deleting volunteer:', error);
 //       res.status(500).send('Internal Server Error');
 //     });
 // });
