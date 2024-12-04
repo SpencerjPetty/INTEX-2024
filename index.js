@@ -85,7 +85,7 @@ res.render("index", { title: "TSP Landing Page" });
 app.get('/admin/manageAdmins', (req, res) => {
   knex('admin') 
     .join('admin_login', 'admin.contact_id', 'admin_login.contact_id')
-    .join('contact', 'admin.contact_id', 'contact.contact_id')// Querying the event_details table
+    .join('contact', 'admin.contact_id', 'contact.contact_id')// Querying the admin details table
     .select(
       'admin_login.username',
       'contact.first_name',
@@ -98,7 +98,8 @@ app.get('/admin/manageAdmins', (req, res) => {
       'contact.state',
       'contact.preferred_contact_method',
       'admin.created_by',
-      'admin.created_date'
+      'admin.created_date',
+      'admin.contact_id'
     )
     .orderBy('contact.last_name', 'asc')
     .orderBy('contact.first_name', 'asc') // Sort by first and last name in ascending order
@@ -112,6 +113,7 @@ app.get('/admin/manageAdmins', (req, res) => {
     }); // Error handling for Knex queries
 });
 
+<<<<<<< Updated upstream
 // main admin page 
 // if (req.session.isAuthenticated) {
 //  res.send(`Welcome, ${req.session.username}! This is the internal landing page.`);
@@ -120,6 +122,102 @@ app.get('/admin/manageAdmins', (req, res) => {
 // }
 app.get('/admin', (req, res) => {
   res.render('admin'); 
+=======
+app.get('/admin/editAdmin/:id', (req, res) => {
+  let id = req.params.id;
+  // Query the Admin by ID first
+  knex('admin') 
+    .join('admin_login', 'admin.contact_id', 'admin_login.contact_id')
+    .join('contact', 'admin.contact_id', 'contact.contact_id')
+    .where('admin.contact_id', id)
+    .first()
+    .then(admins => {
+      // Render the adminEditAdmin.ejs template and pass the data
+      res.render('adminEditAdmin', { admins });
+    })
+    .catch(error => {
+      console.error('Error fetching Admin for editing:', error);
+      res.status(500).send('Internal Server Error');
+    });
+});
+
+app.post('/admin/editAdmin/:id', (req, res) => {
+  const id = req.params.id;
+  // Access each value directly from req.body
+  const created_by = req.body.created_by;
+  const created_date = req.body.created_date;
+  const username = req.body.username;
+  const password = req.body.password;
+  const first_name = req.body.first_name;
+  const last_name = req.body.last_name;
+  const date_of_birth = req.body.date_of_birth;
+  const gender = req.body.gender;
+  const phone_number = req.body.phone_number;
+  const email_address = req.body.email_address;
+  const street_address = req.body.street_address;
+  const city = req.body.city;
+  const state = req.body.state;
+  const zip = req.body.zip;
+  const preferred_contact_method = req.body.preferred_contact_method;
+  // Update the admin in the database
+  knex('admin')
+  .where('contact_id', id)
+  .update({
+    created_by: created_by,
+    created_date: created_date
+  })
+  .then(() => {
+    // Update the `admin_login` table
+    return knex('admin_login')
+      .where('contact_id', id)
+      .update({
+        username: username,
+        password: password,
+      });
+  })
+  .then(() => {
+    // Update the `contact` table
+    return knex('contact')
+      .where('contact_id', id)
+      .update({
+        first_name: first_name,
+        last_name: last_name,
+        date_of_birth: date_of_birth,
+        gender: gender,
+        phone_number: phone_number,
+        email_address: email_address,
+        street_address: street_address,
+        city: city,
+        state: state,
+        zip: zip,
+        preferred_contact_method: preferred_contact_method
+      });
+  })
+  .then(() => {
+    res.redirect('/admin/manageAdmins');
+  })
+  .catch(error => {
+    console.error('Error updating Admin:', error);
+    res.status(500).send('Internal Server Error');
+  });
+});
+
+// Route to Delete admin account
+app.post('/admin/deleteAdmin/:id', (req, res) => {
+  const id = req.params.id;
+  knex('admin') 
+    .join('admin_login', 'admin.contact_id', 'admin_login.contact_id')
+    .join('contact', 'admin.contact_id', 'contact.contact_id')
+    .where('contact_id', id)
+    .del()
+    .then(() => {
+      res.redirect('/admin/manageAdmins'); // Redirect back to admin page
+    })
+    .catch(error => {
+      console.error('Error deleting volunteer:', error);
+      res.status(500).send('Internal Server Error');
+    });
+>>>>>>> Stashed changes
 });
 
 
