@@ -4,13 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Event Request</title>
-  <style>
-    /* Include your CSS styles from the template */
-  </style>
+  <link rel="stylesheet" href="css/events.css">
 </head>
 <body>
-  <h1>Event Request Form</h1>
+  <!-- Landscape Image -->
+  <!-- <div class="header-image">
+    <img src="/images/landscapetest.jpg" alt="Landscape Image">
+  </div> -->
+  <label for="maintitle" class="mainTitle">Request an Event With Turtle Shelter Project</label>
   <form action="/eventRequest" method="POST">
+<<<<<<< Updated upstream
     <!-- Existing fields -->
     <label for="org_name">Organization Name:</label>
     <input type="text" id="org_name" name="org_name" required><br>
@@ -159,5 +162,137 @@
   
     <button type="submit">Submit</button>
   </form>    
+=======
+    
+    <!-- Organization Group -->
+    <fieldset>
+      <label for="organization_title" class="title">Organization</label>
+      <div class="required-info">
+        <span class="required">*</span> <span class="required-text" color="dark green">Required</span>
+      </div>
+      <label for="org_name">Organization Name: <span class="required">*</span></label>
+
+      <input type="text" id="org_name" name="org_name" required><br>
+      <label for="eventType">Event Type: <span class="required">*</span></label>
+      <select id="eventType" name="event_type" required>
+        <option value="" disabled selected hidden>Select event type</option>
+        <option value="S">Sewing</option>
+        <option value="N">Non-sewing</option>
+        <option value="B">Both</option>
+      </select><br>
+    </fieldset>
+
+    <!-- Attendance Group -->
+    <fieldset>
+      <label for="attendanceEstimate">Total Attendance Estimate: <span class="required">*</span></label>
+      <input type="number" id="attendanceEstimate" name="total_attendance_estimate" min="1" required><br>
+      <label for="childrenEstimate">Total Children Attending (10 and under):</label>
+      <input type="number" id="childrenEstimate" name="children_estimate" min="0"><br>
+      <label for="youthEstimate">Total Youth Attending (11-17):</label>
+      <input type="number" id="youthEstimate" name="youth_estimate" min="0"><br>
+      <label for="adultEstimate">Total Adults Attending (18 and older):</label>
+      <input type="number" id="adultEstimate" name="adult_estimate" min="0"><br>
+      <label for="sewersEstimate">Number of Attending People Sewing:</label>
+      <input type="number" id="sewersEstimate" name="sewers_estimate" min="0"><br>
+    </fieldset>
+
+    <!-- Equipment Group -->
+    <fieldset>
+      <label for="machineEstimate">Number of Sewing Machines Being Provided:</label>
+      <input type="number" id="machineEstimate" name="machine_estimate" min="0"><br>
+      <label for="tableType">Type of Tables at Location: <span class="required">*</span></label>
+      <p style="font-size: 12px; font-weight: bold; color: white;">(This affects the type of work we will be doing!)</p>
+      <select id="tableType" name="table_type" required>
+        <option value="" disabled selected hidden>Select table type</option>
+        <option value="R">Rectangular</option>
+        <option value="C">Circular</option>
+      </select><br>
+      <label for="roomSize">Room Size: <span class="required">*</span></label>
+      <select id="roomSize" name="room_size" required>
+        <option value="" disabled selected hidden>Select room size</option>
+        <option value="S">Small: Fits 10-15 people (Living room size)</option>
+        <option value="M">Medium: Fits 20-40 people (Large conference room)</option>
+        <option value="L">Large: Fits 50-100 people (Banquet hall size)</option>
+        <option value="H">Extra Large: Fits 100-300+ people (Auditorium size)</option>
+      </select><br>
+    </fieldset>
+
+    <!-- Date Group -->
+    <fieldset>
+      <label for="plannedDate">Planned Date: <span class="required">*</span></label>
+      <input type="date" id="plannedDate" name="planned_date" required><br>
+      <label for="altDate1">Alternate Date Option 1:</label>
+      <input type="date" id="altDate1" name="alt_date_1"><br>
+      <label for="altDate2">Alternate Date Option 2:</label>
+      <input type="date" id="altDate2" name="alt_date_2"><br>
+      <label for="startTime">Start Time: <span class="required">*</span></label>
+      <input type="time" id="startTime" name="start_time" required><br>
+      <label for="duration">Planned Duration of Event (hours): <span class="required">*</span></label>
+      <input type="number" id="duration" name="planned_hour_duration" min="1" required><br>
+    </fieldset>
+
+    <!-- Event Location Group -->
+    <fieldset>
+      <label for="streetAddress">Event Street Address: <span class="required">*</span></label>
+      <input type="text" id="streetAddress" name="event_street_address" required><br>
+      <label for="city">Event City: <span class="required">*</span></label>
+      <input type="text" id="city" name="event_city" required><br>
+      <label for="state">Event State: <span class="required">*</span></label>
+      <select id="state" name="event_state" required>
+        <option value="" disabled selected hidden>Select state</option>
+        <option value="AL">Alabama</option>
+        <option value="AK">Alaska</option>
+        <!-- Add the rest of the states -->
+      </select><br>
+      <label for="zip">Event Zipcode: <span class="required">*</span></label>
+      <input type="text" id="zip" name="event_zip" required pattern="\d{5}(-\d{4})?" title="Valid ZIP: 12345 or 12345-6789"><br>
+    </fieldset>
+
+    <!-- Contact Information Group -->
+    <fieldset>
+      <label for="contactName">Contact Name: <span class="required">*</span></label>
+      <input type="text" id="contactName" name="contact_name" required><br>
+      <label for="contactPhone">Contact Phone: <span class="required">*</span></label>
+      <input type="tel" id="contactPhone" name="contact_phone" required><br>
+      <label for="contactEmail">Contact Email: <span class="required">*</span></label>
+      <input type="email" id="contactEmail" name="contact_email" required><br>
+    </fieldset>
+
+    <!-- Jen's Story Group -->
+    <fieldset>
+      <label for="storyFlag">Do you want Jen to share her story?</label>
+      <input type="checkbox" id="storyFlag" name="story_flag" value="true" onclick="toggleStoryLength()"><br>
+      <div id="storyLengthContainer" style="display: none;">
+        <label for="storyLength">Story Length (minutes):</label>
+        <input type="number" id="storyLength" name="story_length_minutes" min="1"><br>
+      </div>
+    </fieldset>
+
+    <!-- Donation Group -->
+    <fieldset>
+      <label for="donationFlag">Would you like to make a donation to Turtle Shelter Project?</label>
+      <input type="checkbox" id="donationFlag" name="donation_flag" value="true">
+      
+      <!-- The donation amount input will appear only when the checkbox is checked -->
+      <div class="donationAmountContainer">
+        <label for="donationAmount">Donation Amount (USD):</label>
+        <input type="number" id="donationAmount" name="donation_amount" min="1"><br>
+      </div>
+    </fieldset>
+
+    <!-- Submit Button Group -->
+    <div class="button-container">
+      <button type="submit">Submit</button>
+    </div>
+  </form>
+
+  <script>
+    function toggleStoryLength() {
+      const storyFlag = document.getElementById("storyFlag");
+      const storyLengthContainer = document.getElementById("storyLengthContainer");
+      storyLengthContainer.style.display = storyFlag.checked ? "block" : "none";
+    }
+  </script>
+>>>>>>> Stashed changes
 </body>
 </html>
