@@ -24,17 +24,17 @@ app.use(
   })
 );
 
-// const knex = require("knex") ({ // Connecting to our Postgres Database
-//     client : "pg",
-//     connection : {
-//         host : process.env.RDS_HOSTNAME || "localhost",
-//         user : process.env.RDS_USERNAME || "postgres",
-//         password : process.env.RDS_PASSWORD || "eldonpostgressends", // This would need to change
-//         database : process.env.RDS_DB_NAME || "practiceLogin",
-//         port : process.env.RDS_PORT || 5432,
-//         ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
-//     }
-// });
+const knex = require("knex") ({ // Connecting to our Postgres Database
+    client : "pg",
+    connection : {
+        host : process.env.RDS_HOSTNAME || "localhost",
+        user : process.env.RDS_USERNAME || "postgres",
+        password : process.env.RDS_PASSWORD || "admin", // This would need to change
+        database : process.env.RDS_DB_NAME || "intex",
+        port : process.env.RDS_PORT || 5432,
+        ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
+    }
+});
 
 app.post('/login', async (req, res) => {
   const username = req.body.username;
@@ -73,26 +73,7 @@ app.get('/internal', (req, res) => {
   }
 });
 
-
-
 app.get("/", (req, res) => {
-//     knex('coding') // SQL query for collecting the data
-//       .select(
-//         'coding.id',
-//         'coding.language_name',
-//         'coding.created_year',
-//         'coding.creator',
-//         'coding.popularity_rank'
-//       )
-//       .first()
-//       .then(codes => {
-//         // Render the index.ejs template and pass the data
-//         res.render('index', { codes });
-//       })
-//       .catch(error => {
-//         console.error('Error querying database:', error);
-//         res.status(500).send('Internal Server Error');
-//       }); // res.send is for .html files, res.render is for .ejs files
 res.render("index", { title: "TSP Landing Page" });
 });
 
