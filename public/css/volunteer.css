@@ -1,0 +1,160 @@
+/* Importing Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap');
+
+body {
+    background-color: #f4f4f4;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+.mainTitle {
+    font-size: 3em;
+    font-weight: bold;
+    margin: 0.5px 0 32px;
+    display: block;
+    color: rgb(120, 140, 130);
+    background-color: white;
+    padding: 10px 20px;
+    width: 53.2%;
+    word-wrap: break-word;
+    text-align: center;
+    border: 3px solid rgb(120, 140, 130);
+}
+
+.title {
+    font-size: 1.5em;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: .5px 0 25px;
+    display: block;
+    color: white;
+}
+
+h1 {
+    font-family: 'Open Sans', serif;
+    color: rgb(120, 140, 130);
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2.5rem;
+}
+
+form {
+    width: 100%;
+    max-width: 800px;
+}
+
+fieldset {
+    background-color: rgb(120, 140, 130); /* Green background for groups */
+    border: none;
+    margin-bottom: 40px;
+    padding: 40px 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+label {
+    display: block;
+    font-size: 1rem;
+    color: white;
+    margin-bottom: 8px;
+    font-family: 'Open Sans', serif;
+}
+
+input, select, button {
+    width: 100%;
+    padding: 10px 8px;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    border: 2px solid rgb(230, 230, 230);
+    /* border-radius: 4px; */
+    box-sizing: border-box;
+}
+
+input[type="checkbox"] {
+    width: auto;
+    margin-right: 10px;
+}
+
+fieldset label input[type="checkbox"] {
+    display: inline-block;
+    margin-left: 0;
+}
+
+button {
+    background-color: rgb(41, 77, 74); /* Match branding */
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 30px 40px;  /* Add padding for better appearance */
+    border: none; /* Remove default button border */
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+    width: auto; /* Allows the button to fit its content */
+    max-width: 200px; /* Set a maximum width (adjust as needed) */
+    display: inline-block; 
+    margin: 0 auto !important;
+    text-align: center !important;
+    font-size: 1.5rem; /* Increase font size */
+}
+
+.button-container {
+    display: flex;
+    justify-content: center; /* Center the button horizontally */
+    margin-top: 20px; /* Optional: Adjust the space above the button */
+    font-size: xx-large;
+}
+
+button:hover {
+    background-color: rgb(59, 108, 106); /* Maintain the same color on hover */
+    opacity: 0.8; /* Slightly fade on hover for a visual effect */
+}
+
+/* Specific Styles for Volunteer and Contact Sections */
+.volunteer-group, .contact-group {
+    background-color: rgb(120, 140, 130);
+    padding: 20px;
+    /* border-radius: 8px; */
+    margin-bottom: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.volunteer-group h2, .contact-group h2 {
+    font-size: 1.6rem;
+    color: white;
+    margin-bottom: 15px;
+}
+
+.donationAmountContainer {
+    display: none;
+}
+
+input[type="checkbox"]:checked + .donationAmountContainer {
+    display: block;
+}
+
+.required {
+    color: #D32F2F;
+    font-size: 0.8em;  /* Smaller size */
+    margin-left: 5px;
+}
+
+.required-info {
+    margin-top: 0px;
+    font-size: 0.9em; /* Slightly smaller text */
+  }
+  
+  .required {
+    color: #D32F2F;
+    font-size: 1.2em; /* Larger red star */
+  }
+  
+  .required-text {
+    /* font-style: italic; */
+    margin-left: 0px;
+    color: #013220
+  }
+  
