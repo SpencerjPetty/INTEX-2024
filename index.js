@@ -173,8 +173,8 @@ app.get('/volunteerForm', (req, res) => {
       res.render('volunteerForm', { ref_types });
     })
     .catch(error => {
-      console.error('Error fetching referral types:', error);
-      res.status(500).send('Internal Server Error');
+        console.error('Error fetching referral types:', error);
+        res.status(500).send('Internal Server Error');
     });
 });
 
