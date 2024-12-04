@@ -8,37 +8,38 @@
 <body>
   <h1>Report Event Results</h1>
   <h3>Organization: <%= event.org_name %></h3>
-  <h3>Estimated Attendance: <%= event.total_attendance_estimate%></h3>
-  <h3>Planned Duration (hours): <%= event.planned_hour_duration%></h3>
+  <h3>Estimated Attendance: <%= event.total_attendance_estimate %></h3>
+  <h3>Planned Duration (hours): <%= event.planned_hour_duration %></h3>
 
   <form action="/admin/reportEvent/<%= event.event_id %>" method="POST">
     <input type="hidden" name="event_id" value="<%= event.event_id %>">
 
+    <!-- Displaying Existing Results if Available -->
     <label for="event_date">Event Date:</label>
-    <input type="datetime-local" id="event_date" name="event_date" required><br>
+    <input type="datetime-local" id="event_date" name="event_date" value="<%= event.event_date ? event.event_date.toISOString().slice(0, 16) : '' %>" required><br>
 
     <label for="num_participants">Actual Number of Participants:</label>
-    <input type="number" id="num_participants" name="num_participants" min="0" required><br>
+    <input type="number" id="num_participants" name="num_participants" value="<%= event.num_participants || '' %>" min="0" required><br>
 
     <label for="event_duration_hours">Actual Event Duration (Hours):</label>
-    <input type="number" id="event_duration_hours" name="event_duration_hours" min="0" step="0.1" required><br>
+    <input type="number" id="event_duration_hours" name="event_duration_hours" value="<%= event.event_duration_hours || '' %>" min="0" step="0.1" required><br>
 
     <label for="pockets_produced"># Pockets Produced:</label>
-    <input type="number" id="pockets_produced" name="pockets_produced" min="0" required><br>
+    <input type="number" id="pockets_produced" name="pockets_produced" value="<%= event.pockets_produced || '' %>" min="0" required><br>
 
     <label for="collars_produced"># Collars Produced:</label>
-    <input type="number" id="collars_produced" name="collars_produced" min="0" required><br>
+    <input type="number" id="collars_produced" name="collars_produced" value="<%= event.collars_produced || '' %>" min="0" required><br>
 
     <label for="envelopes_produced"># Envelopes Produced:</label>
-    <input type="number" id="envelopes_produced" name="envelopes_produced" min="0" required><br>
+    <input type="number" id="envelopes_produced" name="envelopes_produced" value="<%= event.envelopes_produced || '' %>" min="0" required><br>
 
     <label for="vests_produced"># Vests Produced:</label>
-    <input type="number" id="vests_produced" name="vests_produced" min="0" required><br>
+    <input type="number" id="vests_produced" name="vests_produced" value="<%= event.vests_produced || '' %>" min="0" required><br>
 
     <label for="total_products_completed"># Total Products Completed:</label>
-    <input type="number" id="total_products_completed" name="total_products_completed" min="0" required><br>
+    <input type="number" id="total_products_completed" name="total_products_completed" value="<%= event.total_products_completed || '' %>" min="0" required><br>
 
-    <button type="submit">Submit Results</button>
+    <button type="submit">Save Changes</button>
   </form>
 </body>
 </html>

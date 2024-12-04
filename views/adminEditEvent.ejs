@@ -1,4 +1,12 @@
-<h1>Edit Event</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View/Edit Event</title>
+</head>
+<body>
+<h1>View/Edit Event</h1>
 <form action="/admin/editEvent/<%= event.event_id %>" method="POST">
   <!-- Event Status -->
   <label for="eventStatus">Approval Status:</label>
@@ -83,9 +91,9 @@
   <input type="text" id="city" name="event_city" value="<%= event.event_city %>" required><br>
 
   <!-- Event State -->
-  <label for="event_state">Event State:<span class="required">*</span></label>
+  <label for="event_state">State:<span class="required">*</span></label>
         <select id="event_state" name="event_state" required>
-          <option value="" disabled selected hidden>Select state</option>
+          <option value="<%= event.event_state %>" selected><%= event.event_state %></option>
           <option value="AL">Alabama</option>
           <option value="AK">Alaska</option>
           <option value="AZ">Arizona</option>

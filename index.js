@@ -495,24 +495,41 @@ app.post('/eventRequest', (req, res) => {
 app.get('/admin/reportEvent/:id', (req, res) => {
   const id = req.params.id;
 
-  // Query the event_details table to get total_attendance_estimate and planned_hour_duration
+  // Query the event_details table to get event details
   knex('event_details')
     .where('event_id', id)
     .select('total_attendance_estimate', 'planned_hour_duration', 'org_name', 'event_id')
-    .first() // Fetch a single record
-    .then(event => {
-      if (!event) {
+    .first() // Fetch a single record from event_details
+    .then(eventDetails => {
+      if (!eventDetails) {
         return res.status(404).send('Event not found');
       }
 
-      // Render the adminReportEvent.ejs page with the retrieved data
-      res.render('adminReportEvent', { event });
+      // Now, query the event_results table to get any matching results for the event
+      knex('event_results')
+        .where('event_id', id)
+        .first() // Fetch a single record from event_results if it exists
+        .then(eventResults => {
+          // Combine both event details and event results into one object
+          const event = {
+            ...eventDetails,
+            ...eventResults // If eventResults exists, it will override any fields from eventDetails
+          };
+
+          // Render the adminReportEvent.ejs page with the combined event data
+          res.render('adminReportEvent', { event });
+        })
+        .catch(error => {
+          console.error('Error fetching event results for reporting:', error);
+          res.status(500).send('Internal Server Error');
+        });
     })
     .catch(error => {
       console.error('Error fetching event details for reporting:', error);
       res.status(500).send('Internal Server Error');
     });
 });
+
 
 
 // Handle POST request to submit event results
@@ -541,18 +558,19 @@ app.post('/admin/reportEvent/:id', (req, res) => {
     total_products_completed: parseInt(total_products_completed, 10) || 0,
   };
 
-  // Insert into event_results table
+  // Upsert into event_results table (update if event_id exists, otherwise insert)
   knex('event_results')
     .insert(newEventResult)
+    .onConflict('event_id') // Handle conflict on event_id
+    .merge() // Update the existing record with the new values
     .then(() => {
       res.redirect('/admin/manageEvents'); // Redirect to the admin events page after submission
     })
     .catch(error => {
-      console.error('Error inserting event results:', error);
+      console.error('Error upserting event results:', error);
       res.status(500).send('Internal Server Error');
     });
 });
-
 
 
 // Display the Volunteer Form
