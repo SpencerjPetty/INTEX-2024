@@ -27,9 +27,9 @@ const knex = require("knex") ({ // Connecting to our Postgres Database
     connection : {
         host : process.env.RDS_HOSTNAME || "localhost",
         user : process.env.RDS_USERNAME || "postgres",
-        password : process.env.RDS_PASSWORD || "admin", // This would need to change
+        password : process.env.RDS_PASSWORD || "eldonpostgressends", // This would need to change
         // set password to admin and database to intex before committing
-        database : process.env.RDS_DB_NAME || "intex",
+        database : process.env.RDS_DB_NAME || "practiceLogin",
         port : process.env.RDS_PORT || 5432,
         ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
     }
@@ -196,19 +196,33 @@ app.post('/admin/editAdmin/:id', (req, res) => {
 
 // Route to Delete admin account
 app.post('/admin/deleteAdmin/:id', (req, res) => {
-  const id = req.params.id;
-  knex('admin') 
-    .join('admin_login', 'admin.contact_id', 'admin_login.contact_id')
-    .join('contact', 'admin.contact_id', 'contact.contact_id')
-    .where('contact_id', id)
-    .del()
-    .then(() => {
-      res.redirect('/admin/manageAdmins'); // Redirect back to admin page
-    })
-    .catch(error => {
-      console.error('Error deleting volunteer:', error);
-      res.status(500).send('Internal Server Error');
-    });
+  const id = req.params.id; // Extract the id from the URL parameter
+
+  knex.transaction(trx => {
+    // Step 1: Delete from admin table
+    return trx('admin')
+      .where('contact_id', id)
+      .del()
+      .then(() => {
+        // Step 2: Delete from admin_login table
+        return trx('admin_login')
+          .where('contact_id', id)
+          .del();
+      })
+      .then(() => {
+        // Step 3: Delete from contact table
+        return trx('contact')
+          .where('contact_id', id)
+          .del();
+      });
+  })
+  .then(() => {
+    res.redirect('/admin/manageAdmins'); // Redirect after successful deletion
+  })
+  .catch(error => {
+    console.error('Error deleting admin record:', error);
+    res.status(500).send('Internal Server Error');
+  });
 });
 
 // Get Add Admin page
