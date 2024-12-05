@@ -67,6 +67,16 @@ app.post('/login', async (req, res) => {
     }
 });
 
+app.post('/admin/logout', (req, res) => {
+  req.session.destroy(err => {
+      if (err) {
+          console.error('Logout error:', err);
+          res.status(500).send('Unable to log out');
+      } else {
+          res.redirect('/'); // Redirect to home page after logout
+      }
+  });
+});
 
 
 app.get("/", (req, res) => {
