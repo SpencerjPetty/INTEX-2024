@@ -1,0 +1,103 @@
+/* Importing Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap');
+
+/* Overall Page Styles */
+body {
+    background-color: #f8f8f8 !important ; /* Very slightly off-white background */
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 40px; /* Added more padding around the whole content */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Page Header */
+h1 {
+    font-size: 3em;
+    font-weight: bold;
+    color: rgb(120, 140, 130); /* Green border color */
+    background-color: white;
+    padding: 20px; /* Increased padding for the title block */
+    border: 3px solid rgb(120, 140, 130); /* Green border */
+    text-align: center;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 800px; /* Match the form block width */
+    box-sizing: border-box; /* Ensure padding and border are included in width */
+}
+
+/* Form Styles */
+form {
+    width: 100%;
+    max-width: 800px;
+    padding: 40px; /* Added more padding around the whole form */
+    background-color: rgb(120, 140, 130); /* Green background */
+    box-sizing: border-box;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px; /* Increased margin for spacing */
+    color: white; /* White font color */
+    font-size: 1.2rem; /* Increased font size for titles over each input box */
+    text-align: left; /* Left-align text in the form */
+}
+
+input, select, button {
+    width: 100%; /* Ensure width fits within form group */
+    padding: 15px; /* Slightly larger padding */
+    margin-bottom: 15px;
+    border: 2px solid rgb(230, 230, 230);
+    background-color: white; /* White background */
+    font-size: 1rem;
+    box-sizing: border-box;
+    display: block; /* Ensure proper alignment */
+}
+
+button[type="submit"] {
+    background-color: rgb(41, 77, 74); /* Submit button color */
+    color: white;
+    font-size: 1.5rem;
+    padding: 10px 10px; /* Adjusted padding for better size */
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    display: block;
+    margin: 0 auto; /* Center align button */
+    width: 150px;
+}
+
+button[type="submit"]:hover {
+    background-color: rgb(31, 59, 57);
+}
+
+/* Ensure input boxes do not extend past their containers */
+form input, form select {
+    max-width: 100%;
+    box-sizing: border-box; /* Ensures padding and border are included in width */
+    margin-left: 0; /* Left-align input boxes */
+}
+
+.required {
+    color: #D32F2F;
+    font-size: 0.8em;  /* Smaller size */
+    margin-left: 5px;
+}
+
+.required-info {
+    margin-top: 0px;
+    font-size: 0.9em; /* Slightly smaller text */
+  }
+  
+  .required {
+    color: #D32F2F;
+    font-size: 1em; /* Larger red star */
+  }
+  
+  .required-text {
+    /* font-style: italic; */
+    margin-left: 0px;
+    color: #013220
+  }

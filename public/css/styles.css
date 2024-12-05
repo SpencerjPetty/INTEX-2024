@@ -187,10 +187,34 @@ flex-direction: row-reverse;
 .btn {
     padding: 10px 30px;
     background-color: #2b4a3f !important;
-    color: white;
+    color: white !important;
     border: none;
     cursor: pointer;
     font-size: 1.2rem;
+}
+
+.btn {
+    padding: 10px 30px;
+    background-color: #2b4a3f !important;
+    color: white !important;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.text-side button {
+    background-color: #2b4a3f;
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: inline-block;
+}
+
+.text-side button:hover {
+    background-color: #1f362d; /* Darker green on hover */
+    color: #fff; /* Ensure the text color stays white */
 }
 
 .btn:hover {
