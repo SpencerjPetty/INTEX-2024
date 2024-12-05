@@ -74,6 +74,52 @@ app.get("/", (req, res) => {
         res.render('index');
 });
 
+// Manage Admins
+app.get('/admin/manageAdmins', (req, res) => {
+  knex('admin') 
+    .join('admin_login', 'admin.contact_id', 'admin_login.contact_id')
+    .join('contact', 'admin.contact_id', 'contact.contact_id')// Querying the admin details table
+    .select(
+      'admin_login.username',
+      'contact.first_name',
+      'contact.last_name',
+      'contact.date_of_birth',
+      'contact.gender',
+      'contact.phone_number',
+      'contact.email_address',
+      'contact.city',
+      'contact.state',
+      'contact.preferred_contact_method',
+      'admin.created_by',
+      'admin.created_date',
+      'admin.contact_id'
+    )
+    .orderBy('contact.last_name', 'asc')
+    .orderBy('contact.first_name', 'asc') // Sort by first and last name in ascending order
+    .then(admins => {
+      // Render the manageAdmins.ejs template and pass the data
+      res.render('manageAdmins', { admins });
+    })
+    .catch(error => {
+      console.error('Error querying database:', error);
+      res.status(500).send('Internal Server Error');
+    }); // Error handling for Knex queries
+});
+
+
+// Get Add Admin page
+app.get('/admin/addAdmin', (req, res) => {
+  knex('admin_login') // Fetch any necessary data (if needed)
+    .select('username', 'contact_id')
+    .then(usernames => {
+    res.render('adminAddAdmin', { usernames });
+    })
+    .catch(error => {
+        console.error('Error fetching usernames:', error);
+        res.status(500).send('Internal Server Error');
+    });
+});
+
 // Event management page
 app.get('/manageEvents', (req, res) => {
   knex('event_details') // Querying the event_details table
@@ -208,8 +254,24 @@ app.post('/admin/addAdmin', (req, res) => {
     });
 });
 
-
-
+// Edit Admins Get
+app.get('/admin/editAdmin/:id', (req, res) => {
+  let id = req.params.id;
+  // Query the Admin by ID first
+  knex('admin') 
+    .join('admin_login', 'admin.contact_id', 'admin_login.contact_id')
+    .join('contact', 'admin.contact_id', 'contact.contact_id')
+    .where('admin.contact_id', id)
+    .first()
+    .then(admins => {
+      // Render the adminEditAdmin.ejs template and pass the data
+      res.render('adminEditAdmin', { admins });
+    })
+    .catch(error => {
+      console.error('Error fetching Admin for editing:', error);
+      res.status(500).send('Internal Server Error');
+    });
+});
 
 
 // Getting the Edit Event page
@@ -944,6 +1006,37 @@ app.post('/admin/deleteEvent/:id', (req, res) => {
       console.error('Error deleting event:', error);
       res.status(500).send('Internal Server Error');
     });
+});
+
+// Route to Delete admin account
+app.post('/admin/deleteAdmin/:id', (req, res) => {
+  const id = req.params.id; // Extract the id from the URL parameter
+
+  knex.transaction(trx => {
+    // Step 1: Delete from admin table
+    return trx('admin')
+      .where('contact_id', id)
+      .del()
+      .then(() => {
+        // Step 2: Delete from admin_login table
+        return trx('admin_login')
+          .where('contact_id', id)
+          .del();
+      })
+      .then(() => {
+        // Step 3: Delete from contact table
+        return trx('contact')
+          .where('contact_id', id)
+          .del();
+      });
+  })
+  .then(() => {
+    res.redirect('/admin/manageAdmins'); // Redirect after successful deletion
+  })
+  .catch(error => {
+    console.error('Error deleting admin record:', error);
+    res.status(500).send('Internal Server Error');
+  });
 });
 
 app.listen(port, () => console.log("Express App has started and server is listening!"));
