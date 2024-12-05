@@ -22,6 +22,16 @@ app.use(
     })
 );
 
+function isAuthenticated(req, res, next) {
+  if (req.session && req.session.loggedIn) {
+      // User is authenticated, proceed to the next middleware or route
+      return next();
+  } else {
+      // User is not authenticated, redirect to login page
+      res.redirect('/login');
+  }
+}
+
 const knex = require("knex") ({ // Connecting to our Postgres Database
     client : "pg",
     connection : {
@@ -62,7 +72,7 @@ app.post('/login', (req, res) => {
 });
 
 
-app.post('/admin/logout', (req, res) => {
+app.post('/admin/logout', isAuthenticated, (req, res) => {
   req.session.destroy(err => {
       if (err) {
           console.error('Logout error:', err);
@@ -79,7 +89,7 @@ app.get("/", (req, res) => {
 });
 
 // Manage Admins
-app.get('/admin/manageAdmins', (req, res) => {
+app.get('/admin/manageAdmins', isAuthenticated, (req, res) => {
   knex('admin') 
     .join('admin_login', 'admin.contact_id', 'admin_login.contact_id')
     .join('contact', 'admin.contact_id', 'contact.contact_id')// Querying the admin details table
@@ -110,11 +120,11 @@ app.get('/admin/manageAdmins', (req, res) => {
     }); // Error handling for Knex queries
 });
 
-app.get('/admin', (req, res) => {
+app.get('/admin', isAuthenticated, (req, res) => {
   res.render('admin', {})
 });
 
-app.get('/admin/editAdmin/:id', (req, res) => {
+app.get('/admin/editAdmin/:id', isAuthenticated, (req, res) => {
   let id = req.params.id;
   // Query the Admin by ID first
   knex('admin') 
@@ -132,7 +142,7 @@ app.get('/admin/editAdmin/:id', (req, res) => {
     });
 });
 
-app.post('/admin/editAdmin/:id', (req, res) => {
+app.post('/admin/editAdmin/:id', isAuthenticated, (req, res) => {
   const id = req.params.id;
   // Access each value directly from req.body
   const created_by = req.body.created_by;
@@ -194,7 +204,7 @@ app.post('/admin/editAdmin/:id', (req, res) => {
 });
 
 // Route to Delete admin account
-app.post('/admin/deleteAdmin/:id', (req, res) => {
+app.post('/admin/deleteAdmin/:id', isAuthenticated, (req, res) => {
   const id = req.params.id; // Extract the id from the URL parameter
 
   knex.transaction(trx => {
@@ -225,7 +235,7 @@ app.post('/admin/deleteAdmin/:id', (req, res) => {
 });
 
 // Get Add Admin page
-app.get('/admin/addAdmin', (req, res) => {
+app.get('/admin/addAdmin', isAuthenticated, (req, res) => {
   knex('admin_login') // Fetch any necessary data (if needed)
     .select('username', 'contact_id')
     .then(usernames => {
@@ -237,114 +247,19 @@ app.get('/admin/addAdmin', (req, res) => {
     });
 });
 
-// // Event management page
-// app.post('/admin/addAdmin', (req, res) => {
-//   const {
-//     created_by,
-//     username,
-//     password,
-//     first_name,
-//     last_name,
-//     date_of_birth,
-//     gender,
-//     phone_number,
-//     email_address,
-//     street_address,
-//     city,
-//     state,
-//     zip,
-//     preferred_contact_method
-//   } = req.body; 
-//   // Prepare Contact data
-//   const newAdminContact = {
-//     first_name: first_name,
-//     last_name: last_name,
-//     date_of_birth: date_of_birth,
-//     gender: gender || 'N',
-//     phone_number: phone_number,
-//     email_address: email_address,
-//     street_address: street_address || null,
-//     city: city || null,
-//     state: state || null,
-//     zip: zip || null,
-//     preferred_contact_method: preferred_contact_method || 'E',
-//     volunteer_flag: false // Default to 'E' if not provided
-//   };
-//   // Insert into Contact table and retrieve contact_id
-//   knex('contact')
-//     .insert(newAdminContact)
-//     .returning('contact_id')
-//     .then(contactIdArray => {
-//       const contact_id = contactIdArray[0].contact_id; // Explicitly extract the contact_id field
 
-//       // Prepare Admin Login data
-//       const newAdminLogin = {
-//         contact_id: contact_id,
-//         username: username,
-//         password: password,
-//       };
-
-//       // Insert into Admin Login table
-//       return knex('admin_login')
-//         .insert(newAdminLogin)
-//         .then(() => {
-//           // Prepare Admin data
-//           const newAdmin = {
-//             contact_id: contact_id,
-//             created_by: created_by,
-//             created_date: new Date() // Automatically capture the timestamp when the form is submitted
-//           };
-
-//           // Insert into Admin table
-//           return knex('admin')
-//             .insert(newAdmin);
-//         });
-//     })
-//     .then(() => {
-//         res.redirect('/admin/manageAdmins'); // Redirect to manage events after successful insertion
-//     })
-//     .catch(error => {
-//         console.error('Error submitting admin form:', error);
-//       res.status(500).send('Internal Server Error');
-//     });
-// });
-
-// // test
-// app.get('/manageEvents', (req, res) => {
-//   knex('event_details') // Querying the event_details table
-//     .select(
-//       'event_details.event_id',
-//       'event_details.org_name',
-//       'event_details.total_attendance_estimate',
-//       'event_details.event_type',
-//       'event_details.planned_date',
-//       'event_details.start_time',
-//       'event_details.planned_hour_duration',
-//       'event_details.event_status',
-//       'event_details.time_submitted'
-//     )
-//     .orderBy('event_details.planned_date', 'asc') // Sort by planned date in ascending order
-//     .then(events => {
-//       // Render the manageEvents.ejs template and pass the data
-//       res.render('manageEvents', { events });
-//     })
-//     .catch(error => {
-//       console.error('Error querying database:', error);
-//       res.status(500).send('Internal Server Error');
-//     }); // Error handling for Knex queries
-// });
 
 // Display the Event Request Form
 app.get('/eventRequest', (req, res) => {
       res.render('eventRequest');
 });
 
-app.get('/admin/addEvent', (req, res) => {
+app.get('/admin/addEvent', isAuthenticated, (req, res) => {
   res.render('adminAddEvent');
 });
 
 // Handle Add Admin form
-app.post('/admin/addAdmin', (req, res) => {
+app.post('/admin/addAdmin', isAuthenticated, (req, res) => {
   const {
     created_by,
     username,
@@ -445,7 +360,7 @@ app.post('/admin/addAdmin', (req, res) => {
 });
 
 // Edit Admins Get
-app.get('/admin/editAdmin/:id', (req, res) => {
+app.get('/admin/editAdmin/:id', isAuthenticated, (req, res) => {
   let id = req.params.id;
   // Query the Admin by ID first
   knex('admin') 
@@ -465,7 +380,7 @@ app.get('/admin/editAdmin/:id', (req, res) => {
 
 
 // Getting the Edit Event page
-app.get('/admin/editEvent/:id', (req, res) => {
+app.get('/admin/editEvent/:id', isAuthenticated, (req, res) => {
   let id = req.params.id;
 
   // Query the event by ID
@@ -487,7 +402,7 @@ app.get('/admin/editEvent/:id', (req, res) => {
 });
 
 // Handle Edit Event Form Submission
-app.post('/admin/editEvent/:id', (req, res) => {
+app.post('/admin/editEvent/:id', isAuthenticated, (req, res) => {
   let id = req.params.id;
 
   const {
@@ -645,7 +560,7 @@ app.post('/eventRequest', (req, res) => {
 });
 
 // Handle GET request for reporting event results
-app.get('/admin/reportEvent/:id', (req, res) => {
+app.get('/admin/reportEvent/:id', isAuthenticated, (req, res) => {
   const id = req.params.id;
 
   // Query the event_details table to get event details
@@ -686,7 +601,7 @@ app.get('/admin/reportEvent/:id', (req, res) => {
 
 
 // Handle POST request to submit event results
-app.post('/admin/reportEvent/:id', (req, res) => {
+app.post('/admin/reportEvent/:id', isAuthenticated, (req, res) => {
   const eventId = req.params.id;
   const {
     event_date,
@@ -811,7 +726,7 @@ const newContact = {
 });
 
 // Displaying the Volunteer management page
-app.get('/admin/manageVolunteers', (req, res) => {
+app.get('/admin/manageVolunteers', isAuthenticated, (req, res) => {
   knex('contact')
     .join('volunteer', 'contact.contact_id', '=', 'volunteer.contact_id')
     .select(
@@ -837,7 +752,7 @@ app.get('/admin/manageVolunteers', (req, res) => {
 });
 
 // Display the Add Volunteer Form (admin)
-app.get('/admin/addVolunteer', (req, res) => {
+app.get('/admin/addVolunteer', isAuthenticated, (req, res) => {
   knex('referral_types') // Fetch any necessary data (if needed)
   .select('*')
   .then(ref_types => {
@@ -850,7 +765,7 @@ app.get('/admin/addVolunteer', (req, res) => {
 });
 
 // Post for the Add Volunteer Form (admin)
-app.post('/admin/addVolunteer', (req, res) => {
+app.post('/admin/addVolunteer', isAuthenticated, (req, res) => {
   const {
       first_name,
       last_name,
@@ -921,7 +836,7 @@ app.post('/admin/addVolunteer', (req, res) => {
   });
 
   // Delete Volunteer Route
-  app.post('/admin/deleteVolunteer/:id', (req, res) => {
+  app.post('/admin/deleteVolunteer/:id', isAuthenticated, (req, res) => {
     const id = req.params.id;
   
     knex.transaction(trx => {
@@ -947,7 +862,7 @@ app.post('/admin/addVolunteer', (req, res) => {
 
 
   // Getting the Edit Volunteer page
-app.get('/admin/editVolunteer/:id', (req, res) => {
+app.get('/admin/editVolunteer/:id', isAuthenticated, (req, res) => {
   const id = req.params.id;
 
   // Query to fetch data from both contact and volunteer tables
@@ -992,7 +907,7 @@ app.get('/admin/editVolunteer/:id', (req, res) => {
 });
 
 // Post for the Edit Volunteer Form (admin)
-app.post('/admin/editVolunteer/:id', (req, res) => {
+app.post('/admin/editVolunteer/:id', isAuthenticated, (req, res) => {
   const id = req.params.id; // This will be the contact_id from the URL
   const {
     first_name,
@@ -1061,7 +976,7 @@ app.post('/admin/editVolunteer/:id', (req, res) => {
 });
 
 // Handle Add Event Form Submission
-app.post('/admin/addEvent', (req, res) => {
+app.post('/admin/addEvent', isAuthenticated, (req, res) => {
   const {
     org_name,
     event_type,
@@ -1160,7 +1075,7 @@ app.post('/admin/addEvent', (req, res) => {
 // });
 
 
-app.get('/admin/manageEvents', (req, res) => {
+app.get('/admin/manageEvents', isAuthenticated, (req, res) => {
   knex('event_details') // Querying the event_details table
     .select(
       'event_details.event_id',
@@ -1185,7 +1100,7 @@ app.get('/admin/manageEvents', (req, res) => {
 });
 
 // Route to Delete Event Request
-app.post('/admin/deleteEvent/:id', (req, res) => {
+app.post('/admin/deleteEvent/:id', isAuthenticated, (req, res) => {
   const id = req.params.id;
   knex('event_details')
     .where('event_id', id)
@@ -1200,7 +1115,7 @@ app.post('/admin/deleteEvent/:id', (req, res) => {
 });
 
 // Route to Delete admin account
-app.post('/admin/deleteAdmin/:id', (req, res) => {
+app.post('/admin/deleteAdmin/:id', isAuthenticated, (req, res) => {
   const id = req.params.id; // Extract the id from the URL parameter
 
   knex.transaction(trx => {
