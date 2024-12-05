@@ -1,5 +1,5 @@
 const images = [
-    '/images/homelessrandom.jpg',
+    '/images/harshcold.jpg',
 ];
 
 let currentIndex = 0;
