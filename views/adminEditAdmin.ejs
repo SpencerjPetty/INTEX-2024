@@ -13,8 +13,23 @@
   <input type="text" id="username" name="username" value="<%= admins.username %>" required><br>
 
   <!-- Password -->
-  <label for="password">Password:</label>
-  <input type="password" id="password" name="password" value="<%= admins.password %>" required><br>
+<label for="password">Password:</label>
+<div style="position: relative; display: inline-block;">
+    <input type="password" id="password" name="password" value="<%= admins.password%>" required>
+    <button type="button" id="togglePassword" style="position: absolute; right: 0; top: 0; height: 100%; border: none; background: none; cursor: pointer;">
+        Show
+    </button>
+</div>
+<br>
+<script>
+  document.getElementById('togglePassword').addEventListener('click', function () {
+      const passwordField = document.getElementById('password');
+      const isPasswordHidden = passwordField.type === 'password';
+
+      passwordField.type = isPasswordHidden ? 'text' : 'password';
+      this.textContent = isPasswordHidden ? 'Hide' : 'Show';
+  });
+</script>
 
   <!-- First Name -->
   <label for="first_name">First Name:</label>
