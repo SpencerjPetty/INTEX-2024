@@ -27,9 +27,9 @@ const knex = require("knex") ({ // Connecting to our Postgres Database
     connection : {
         host : process.env.RDS_HOSTNAME || "localhost",
         user : process.env.RDS_USERNAME || "postgres",
-        password : process.env.RDS_PASSWORD || "sept2201", // This would need to change
+        password : process.env.RDS_PASSWORD || "admin", // This would need to change
         // set password to admin and database to intex before committing
-        database : process.env.RDS_DB_NAME || "Intex",
+        database : process.env.RDS_DB_NAME || "intex",
         port : process.env.RDS_PORT || 5432,
         ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
     }
