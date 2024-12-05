@@ -7,9 +7,9 @@
   <link rel="stylesheet" href="/css/volunteer.css">
 </head>
 <body>
-  <h1 class="mainTitle">Volunteer Application</h1>
+  <h1 class="mainTitle">Add Volunteer</h1>
   
-  <form action="/volunteerForm" method="POST">
+  <form action="/admin/addVolunteer" method="POST">
     
     <!-- Volunteer Information Section -->
     <fieldset class="volunteer-group">
@@ -25,7 +25,7 @@
       <label for="lastName">Last Name:<span class="required">*</span></label>
       <input type="text" id="lastName" name="last_name" required><br>
 
-      <label for="referralSource">How did you hear about us?<span class="required">*</span></label>
+      <label for="referralSource">How did they hear about us?<span class="required">*</span></label>
     <select id="referralSource" name="referral_source_id" required>
       <option value="" disabled selected hidden>Select referral source</option>
       <% ref_types.forEach(refs => { %>
@@ -46,17 +46,17 @@
       <label for="hoursPerMonth">Estimated Volunteer Hours Per Month:<span class="required">*</span></label>
       <input type="number" id="hoursPerMonth" name="estimated_hours_per_month" min="1" required><br>
 
-      <label for="travelRadius">How far are you willing to travel for events? (in miles):<span class="required">*</span></label>
+      <label for="travelRadius">How far are they willing to travel for events? (in miles):<span class="required">*</span></label>
       <input type="number" id="travelRadius" name="travel_mile_radius" min="0" required><br>
 
-      <label for="willingToLead">Are you willing to lead an event?<span class="required">*</span></label>
+      <label for="willingToLead">Willing to lead an event?<span class="required">*</span></label>
       <select id="willingToLead" name="willing_to_lead_flag" required>
         <option value="" disabled selected hidden>Select an option</option>
         <option value="true">Yes</option>
         <option value="false">No</option>
       </select><br>
 
-      <label for="teachSewing">Are you willing to teach sewing to participants?<span class="required">*</span></label>
+      <label for="teachSewing">Willing to teach sewing to participants?<span class="required">*</span></label>
       <select id="teachSewing" name="teach_sewing_flag" required>
         <option value="" disabled selected hidden>Select an option</option>
         <option value="true">Yes</option>

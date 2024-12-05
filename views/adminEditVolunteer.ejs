@@ -3,64 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Volunteer Form</title>
+  <title>Edit Volunteer</title>
   <link rel="stylesheet" href="/css/volunteer.css">
 </head>
 <body>
-  <h1 class="mainTitle">Volunteer Application</h1>
+  <h1 class="mainTitle">View and Edit Volunteer</h1>
   
-  <form action="/volunteerForm" method="POST">
+  <form action="/admin/editVolunteer/<%= volunteer.contact_id %>" method="POST">
     
     <!-- Volunteer Information Section -->
     <fieldset class="volunteer-group">
       <label for="volunteerGroup" class="title">Volunteer Information</label>
       
-      <div class="required-info">
-        <span class="required">*</span> <span class="required-text" color="dark green">Required</span>
-      </div>
-
       <label for="firstName">First Name:<span class="required">*</span></label>
-      <input type="text" id="firstName" name="first_name" required><br>
+      <input type="text" id="firstName" name="first_name" value="<%= volunteer.first_name %>" required><br>
 
       <label for="lastName">Last Name:<span class="required">*</span></label>
-      <input type="text" id="lastName" name="last_name" required><br>
-
-      <label for="referralSource">How did you hear about us?<span class="required">*</span></label>
-    <select id="referralSource" name="referral_source_id" required>
-      <option value="" disabled selected hidden>Select referral source</option>
-      <% ref_types.forEach(refs => { %>
-        <option value="<%= refs.referral_source_id %>"><%= refs.referral_description %></option>
-      <% }) %>
-      <option value="O">Other</option>
-    </select>
-    <input type="text" id="referralOtherText" name="referral_other_text" placeholder="Other" hidden><br>
+      <input type="text" id="lastName" name="last_name" value="<%= volunteer.last_name %>" required><br>
 
       <label for="sewingLevel">Sewing Level:<span class="required">*</span></label>
       <select id="sewingLevel" name="sewing_level" required>
-        <option value="" disabled selected hidden>Select sewing level</option>
-        <option value="B">Beginner</option>
-        <option value="I">Intermediate</option>
-        <option value="E">Expert</option>
+        <option value="B" <%= volunteer.sewing_level === 'B' ? 'selected' : '' %>>Beginner</option>
+        <option value="I" <%= volunteer.sewing_level === 'I' ? 'selected' : '' %>>Intermediate</option>
+        <option value="E" <%= volunteer.sewing_level === 'E' ? 'selected' : '' %>>Expert</option>
       </select><br>
 
       <label for="hoursPerMonth">Estimated Volunteer Hours Per Month:<span class="required">*</span></label>
-      <input type="number" id="hoursPerMonth" name="estimated_hours_per_month" min="1" required><br>
+      <input type="number" id="hoursPerMonth" name="estimated_hours_per_month" min="1" value="<%= volunteer.estimated_hours_per_month %>" required><br>
 
-      <label for="travelRadius">How far are you willing to travel for events? (in miles):<span class="required">*</span></label>
-      <input type="number" id="travelRadius" name="travel_mile_radius" min="0" required><br>
+      <label for="travelRadius">How far are they willing to travel for events? (in miles):<span class="required">*</span></label>
+      <input type="number" id="travelRadius" name="travel_mile_radius" min="0" value="<%= volunteer.travel_mile_radius %>" required><br>
 
-      <label for="willingToLead">Are you willing to lead an event?<span class="required">*</span></label>
+      <label for="willingToLead">Willing to lead an event?<span class="required">*</span></label>
       <select id="willingToLead" name="willing_to_lead_flag" required>
-        <option value="" disabled selected hidden>Select an option</option>
-        <option value="true">Yes</option>
-        <option value="false">No</option>
+        <option value="true" <%= volunteer.willing_to_lead_flag ? 'selected' : '' %>>Yes</option>
+        <option value="false" <%= !volunteer.willing_to_lead_flag ? 'selected' : '' %>>No</option>
       </select><br>
 
-      <label for="teachSewing">Are you willing to teach sewing to participants?<span class="required">*</span></label>
+      <label for="teachSewing">Willing to teach sewing to participants?<span class="required">*</span></label>
       <select id="teachSewing" name="teach_sewing_flag" required>
-        <option value="" disabled selected hidden>Select an option</option>
-        <option value="true">Yes</option>
-        <option value="false">No</option>
+        <option value="true" <%= volunteer.teach_sewing_flag ? 'selected' : '' %>>Yes</option>
+        <option value="false" <%= !volunteer.teach_sewing_flag ? 'selected' : '' %>>No</option>
       </select><br>
     </fieldset>
 
@@ -69,33 +52,32 @@
       <label for="contactGroup" class="title">Contact Information</label>
       
       <label for="dob">Date of Birth:<span class="required">*</span></label>
-      <input type="date" id="dob" name="date_of_birth" required><br>
+      <input type="date" id="dob" name="date_of_birth" value="<%= volunteer.date_of_birth.toISOString().split('T')[0] %>" required><br>
 
       <label for="gender">Gender:<span class="required">*</span></label>
       <select id="gender" name="gender" required>
-        <option value="" disabled selected hidden>Select gender</option>
-        <option value="M">Male</option>
-        <option value="F">Female</option>
-        <option value="O">Other</option>
-        <option value="N">Prefer Not to Say</option>
+        <option value="M" <%= volunteer.gender === 'M' ? 'selected' : '' %>>Male</option>
+        <option value="F" <%= volunteer.gender === 'F' ? 'selected' : '' %>>Female</option>
+        <option value="O" <%= volunteer.gender === 'O' ? 'selected' : '' %>>Other</option>
+        <option value="N" <%= volunteer.gender === 'N' ? 'selected' : '' %>>Prefer Not to Say</option>
       </select><br>
 
       <label for="phone">Phone Number:<span class="required">*</span></label>
-      <input type="tel" id="phone" name="phone_number" required><br>
+      <input type="tel" id="phone" name="phone_number" value="<%= volunteer.phone_number %>" required><br>
 
       <label for="email">Email Address:<span class="required">*</span></label>
-      <input type="email" id="email" name="email_address" required><br>
+      <input type="email" id="email" name="email_address" value="<%= volunteer.email_address %>" required><br>
 
       <label for="street">Street Address:</label>
-      <input type="text" id="street" name="street_address"><br>
+      <input type="text" id="street" name="street_address" value="<%= volunteer.street_address || '' %>"><br>
 
       <label for="city">City:</label>
-      <input type="text" id="city" name="city"><br>
+      <input type="text" id="city" name="city" value="<%= volunteer.city || '' %>"><br>
 
       <label for="state">State:<span class="required">*</span></label>
         <select id="state" name="state" required>
-          <option value="" disabled selected hidden>Select state</option>
-          <option value="AL">Alabama</option>
+            <option value="<%= volunteer.state %>" selected><%= volunteer.state %></option>
+            <option value="AL">Alabama</option>
           <option value="AK">Alaska</option>
           <option value="AZ">Arizona</option>
           <option value="AR">Arkansas</option>
@@ -148,17 +130,19 @@
         </select><br>
 
       <label for="zip">Zipcode:</label>
-      <input type="text" id="zip" name="zip" pattern="\d{5}(-\d{4})?" title="Valid ZIP: 12345 or 12345-6789"><br>
+      <input type="text" id="zip" name="zip" value="<%= volunteer.zip || '' %>" pattern="\d{5}(-\d{4})?" title="Valid ZIP: 12345 or 12345-6789"><br>
 
       <label for="preferredContact">Preferred Contact Method:<span class="required">*</span></label>
       <select id="preferredContact" name="preferred_contact_method" required>
-        <option value="E" selected>Email</option>
-        <option value="P">Phone Call</option>
-        <option value="T">Text</option>
+        <option value="E" <%= volunteer.preferred_contact_method === 'E' ? 'selected' : '' %>>Email</option>
+        <option value="P" <%= volunteer.preferred_contact_method === 'P' ? 'selected' : '' %>>Phone Call</option>
+        <option value="T" <%= volunteer.preferred_contact_method === 'T' ? 'selected' : '' %>>Text</option>
       </select><br>
-        <div class="button-container">
-          <button type="submit">Submit</button>
-        </div>
-      </form>
+
+      <div class="button-container">
+        <button type="submit">Save Changes</button>
+      </div>
+    </fieldset>
+  </form>
 </body>
 </html>

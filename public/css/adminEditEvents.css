@@ -1,0 +1,123 @@
+/* Importing Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap');
+
+body {
+    background-color: #f4f4f4;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.page-header {
+    background-color: white;
+    border: 3px solid rgb(120, 140, 130);
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+    width: 55%;
+    font-weight: normal !important;
+}
+
+h1 {
+    font-size: 3em;
+    margin: 0.5px 0;
+    color: rgb(120, 140, 130);
+    font-weight: normal;
+}
+
+form {
+    width: 100%;
+    max-width: 800px;
+}
+
+.form-group {
+    background-color: rgb(120, 140, 130);
+    margin-bottom: 20px;
+    padding: 20px; /* Increased padding for larger space */
+    border: none; /* No rounded corners */
+}
+
+.group-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    color: white;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: white; /* White font color */
+    font-family: 'Open Sans', serif;
+}
+
+input, select, button {
+    width: calc(100% - 20px); /* Ensure width fits within form group with even padding */
+    padding: 12px; /* Increased padding for larger space */
+    margin-bottom: 15px;
+    border: 2px solid rgb(230, 230, 230);
+    box-sizing: border-box;
+}
+
+input[type="checkbox"] {
+    width: auto; /* Set to auto for proper alignment */
+    margin-right: 5px; /* Add space between checkbox and label */
+}
+
+fieldset label input[type="checkbox"] {
+    display: inline-block; /* Align checkboxes properly */
+    margin-left: 0; /* Align with text */
+}
+
+button[type="submit"] {
+    background-color: rgb(41, 77, 74);
+    color: white;
+    font-size: 1.5rem;
+    padding: 12px 25px; /* Adjusted padding for narrower button */
+    border: none;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto; /* Center align button */
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: rgb(31, 59, 57);
+}
+
+/* Ensure input boxes do not extend past green containers */
+.form-group input, .form-group select {
+    max-width: calc(100% - 20px); /* Ensure input boxes do not extend past green containers */
+}
+
+/* Initially hide the donation amount and story length fields */
+.hidden {
+    display: none;
+}
+
+.required {
+    color: #D32F2F;
+    font-size: 0.6em;  /* Smaller size */
+    margin-left: 5px;
+}
+
+.required-info {
+    margin-top: 0px;
+    font-size: 0.9em; /* Slightly smaller text */
+  }
+  
+  .required {
+    color: #D32F2F;
+    font-size: .9em; /* Larger red star */
+  }
+  
+  .required-text {
+    /* font-style: italic; */
+    margin-left: 0px;
+    color: #013220
+  }
+

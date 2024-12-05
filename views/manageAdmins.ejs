@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Admin Users</title>
+  <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: "Questrial", sans-serif;
+      font-weight: 400;
+      font-style: normal;
+      margin: 0;
+      padding: 0;
+      background-color: #fefefe;
+    }
+
+/* Landscape photo container */
+.header-container {
+      position: relative;
+      width: 100%;
+      height: 300px; /* Matches the image height */
+      overflow: hidden;
+    }
+    
+    /* Landscape photo */
+    .header-image {
+      width: 100%;
+      height: 300px; /* Adjust based on how tall you want the image */
+      object-fit: cover; /* Ensures the image covers the area without stretching */
+    }
+
+    .header-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgb(120, 140, 130);
+    font-family: "Questrial", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 70px;
+    text-align: center;
+    margin: 0;
+    z-index: 10; /* Ensures the text appears on top of the image */
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px auto;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      background-color: white;
+      padding-top: 20px; /* Adds space between the image and the table */
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: center;
+    }
+
+    th {
+      background-color: rgb(120, 140, 130); /* Header color */
+      color: white;
+      font-weight: bold;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+    /* Ensure forms are displayed inline, and the buttons will align side by side */
+    td form {
+      display: inline; /* Keeps forms inline so the buttons don't stack */
+      margin-right: 10px; /* Adds space between buttons */
+    }
+
+    /* Ensure buttons are styled consistently */
+    button {
+      padding: 8px 20px;
+      font-size: 14px;
+      font-family: "Questrial", sans-serif;
+      font-weight: 400;
+      font-style: normal;
+      cursor: pointer;
+      background-color: rgb(41, 77, 74);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    /* Add space between the buttons */
+    td form:nth-child(1) {
+      margin-right: 10px; /* Space between Edit and Delete buttons */
+    }
+
+    button:hover {
+      background-color: rgb(120, 140, 130);
+    }
+
+    .add-admin-btn {
+      margin-top: 20px;
+      display: block;
+      width: 200px;
+      margin: 20px auto;
+      text-align: center;
+    }
+
+    .add-admin-btn button {
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <!-- Landscape Photo with Header Text -->
+  <div class="header-container">
+    <img src="/images/subtlebackground.jpg" alt="Landscape Image" class="header-image">
+    <h1 class="header-text">Manage Admin Users</h1>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Date of Birth</th>
+        <th>Gender</th>
+        <th>Phone Number</th>
+        <th>Email Address</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Preferred Contact Method</th>
+        <th>Created By</th>
+        <th>Created Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% admins.forEach(admin => { %>
+        <tr>
+          <td><%= admin.username %></td>
+          <td><%= admin.first_name %></td>
+          <td><%= admin.last_name %></td>
+          <td><%= admin.date_of_birth.toLocaleDateString() %></td>
+          <td><%= admin.gender == 'F' ? 'Female' : admin.gender == 'M' ? 'Male' : admin.gender == 'O' ? 'Other' : 'Prefer not to say' %></td>
+          <td><%= admin.phone_number %></td>
+          <td><%= admin.email_address %></td>
+          <td><%= admin.city %></td>
+          <td><%= admin.state %></td>
+          <td><%= admin.preferred_contact_method == 'E' ? 'Email' : admin.preferred_contact_method == 'T' ? 'Text' : 'Call' %></td>
+          <td><%= admin.created_by %></td>
+          <td><%= admin.created_date.toLocaleDateString() %></td>
+          <td>
+            <form action="/admin/editAdmin/<%= admin.contact_id %>" method="GET">
+              <button type="submit">Edit</button>
+            </form>
+            <form action="/admin/deleteAdmin/<%= admin.contact_id %>" method="POST">
+              <button type="submit" onclick="return confirm('Are you sure you want to delete this admin user?');">Delete</button>
+            </form>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+
+  <form action="/admin/addAdmin" method="GET">
+    <button type="submit" class="add-admin-btn">Add Admin</button>
+  </form>
+</body>
+</html>
