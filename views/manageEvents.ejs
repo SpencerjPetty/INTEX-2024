@@ -129,7 +129,7 @@
         <td><%= event.event_status == 'A' ? 'Approved' : event.event_status == 'D' ? 'Declined' : event.event_status == 'C' ? 'Completed' : 'Pending'  %></td>
         <td>
           <form action="/admin/editEvent/<%= event.event_id %>" method="GET">
-            <button type="submit">Edit</button>
+            <button type="submit">View/Edit Details</button>
           </form>
           <% if (event.event_status !== 'C') { %>
             <form action="/admin/deleteEvent/<%= event.event_id %>" method="POST">
@@ -138,7 +138,7 @@
           <% } %>
           <% if (event.event_status == 'C') { %>
             <form action="/admin/reportEvent/<%= event.event_id %>" method="GET">
-              <button type="submit">Report Results</button>
+              <button type="submit">View/Report Results</button>
             </form>
           <% } %>
         </td>
