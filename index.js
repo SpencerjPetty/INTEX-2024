@@ -22,6 +22,16 @@ app.use(
     })
 );
 
+function isAuthenticated(req, res, next) {
+  if (req.session && req.session.loggedIn) {
+      // User is authenticated, proceed to the next middleware or route
+      return next();
+  } else {
+      // User is not authenticated, redirect to login page
+      res.redirect('/login');
+  }
+}
+
 const knex = require("knex") ({ // Connecting to our Postgres Database
     client : "pg",
     connection : {
@@ -39,33 +49,28 @@ app.get('/login', (req, res) => {
 res.render('login', {})
 });
 
-app.post('/login', async (req, res) => {
-    const username = req.body.username;
-    const password = req.body.password;
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
 
-    // if (!username || !password) { return res.status(400).send("Username and password are required."); }
-
-    try {
-        // Query the database for the user record
-        const user = await knex('admin_login').where({ username }).first();
-
-    // Check if the user exists and the password matches
-    if (user && user.password === password) {
-      // Set session variable to indicate logged-in status
-        req.session.isAuthenticated = true;
-        req.session.username = user.username;
-
-      // Redirect to internal landing page
-        res.redirect('/admin');
-    } else {
-      // Authentication failed, set error message in session
-        req.session.isAuthenticated = false;
-        res.redirect('/login')
-    }
-    } catch (error) {
-    res.status(500).send('Database query failed: ' + error.message);
-    }
+  // Validate credentials (this would involve querying your database)
+  knex('admin_login')
+      .where({ username: username, password: password })
+      .first()
+      .then(user => {
+          if (user) {
+              // Set session flag for authentication
+              req.session.loggedIn = true;
+              res.redirect('/admin'); // Redirect to admin landing page
+          } else {
+              res.status(401).send('Invalid credentials');
+          }
+      })
+      .catch(error => {
+          console.error('Login error:', error);
+          res.status(500).send('Internal Server Error');
+      });
 });
+
 
 app.post('/admin/logout', (req, res) => {
   req.session.destroy(err => {
@@ -83,7 +88,7 @@ app.get("/", (req, res) => {
 res.render("index", { title: "TSP Landing Page" });
 });
 
-app.get('/admin/manageAdmins', (req, res) => {
+app.get('/admin/manageAdmins', isAuthenticated, (req, res) => {
   knex('admin') 
     .join('admin_login', 'admin.contact_id', 'admin_login.contact_id')
     .join('contact', 'admin.contact_id', 'contact.contact_id')// Querying the admin details table
@@ -116,7 +121,7 @@ app.get('/admin/manageAdmins', (req, res) => {
 
 
 
-app.get('/admin', (req, res) => {
+app.get('/admin', isAuthenticated, (req, res) => {
   res.render('admin', {})
 });
 
