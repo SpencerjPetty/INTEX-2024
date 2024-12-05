@@ -44,13 +44,18 @@ html, body {
 }
 
 .navbar-title {
-    font-size: 1.5rem;
-    font-family: 'Rock Salt', cursive;
+    font-family: "Questrial", sans-serif;
+    font-weight: 400;
+    font-style: normal;
     color: white;
+    font-size: 40px;
     margin-left: 15px; /* Spacing between logo and text */
 }
 
 .navbar-nav {
+    font-family: "Questrial", sans-serif;
+    font-weight: 400;
+    font-style: normal;
     margin-right: 10px; /* Adjust margin to bring links closer to the right edge */
     flex-grow: 1; /* Push links to the right */
     display: flex;
@@ -58,6 +63,9 @@ html, body {
 }
 
 .nav-item a {
+    font-family: "Questrial", sans-serif;
+    font-weight: 400;
+    font-style: normal;
     font-size: 1rem;
     padding: 5px 10px; /* Reduce padding for tighter layout */
     color: white !important;
@@ -96,7 +104,7 @@ form.nav-item button:hover {
     margin-top: 0; /* Remove any top margin */
     padding-top: 0; /* Ensure there's no padding on top */
     position: relative;
-    height: calc(100vh - 95px); /* Full viewport height minus the navbar height */
+    height: calc(95vh - 100px); /* Full viewport height minus the navbar height */
     width: 100%; /* Full width */
     overflow: hidden;
 }
@@ -113,24 +121,24 @@ form.nav-item button:hover {
     transition: background-image 1s ease-in-out; /* Smooth transition between images */ /* Soft transition *//* Smooth fade transition */
 }
 
-
-
 /* ========== MAIN SECTION STYLING ========== */
 .all-sections {
     padding: 60px 20px; /* Add padding for the whole section */
     text-align: center;
-    background: linear-gradient(to bottom, #f0e1cb, #aa9c80); /* Beige gradient from bottom to top */
+    background-color: hsla(51, 17%, 92%, 1); /* Cream background color */
+    background-image: radial-gradient(circle, rgba(128, 128, 128, 0.2) 1px, transparent 1px);
+    background-size: 20px 20px; /* Adjust size to control dot spacing */
     color: white; /* White text */
-    padding: 50px; /* Padding around the content */
-    padding: 20px; /* Optional: Adds padding to your div */
 }
 
 .all-sections-title {
-    font-family: 'Playfair Display', serif; /* Headings */
-    font-size: 2.5rem;
+    font-family: "Questrial", sans-serif;
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-style: normal;
     margin-bottom: 40px;
-    color: black; /* Title color */
-    font-weight: bold;
+    font-size: 45px;
+    color: #013220; /* Title color */
 }
 
 /* ========== INDIVIDUAL SECTION STYLES ========== */
@@ -177,6 +185,9 @@ flex-direction: row-reverse;
 .section-title {
     font-size: 2rem;
     margin-bottom: 20px;
+    font-family: "Questrial", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .section-text {
@@ -185,6 +196,9 @@ flex-direction: row-reverse;
 }
 
 .btn {
+    font-family: "Questrial", sans-serif;
+    font-weight: 400;
+    font-style: normal;
     padding: 10px 30px;
     background-color: #2b4a3f !important;
     color: white !important;
@@ -223,7 +237,9 @@ flex-direction: row-reverse;
 
 h2,p {
     color: black;
-    font-family: 'Inter', sans-serif;
+    font-family: "Questrial", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 /* ========== STATISTICS ========== */
@@ -235,7 +251,9 @@ h2,p {
 
 .statistics-title {
     font-size: 4rem; /* Increased font size */
-    font-family: 'Playfair Display', serif;
+    font-family: "Questrial", sans-serif;
+    font-weight: 400;
+    font-style: normal;
     margin-bottom: 20px;
     color: black; /* Make the text white */
 }
@@ -276,16 +294,19 @@ h2,p {
 }
 
 .stat-number {
-    font-size: 4rem; /* Increased font size */
-    font-weight: bold;
+    font-size: 120px; /* Increased font size */
     color: white;
-    font-family: "Federo", sans-serif !important;
+    font-family: "Antonio", sans-serif;
+    font-weight: 600;
+    font-style: normal;
 }
 
 .stat-description {
     font-size: 1.5rem; /* Increased font size */
     color: white;
-    font-family: "Federo", sans-serif !important;
+    font-family: "Questrial", sans-serif;
+    font-weight: 400;
+    font-style: normal !important;
 }
 
 .stat-hover {
@@ -316,9 +337,9 @@ h2,p {
     transform: translate(-50%, -50%); /* Translate to center */
     color: white !important; /* Solid white text after hover */
     text-align: center;
-    font-family: 'Inter', sans-serif;
-    letter-spacing: 1.2px; /* Slightly wider text */
-    font-weight: 600; /* Slightly bolder */
+    font-family: "Questrial", sans-serif;
+    font-weight: 400;
+    font-style: normal;
     opacity: 1 !important; /* Ensure visibility */
     transition: opacity 0.3s ease; /* No fading effect on text */
     font-size: 1rem; /* Increased font size */
@@ -339,13 +360,17 @@ h2,p {
     padding: 40px 0; /* Reduced vertical padding for a smaller bar */
     text-align: center; /* Centers the content */
     width: 100%;
-    font-family: 'Inter', sans-serif;
+    font-family: "Questrial", sans-serif;
+    font-weight: 400;
+    font-style: normal;
     position: relative;
 }
 .donation-title {
     color: white;
     font-size: 1.6rem;
-    font-family: 'Playfair Display', serif !important; /* Correctly applied here */
+    font-family: "Questrial", sans-serif;
+    font-weight: 400;
+    font-style: normal;
     margin: 0 0 8px;
 }
 
@@ -369,19 +394,23 @@ h2,p {
 .donation-title {
     color: white;
     font-size: 1.6rem; /* Smaller title font size */
-    font-family: 'Inter', sans-serif;
+    font-family: "Questrial", sans-serif;
+    font-weight: 400;
+    font-style: normal;
     margin: 0 0 8px; /* Reduced space between title and subtitle */
 }
 
 .donation-subtitle {
     color: white;
     font-size: 1rem; /* Smaller subtitle font size */
-    font-family: 'Inter', sans-serif;
+    font-family: "Questrial", sans-serif;
+    font-weight: 400;
+    font-style: normal;
     margin: 0 0 12px; /* Reduced space between subtitle and button */
 }
 
 .donate-button {
-    background-color: #7bc9e7; /* Orange color for the button */
+    background-color: rgb(41, 77, 74); /* Orange color for the button */
     color: white;
     padding: 10px 20px; /* Smaller button padding */
     font-size: 1rem; /* Smaller font size for the button */
@@ -392,7 +421,7 @@ h2,p {
 }
 
 .donate-button:hover {
-    background-color: #88d4f7; /* Darker orange for hover effect */
+    background-color: rgb(59, 108, 106); /* Darker orange for hover effect */
 }
 
 /* ========== OUR WORK IN ACTION ========== */
@@ -419,25 +448,17 @@ h2,p {
 
 .our-work-heading {
     font-size: 3rem; /* Adjust font size */
-    font-family: 'Playfair Display', serif;
+    font-family: "Questrial", sans-serif;
+    font-weight: 400;
+    font-style: normal;
     margin: 0; /* Removes default margin */
     text-align: left !important;
-    font-weight: normal; /* Removes bold styling */
 }
-
-.title-bar {
-    width: 10%; /* Width of the bar under the title */
-    height: 4px; /* Height of the bar */
-    background-color: #A3D8FF; /* Baby blue color */
-    margin-top: 10px; /* Space between the title and bar */
-}
-
-
 
 .title-bar {
     width: 10%; /* Adjust the width of the bar (50% of the title width) */
     height: 4px; /* Adjust the height of the bar */
-    background-color: #A3D8FF; /* Light baby blue color */
+    background-color: rgb(41, 77, 74); /* Light baby blue color */
     margin-top: 10px; /* Space between the title and the bar */
     text-align: left !important;
 }
@@ -490,10 +511,12 @@ h2,p {
 
 /* Article Heading */
 .article-heading {
+    font-size: 3rem; /* Adjust font size */
+    font-family: "Questrial", sans-serif;
+    font-weight: 400;
     font-size: 1.5rem;
     margin-bottom: 15px;
     color: #333333;
-    font-weight: bold;
     text-align: left; /* Left align the heading */
 }
 
@@ -516,7 +539,7 @@ h2,p {
 .arrow-icon {
     margin-left: 8px;
     font-size: 1.5rem;
-    color: #ADD8E6; /* Baby blue color for the arrow */
+    color: rgb(41, 77, 74); /* Baby blue color for the arrow */
 }
 
 /* Article Summary (Subtitle) */
@@ -571,9 +594,11 @@ footer a:hover {
 }
 
 .sponsors-title {
+    font-family: "Questrial", sans-serif;
+    font-weight: 600;
+    font-style: normal;
     font-size: 2rem;
     color: #333;
-    font-weight: bold;
     margin-bottom: 20px;
 }
 

@@ -3,7 +3,7 @@
 
 /* Overall Page Styles */
 body {
-    background-color: #f8f8f8 !important ; /* Very slightly off-white background */
+    background-color: #f8f8f8 !important; /* Very slightly off-white background */
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 40px; /* Added more padding around the whole content */
@@ -44,6 +44,13 @@ label {
     text-align: left; /* Left-align text in the form */
 }
 
+.info-block label {
+    font-size: 1.2rem; /* Same font size for consistency */
+    display: block;
+    margin-bottom: 10px;
+    color: white;
+}
+
 input, select, button {
     width: 100%; /* Ensure width fits within form group */
     padding: 15px; /* Slightly larger padding */
@@ -66,7 +73,7 @@ button[type="submit"] {
     transition: background-color 0.3s ease;
     display: block;
     margin: 0 auto; /* Center align button */
-    width: 150px;
+    width: 150px; /* Fixed width for the button */
 }
 
 button[type="submit"]:hover {
@@ -80,6 +87,7 @@ form input, form select {
     margin-left: 0; /* Left-align input boxes */
 }
 
+/* Required Asterisk Styles */
 .required {
     color: #D32F2F;
     font-size: 0.8em;  /* Smaller size */
@@ -89,20 +97,18 @@ form input, form select {
 .required-info {
     margin-top: 0px;
     font-size: 0.9em; /* Slightly smaller text */
-  }
-  
-  .required {
+}
+
+.required {
     color: #D32F2F;
     font-size: 1em; /* Larger red star */
-  }
-  
-  .required-text {
-    /* font-style: italic; */
-    margin-left: 0px;
-    color: #013220
-  }
+}
 
-  .back-home-btn {
+.required-text {
+    margin-left: 0px;
+    color: #013220;
+}
+.back-home-btn {
     color: #2b4a3f; /* Dark green color */
     font-size: 0.9rem; /* Small size */
     text-decoration: none; /* Remove underline */

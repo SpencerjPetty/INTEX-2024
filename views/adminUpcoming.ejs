@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<h1>Upcoming Events</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Organization</th>
+      <th>Attendance Estimate</th>
+      <th>Event Type</th>
+      <th>Date</th>
+      <th>City</th>
+      <th>Start Time</th>
+      <th>Duration (hrs)</th>
+      <th></th>
+      <th>Volunteers Needed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% events.forEach(event => { %>
+        <tr>
+            <td><%= event.org_name %></td>
+            <td><%= event.total_attendance_estimate %></td>
+            <td><%= event.event_type == 'S' ? 'Sewing' : event.event_type == 'N' ? 'Non-sewing' : 'Both' %></td>
+            <td><%= event.planned_date.toLocaleDateString() %></td>
+            <td><%= event.event_city %></td>
+            <td><%= event.start_time %></td>
+            <td><%= event.planned_hour_duration %></td>
+            <td><%= event.num_volunteers %></td>
+        </tr>
+        <% }); %>
+    </tbody>
+</table>
+<form action="/admin/manageEvents" method="GET">
+    <button type="submit">Manage Events Page</button>
+        
+</body>
+</html>

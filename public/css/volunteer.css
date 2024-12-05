@@ -158,3 +158,21 @@ input[type="checkbox"]:checked + .donationAmountContainer {
     color: #013220
   }
   
+  .back-home-btn {
+    color: #2b4a3f; /* Dark green color */
+    font-size: 0.9rem; /* Small size */
+    text-decoration: none; /* Remove underline */
+    padding: 5px 10px; /* Small padding */
+    border: 2px solid #2b4a3f; /* Dark green border */
+    display: inline-block; /* Keep button inline with text */
+    border-radius: 5px; /* Optional: Adds slightly rounded corners */
+    position: absolute; /* Positioning */
+    top: 20px; /* Distance from the top */
+    left: 20px; /* Distance from the left */
+}
+
+.back-home-btn:hover {
+    background-color: #2b4a3f; /* Dark green background on hover */
+    color: white; /* White text on hover */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+}

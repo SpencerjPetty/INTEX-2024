@@ -114,12 +114,32 @@
     .add-admin-btn button {
       width: 100%;
     }
+
+    .back-home-btn {
+      color: #2b4a3f; /* Dark green color */
+      font-size: 0.9rem; /* Small size */
+      text-decoration: none; /* Remove underline */
+      padding: 5px 10px; /* Small padding */
+      border: 2px solid #2b4a3f; /* Dark green border */
+      display: inline-block; /* Keep button inline with text */
+      border-radius: 5px; /* Optional: Adds slightly rounded corners */
+      position: absolute; /* Positioning */
+      top: 20px; /* Distance from the top */
+      left: 20px; /* Distance from the left */
+  }
+
+    .back-home-btn:hover {
+        background-color: #2b4a3f; /* Dark green background on hover */
+        color: white; /* White text on hover */
+        transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+    }
   </style>
 </head>
 <body>
   <!-- Landscape Photo with Header Text -->
   <div class="header-container">
     <img src="/images/subtlebackground.jpg" alt="Landscape Image" class="header-image">
+    <a href="/admin" class="back-home-btn">Back to Admin Home Page</a>
     <h1 class="header-text">Manage Admin Users</h1>
   </div>
 
@@ -129,13 +149,11 @@
         <th>Username</th>
         <th>First Name</th>
         <th>Last Name</th>
-        <th>Date of Birth</th>
         <th>Gender</th>
         <th>Phone Number</th>
         <th>Email Address</th>
         <th>City</th>
         <th>State</th>
-        <th>Preferred Contact Method</th>
         <th>Created By</th>
         <th>Created Date</th>
         <th>Actions</th>
@@ -147,13 +165,11 @@
           <td><%= admin.username %></td>
           <td><%= admin.first_name %></td>
           <td><%= admin.last_name %></td>
-          <td><%= admin.date_of_birth.toLocaleDateString() %></td>
           <td><%= admin.gender == 'F' ? 'Female' : admin.gender == 'M' ? 'Male' : admin.gender == 'O' ? 'Other' : 'Prefer not to say' %></td>
           <td><%= admin.phone_number %></td>
           <td><%= admin.email_address %></td>
           <td><%= admin.city %></td>
           <td><%= admin.state %></td>
-          <td><%= admin.preferred_contact_method == 'E' ? 'Email' : admin.preferred_contact_method == 'T' ? 'Text' : 'Call' %></td>
           <td><%= admin.created_by %></td>
           <td><%= admin.created_date.toLocaleDateString() %></td>
           <td>
