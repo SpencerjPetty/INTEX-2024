@@ -46,17 +46,32 @@
                 <form action="/eventRequest" method="GET" class="nav-item mx-0 mx-lg-1">
                     <button type="submit">Request an Event</button>
                 </form>
-                <form action="/login" method="GET" class="nav-item mx-0 mx-lg-1">
-                    <button type="submit">Login</button>
-                </form>
-                <li class="nav-item mx-0 mx-lg-1"><a href="https://turtleshelterproject.org/checkout/donate?donatePageId=5b6a44c588251b72932df5a0" class="nav-link">Donation</a></li>
-                <form action="/admin" method="GET" class="nav-item mx-0 mx-lg-1">
-                    <button type="submit">Admin</button>
-                </form>
+                
+                <!-- Conditionally Render Login or Admin Button -->
+                <% if (!loggedIn) { %>
+                    <!-- Login Button -->
+                    <form action="/login" method="GET" class="nav-item mx-0 mx-lg-1">
+                        <button type="submit">Login</button>
+                    </form>
+                <% } else { %>
+                    <!-- Admin Button -->
+                    <form action="/admin" method="GET" class="nav-item mx-0 mx-lg-1">
+                        <button type="submit">Admin</button>
+                    </form>
+                    <!-- Optional Logout Button -->
+                    <form action="/admin/logout" method="POST" class="nav-item mx-0 mx-lg-1">
+                        <button type="submit">Logout</button>
+                    </form>
+                <% } %>
+
+                <li class="nav-item mx-0 mx-lg-1">
+                    <a href="https://turtleshelterproject.org/checkout/donate?donatePageId=5b6a44c588251b72932df5a0" class="nav-link">Donation</a>
+                </li>
             </ul>
         </div>
     </div>
 </nav>
+
 
 <!-- HEADER SECTION -->
 <header class="masthead">

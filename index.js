@@ -60,7 +60,7 @@ app.post('/login', (req, res) => {
           if (user) {
               // Set session flag for authentication
               req.session.loggedIn = true;
-              res.redirect('/admin'); // Redirect to admin landing page
+              res.redirect('/'); // Redirect to admin landing page
           } else {
               res.status(401).send('Invalid credentials');
           }
@@ -83,9 +83,10 @@ app.post('/admin/logout', isAuthenticated, (req, res) => {
   });
 });
 
+//Display home index page
 app.get("/", (req, res) => {
-        // Render the index.ejs template and pass the data
-        res.render('index');
+  // Pass session information (loggedIn status) to the template
+  res.render('index', { loggedIn: req.session.loggedIn });
 });
 
 // Manage Admins
