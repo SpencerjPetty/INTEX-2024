@@ -39,6 +39,18 @@
     <label for="total_products_completed"># Total Products Completed:</label>
     <input type="number" id="total_products_completed" name="total_products_completed" value="<%= event.total_products_completed || '' %>" min="0" required><br>
 
+    <label for="pockets_max_possible"># Max Pockets Produced with Materials Brought:</label>
+    <input type="number" id="pockets_max_possible" name="pockets_max_possible" value="<%= event.pockets_max_possible || '' %>" min="0" required><br>
+
+    <label for="collars_max_possible"># Max Collars Produced with Materials Brought:</label>
+    <input type="number" id="collars_max_possible" name="collars_max_possible" value="<%= event.collars_max_possible || '' %>" min="0" required><br>
+
+    <label for="envelopes_max_possible"># Max Envelopes Produced with Materials Brought:</label>
+    <input type="number" id="envelopes_max_possible" name="envelopes_max_possible" value="<%= event.envelopes_max_possible || '' %>" min="0" required><br>
+
+    <label for="vests_max_possible"># Max Vests Produced with Materials Brought:</label>
+    <input type="number" id="vests_max_possiblev" name="vests_max_possible" value="<%= event.vests_max_possible || '' %>" min="0" required><br>
+    
     <button type="submit">Save Changes</button>
   </form>
 </body>

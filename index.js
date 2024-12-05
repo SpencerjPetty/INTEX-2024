@@ -27,9 +27,9 @@ const knex = require("knex") ({ // Connecting to our Postgres Database
     connection : {
         host : process.env.RDS_HOSTNAME || "localhost",
         user : process.env.RDS_USERNAME || "postgres",
-        password : process.env.RDS_PASSWORD || "admin", // This would need to change
+        password : process.env.RDS_PASSWORD || "eldonpostgressends", // This would need to change
         // set password to admin and database to intex before committing
-        database : process.env.RDS_DB_NAME || "intex",
+        database : process.env.RDS_DB_NAME || "practiceLogin",
         port : process.env.RDS_PORT || 5432,
         ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
     }
@@ -637,7 +637,11 @@ app.post('/admin/reportEvent/:id', (req, res) => {
     collars_produced,
     envelopes_produced,
     vests_produced,
-    total_products_completed
+    total_products_completed,
+    pockets_max_possible,
+    collars_max_possible,
+    envelopes_max_possible,
+    vests_max_possible
   } = req.body;
 
   const newEventResult = {
@@ -650,6 +654,10 @@ app.post('/admin/reportEvent/:id', (req, res) => {
     envelopes_produced: parseInt(envelopes_produced, 10) || 0,
     vests_produced: parseInt(vests_produced, 10) || 0,
     total_products_completed: parseInt(total_products_completed, 10) || 0,
+    pockets_max_possible: parseInt(pockets_max_possible, 10) || 0,
+    collars_max_possible: parseInt(collars_max_possible, 10) || 0,
+    envelopes_max_possible: parseInt(collars_max_possible, 10) || 0,
+    vests_max_possible: parseInt(vests_max_possible, 10) || 0,
   };
 
   // Upsert into event_results table (update if event_id exists, otherwise insert)
