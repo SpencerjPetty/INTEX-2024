@@ -46,7 +46,8 @@ const knex = require("knex") ({ // Connecting to our Postgres Database
 });
 
 app.get('/login', (req, res) => {
-res.render('login', {})
+const invalidLogin = null;
+res.render('login', {invalidLogin})
 });
 
 app.post('/login', (req, res) => {
@@ -62,7 +63,9 @@ app.post('/login', (req, res) => {
               req.session.loggedIn = true;
               res.redirect('/'); // Redirect to admin landing page
           } else {
-              res.status(401).send('Invalid credentials');
+              // Pass invalid login message when credentials are incorrect
+              const invalidLogin = 'Username/password combination is incorrect.';
+              res.render('login', { invalidLogin }); // Render login page with message
           }
       })
       .catch(error => {
@@ -70,6 +73,7 @@ app.post('/login', (req, res) => {
           res.status(500).send('Internal Server Error');
       });
 });
+
 
 
 app.post('/admin/logout', isAuthenticated, (req, res) => {

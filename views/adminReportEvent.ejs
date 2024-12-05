@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Report Event Results</title>
+  <title>View/Report Event Results</title>
   <link rel="stylesheet" href="/css/adminReport.css">
 </head>
 <body>
   <a href="/admin/manageEvents" class="back-home-btn">Back to Manage Page</a>
-  <h1>Report Event Results</h1>
+  <h1>View/Report Event Results</h1>
 
   <form action="/admin/reportEvent/<%= event.event_id %>" method="POST">
     <input type="hidden" name="event_id" value="<%= event.event_id %>">

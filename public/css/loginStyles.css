@@ -12,6 +12,13 @@ body {
     height: 100vh;
 }
 
+.error-message {
+    color:rgb(96, 25, 19);
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+}
+
 .form-container {
     background-color: rgb(120, 140, 130); /* Evergreen */
     padding: 20px;
