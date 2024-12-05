@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View/Edit Event</title>
+</head>
+<body>
+<h1>View/Edit Event</h1>
+<form action="/admin/editEvent/<%= event.event_id %>" method="POST">
+  <!-- Event Status -->
+  <label for="eventStatus">Approval Status:</label>
+  <select id="eventStatus" name="event_status" required>
+    <option value="P" <%= event.event_status === 'P' ? 'selected' : '' %>>Pending</option>
+    <option value="A" <%= event.event_status === 'A' ? 'selected' : '' %>>Approved</option>
+    <option value="D" <%= event.event_status === 'D' ? 'selected' : '' %>>Declined</option>
+    <option value="C" <%= event.event_status === 'C' ? 'selected' : '' %>>Completed</option>
+  </select><br>
+  <!-- Organization Name -->
+  <label for="org_name">Organization Name:</label>
+  <input type="text" id="org_name" name="org_name" value="<%= event.org_name %>" required><br>
+  <!-- Event Type -->
+  <label for="eventType">Event Type:</label>
+  <select id="eventType" name="event_type" required>
+    <option value="" disabled>Select event type</option>
+    <option value="S" <%= event.event_type === 'S' ? 'selected' : '' %>>Sewing</option>
+    <option value="N" <%= event.event_type === 'N' ? 'selected' : '' %>>Non-sewing</option>
+    <option value="B" <%= event.event_type === 'B' ? 'selected' : '' %>>Both</option>
+  </select><br>
+  <!-- Total Attendance Estimate -->
+  <label for="attendanceEstimate">Total Attendance Estimate:</label>
+  <input type="number" id="attendanceEstimate" name="total_attendance_estimate" value="<%= event.total_attendance_estimate %>" min="1" required><br>
+  <!-- Children Estimate -->
+  <label for="childrenEstimate">Children Estimate:</label>
+  <input type="number" id="childrenEstimate" name="children_estimate" value="<%= event.children_estimate %>" min="0"><br>
+  <!-- Youth Estimate -->
+  <label for="youthEstimate">Youth Estimate:</label>
+  <input type="number" id="youthEstimate" name="youth_estimate" value="<%= event.youth_estimate %>" min="0"><br>
+  <!-- Adult Estimate -->
+  <label for="adultEstimate">Adult Estimate:</label>
+  <input type="number" id="adultEstimate" name="adult_estimate" value="<%= event.adult_estimate %>" min="0"><br>
+  <!-- Sewers Estimate -->
+  <label for="sewersEstimate">Sewers Estimate:</label>
+  <input type="number" id="sewersEstimate" name="sewers_estimate" value="<%= event.sewers_estimate %>" min="0"><br>
+  <!-- Machine Estimate -->
+  <label for="machineEstimate">Machine Estimate:</label>
+  <input type="number" id="machineEstimate" name="machine_estimate" value="<%= event.machine_estimate %>" min="0"><br>
+  <!-- Table Type -->
+  <label for="tableType">Table Type:</label>
+  <select id="tableType" name="table_type" required>
+    <option value="R" <%= event.table_type === 'R' ? 'selected' : '' %>>Rectangular</option>
+    <option value="C" <%= event.table_type === 'C' ? 'selected' : '' %>>Circular</option>
+  </select><br>
+  <!-- Room Size -->
+  <label for="roomSize">Room Size:</label>
+  <select id="roomSize" name="room_size" required>
+    <option value="S" <%= event.room_size === 'S' ? 'selected' : '' %>>Small</option>
+    <option value="M" <%= event.room_size === 'M' ? 'selected' : '' %>>Medium</option>
+    <option value="L" <%= event.room_size === 'L' ? 'selected' : '' %>>Large</option>
+    <option value="H" <%= event.room_size === 'H' ? 'selected' : '' %>>Extra Large</option>
+  </select><br>
+  <!-- Planned Date -->
+  <label for="plannedDate">Planned Date:</label>
+  <input type="date" id="plannedDate" name="planned_date" value="<%= event.planned_date.toISOString().split('T')[0] %>" required><br>
+  <!-- Alternate Date 1 -->
+  <label for="altDate1">Alternate Date 1:</label>
+  <input type="date" id="altDate1" name="alt_date_1" value="<%= event.alt_date_1 ? event.alt_date_1.toISOString().split('T')[0] : null %>"><br>
+  <!-- Alternate Date 2 -->
+  <label for="altDate2">Alternate Date 2:</label>
+  <input type="date" id="altDate2" name="alt_date_2" value="<%= event.alt_date_2 ? event.alt_date_2.toISOString().split('T')[0] : null %>"><br>
+  <!-- Event Street Address -->
+  <label for="streetAddress">Event Street Address:</label>
+  <input type="text" id="streetAddress" name="event_street_address" value="<%= event.event_street_address %>" required><br>
+  <!-- Event City -->
+  <label for="city">Event City:</label>
+  <input type="text" id="city" name="event_city" value="<%= event.event_city %>" required><br>
+  <!-- Event State -->
+  <label for="event_state">State:<span class="required">*</span></label>
+        <select id="event_state" name="event_state" required>
+          <option value="<%= event.event_state %>" selected><%= event.event_state %></option>
+          <option value="AL">Alabama</option>
+          <option value="AK">Alaska</option>
+          <option value="AZ">Arizona</option>
+          <option value="AR">Arkansas</option>
+          <option value="CA">California</option>
+          <option value="CO">Colorado</option>
+          <option value="CT">Connecticut</option>
+          <option value="DE">Delaware</option>
+          <option value="FL">Florida</option>
+          <option value="GA">Georgia</option>
+          <option value="HI">Hawaii</option>
+          <option value="ID">Idaho</option>
+          <option value="IL">Illinois</option>
+          <option value="IN">Indiana</option>
+          <option value="IA">Iowa</option>
+          <option value="KS">Kansas</option>
+          <option value="KY">Kentucky</option>
+          <option value="LA">Louisiana</option>
+          <option value="ME">Maine</option>
+          <option value="MD">Maryland</option>
+          <option value="MA">Massachusetts</option>
+          <option value="MI">Michigan</option>
+          <option value="MN">Minnesota</option>
+          <option value="MS">Mississippi</option>
+          <option value="MO">Missouri</option>
+          <option value="MT">Montana</option>
+          <option value="NE">Nebraska</option>
+          <option value="NV">Nevada</option>
+          <option value="NH">New Hampshire</option>
+          <option value="NJ">New Jersey</option>
+          <option value="NM">New Mexico</option>
+          <option value="NY">New York</option>
+          <option value="NC">North Carolina</option>
+          <option value="ND">North Dakota</option>
+          <option value="OH">Ohio</option>
+          <option value="OK">Oklahoma</option>
+          <option value="OR">Oregon</option>
+          <option value="PA">Pennsylvania</option>
+          <option value="RI">Rhode Island</option>
+          <option value="SC">South Carolina</option>
+          <option value="SD">South Dakota</option>
+          <option value="TN">Tennessee</option>
+          <option value="TX">Texas</option>
+          <option value="UT">Utah</option>
+          <option value="VT">Vermont</option>
+          <option value="VA">Virginia</option>
+          <option value="WA">Washington</option>
+          <option value="WV">West Virginia</option>
+          <option value="WI">Wisconsin</option>
+          <option value="WY">Wyoming</option>
+        </select><br>
+  <!-- Event Zipcode -->
+  <label for="zip">Event Zipcode:</label>
+  <input type="text" id="zip" name="event_zip" value="<%= event.event_zip %>" required pattern="\d{5}(-\d{4})?" title="Valid ZIP: 12345 or 12345-6789"><br>
+  <!-- Start Time -->
+  <label for="startTime">Start Time:</label>
+  <input type="time" id="startTime" name="start_time" value="<%= event.start_time %>" required><br>
+  <!-- Duration -->
+  <label for="duration">Planned Duration (hours):</label>
+  <input type="number" id="duration" name="planned_hour_duration" value="<%= event.planned_hour_duration %>" min="1" required><br>
+  <!-- Contact Name -->
+  <label for="contactName">Contact Name:</label>
+  <input type="text" id="contactName" name="contact_name" value="<%= event.contact_name %>" required><br>
+  <!-- Contact Phone -->
+  <label for="contactPhone">Contact Phone:</label>
+  <input type="tel" id="contactPhone" name="contact_phone" value="<%= event.contact_phone %>" required><br>
+  <!-- Contact Email -->
+  <label for="contactEmail">Contact Email:</label>
+  <input type="email" id="contactEmail" name="contact_email" value="<%= event.contact_email %>" required><br>
+  <!-- Share Your Story? -->
+  <label for="storyFlag">Share Your Story?</label>
+  <input type="checkbox" id="storyFlag" name="story_flag" value="true" <%= event.story_flag ? 'checked' : '' %>><br>
+  <!-- Story Length -->
+  <label for="storyLength">Story Length (minutes):</label>
+  <input type="number" id="storyLength" name="story_length_minutes" value="<%= event.story_length_minutes %>" min="1"><br>
+  <!-- Will You Make a Donation? -->
+  <label for="donationFlag">Will You Make a Donation?</label>
+  <input type="checkbox" id="donationFlag" name="donation_flag" value="true" <%= event.donation_flag ? 'checked' : '' %>><br>
+  <!-- Donation Amount -->
+  <label for="donationAmount">Donation Amount (USD):</label>
+  <input type="number" id="donationAmount" name="donation_amount" value="<%= event.donation_amount %>" min="1"><br>
+  <!-- Submit Button -->
+  <button type="submit">Save Changes</button>
+</form>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

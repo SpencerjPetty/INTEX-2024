@@ -1,0 +1,81 @@
+/* General Reset */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+}
+
+/* Navigation Bar */
+.navbar {
+    background-color: #f2f2f2; /* Slightly off-white */
+    padding: 10px 20px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    width: 200px;
+    height: 100%;
+    background-color: #2f4f4f; /* Deep Forest Green */
+    color: white;
+    padding-top: 20px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 10px 0;
+}
+
+.sidebar ul li a,
+.sidebar-button {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    padding: 10px 15px;
+    display: block;
+    background: none;
+    border: none;
+    font: inherit;
+    cursor: pointer;
+}
+
+.sidebar ul li a:hover,
+.sidebar-button:hover {
+    background-color: #3e6868; /* Slightly lighter green */
+    border-radius: 4px;
+}
+
+.sidebar .icon {
+    margin-right: 10px;
+}
+
+/* Main Content */
+.main-content {
+    margin-left: 220px; /* Adjust for sidebar width */
+    padding: 20px;
+}
+
+.main-content h1 {
+    color: #2f4f4f;
+}
+
+.dashboard-container {
+    margin-top: 20px;
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+}

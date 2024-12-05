@@ -1,0 +1,586 @@
+/* ========== RESET BASE STYLES ========== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: 'Inter', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+    line-height: 1.6;
+    color: black;
+}
+
+
+/* ========== NAVBAR CUSTOM STYLES ========== */
+.navbar {
+    background-color: #2b4a3f !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1050;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    padding: 20px 20px;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center; /* Vertically center the logo within the navbar */
+    margin-right: 20px; /* Space between the logo and the title */
+    padding-left: 20px; /* Move the logo further from the left edge */
+}
+
+.navbar-brand img {
+    width: 100px; /* Logo size */
+    height: auto; /* Maintain aspect ratio */
+    margin: 0; /* Remove unwanted margins */
+}
+
+.navbar-title {
+    font-size: 1.5rem;
+    font-family: 'Rock Salt', cursive;
+    color: white;
+    margin-left: 15px; /* Spacing between logo and text */
+}
+
+.navbar-nav {
+    margin-right: 10px; /* Adjust margin to bring links closer to the right edge */
+    flex-grow: 1; /* Push links to the right */
+    display: flex;
+    justify-content: flex-end; /* Align items to the far right */
+}
+
+.nav-item a {
+    font-size: 1rem;
+    padding: 5px 10px; /* Reduce padding for tighter layout */
+    color: white !important;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.nav-item a:hover {
+    background-color: #013220;
+    border-radius: 5px;
+}
+
+form.nav-item {
+    margin: 0;
+}
+
+form.nav-item button {
+    font-size: 1rem;
+    padding: 5px 10px; /* Reduce padding for tighter layout */
+    color: white;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+form.nav-item button:hover {
+    background-color: #013220;
+    border-radius: 5px;
+}
+
+
+/* ========== Masthead Styling ========== */
+.masthead {
+    margin-top: 0; /* Remove any top margin */
+    padding-top: 0; /* Ensure there's no padding on top */
+    position: relative;
+    height: calc(100vh - 95px); /* Full viewport height minus the navbar height */
+    width: 100%; /* Full width */
+    overflow: hidden;
+}
+
+/* Photo Container */
+.photo-container {
+    margin-top: 0; /* Remove any margin */
+    padding-top: 0; /* Remove padding */
+    width: 100%; /* Full width */
+    height: 100%; /* Take up full height of masthead */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: background-image 1s ease-in-out; /* Smooth transition between images */ /* Soft transition *//* Smooth fade transition */
+}
+
+
+
+/* ========== MAIN SECTION STYLING ========== */
+.all-sections {
+    padding: 60px 20px; /* Add padding for the whole section */
+    text-align: center;
+    background: linear-gradient(to bottom, #f0e1cb, #aa9c80); /* Beige gradient from bottom to top */
+    color: white; /* White text */
+    padding: 50px; /* Padding around the content */
+    padding: 20px; /* Optional: Adds padding to your div */
+}
+
+.all-sections-title {
+    font-family: 'Playfair Display', serif; /* Headings */
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    color: black; /* Title color */
+    font-weight: bold;
+}
+
+/* ========== INDIVIDUAL SECTION STYLES ========== */
+.section {
+    margin-bottom: 60px; /* Space between each section */
+}
+
+.section.reverse{
+
+flex-direction: row-reverse;
+}
+
+.section .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    width: 100%;   /* Makes it responsive */
+    max-width: 1200px; /* Limits the max size to 1200px */
+    height: auto;  /* Adjusts the height based on the image's aspect ratio */
+    margin: 0 auto;  /* Centers the container horizontally */
+
+}
+
+.text-side {
+    flex: 1;
+    padding: 20px;
+}
+
+.image-side {
+    flex: 1;
+    width: 50px; /* Set a fixed width for all photo containers */
+    height: 400px; /* Set a fixed height for uniformity */
+    overflow: hidden; /* Ensures the image doesn't spill out of the container */
+}
+
+.image-side img {
+    width: 100%;
+    height: 100%; /* Ensures the image takes the full container height */
+    object-fit: cover; /* Ensures the image scales correctly without distortion */
+    border-radius: 10px;
+}
+
+.section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.section-text {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+.btn {
+    padding: 10px 30px;
+    background-color: #2b4a3f !important;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.btn:hover {
+    background-color: #013220;
+}
+
+h2,p {
+    color: black;
+    font-family: 'Inter', sans-serif;
+}
+
+/* ========== STATISTICS ========== */
+.statistics {
+    text-align: center;
+    padding: 50px 0;
+    background-color: #f5f5f5;
+}
+
+.statistics-title {
+    font-size: 4rem; /* Increased font size */
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 20px;
+    color: black; /* Make the text white */
+}
+
+.stat-bar {
+    display: flex;
+    justify-content: space-between; /* Space between the blocks */
+    gap: 10px; /* Small bar of white between blocks */
+}
+
+.stat-block {
+    position: relative;
+    width: 25%;
+    padding-bottom: 25%; /* Maintain aspect ratio for circular shape */
+    background-color: #2b4a3f; /* Dark green */
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    border-radius: 50%; /* Make it circular */
+}
+
+.stat-content {
+    position: absolute;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Translate to center */
+    color: white;
+    text-align: center;
+    letter-spacing: 1.2px; /* Slightly wider text */
+    font-weight: 600; /* Slightly bolder */
+    transition: opacity 0.3s ease; /* Smooth fade on hover */
+    font-size: 1rem; /* Increased font size */
+}
+
+.stat-content h3, .stat-content p {
+    margin: 0; /* Remove default margins */
+    padding: 0; /* Remove any extra spacing */
+}
+
+.stat-number {
+    font-size: 4rem; /* Increased font size */
+    font-weight: bold;
+    color: white;
+    font-family: "Federo", sans-serif !important;
+}
+
+.stat-description {
+    font-size: 1.5rem; /* Increased font size */
+    color: white;
+    font-family: "Federo", sans-serif !important;
+}
+
+.stat-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1.5s ease, visibility 0s 0.3s;
+    background-color: #5E8C61; /* Softer, lighter green */
+}
+
+.stat-block:hover .stat-hover {
+    opacity: 1;
+    visibility: visible;
+}
+
+.stat-block:hover .stat-content {
+    opacity: 0; /* Make the text inside the block invisible */
+}
+
+.stat-hover .stat-text {
+    position: absolute;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Translate to center */
+    color: white !important; /* Solid white text after hover */
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 1.2px; /* Slightly wider text */
+    font-weight: 600; /* Slightly bolder */
+    opacity: 1 !important; /* Ensure visibility */
+    transition: opacity 0.3s ease; /* No fading effect on text */
+    font-size: 1rem; /* Increased font size */
+}
+
+.stat-hover .stat-text h3,
+.stat-hover .stat-text p {
+    color: white !important; /* Solid white color */
+    opacity: 1 !important; /* Ensure visibility */
+    font-weight: bold !important;
+}
+
+
+
+/* ========== DONATION ========== */
+.donation-bar {
+    background-color: #5E8C61; /* Dark green background */
+    padding: 40px 0; /* Reduced vertical padding for a smaller bar */
+    text-align: center; /* Centers the content */
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+}
+.donation-title {
+    color: white;
+    font-size: 1.6rem;
+    font-family: 'Playfair Display', serif !important; /* Correctly applied here */
+    margin: 0 0 8px;
+}
+
+.donation-container {
+    max-width: 1000px; /* Slightly smaller max-width for the container */
+    margin: 0 auto; /* Centers the container */
+    display: flex;
+    justify-content: center; /* Centers the content horizontally */
+    align-items: center;
+    flex-direction: column; /* Stack elements vertically */
+    padding: 0 15px; /* Reduced padding */
+}
+
+.donation-text-container {
+    display: flex;
+    flex-direction: column; /* Stack title, subtitle, and button vertically */
+    align-items: center;
+    text-align: center; /* Centers the text */
+}
+
+.donation-title {
+    color: white;
+    font-size: 1.6rem; /* Smaller title font size */
+    font-family: 'Inter', sans-serif;
+    margin: 0 0 8px; /* Reduced space between title and subtitle */
+}
+
+.donation-subtitle {
+    color: white;
+    font-size: 1rem; /* Smaller subtitle font size */
+    font-family: 'Inter', sans-serif;
+    margin: 0 0 12px; /* Reduced space between subtitle and button */
+}
+
+.donate-button {
+    background-color: #7bc9e7; /* Orange color for the button */
+    color: white;
+    padding: 10px 20px; /* Smaller button padding */
+    font-size: 1rem; /* Smaller font size for the button */
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-top: 15px; /* Reduced space between text and button */
+}
+
+.donate-button:hover {
+    background-color: #88d4f7; /* Darker orange for hover effect */
+}
+
+/* ========== OUR WORK IN ACTION ========== */
+.our-work-in-action {
+    padding: 50px 20px;
+    background-color: #f5f5f5; /* Light background for the section */
+    text-align: left !important;
+}
+
+
+.our-work-content {
+    max-width: 1200px;
+    margin: 0 auto; /* Centers the entire content horizontally */
+    text-align: left !important;
+}
+
+
+.title-container {
+    margin-bottom: 20px; /* Space below the title and bar */
+    padding-left: 20px; /* Optional: add consistent padding for alignment */
+    text-align: left !important;
+}
+
+
+.our-work-heading {
+    font-size: 3rem; /* Adjust font size */
+    font-family: 'Playfair Display', serif;
+    margin: 0; /* Removes default margin */
+    text-align: left !important;
+    font-weight: normal; /* Removes bold styling */
+}
+
+.title-bar {
+    width: 10%; /* Width of the bar under the title */
+    height: 4px; /* Height of the bar */
+    background-color: #A3D8FF; /* Baby blue color */
+    margin-top: 10px; /* Space between the title and bar */
+}
+
+
+
+.title-bar {
+    width: 10%; /* Adjust the width of the bar (50% of the title width) */
+    height: 4px; /* Adjust the height of the bar */
+    background-color: #A3D8FF; /* Light baby blue color */
+    margin-top: 10px; /* Space between the title and the bar */
+    text-align: left !important;
+}
+
+
+
+/* Article Wrapper */
+.articles-wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    flex-wrap: wrap; /* Allow wrapping for responsiveness */
+}
+
+/* Individual Article */
+.article-item {
+    width: 30%; /* Each article takes up 30% of the container width */
+    background-color: #ffffff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align everything to the left */
+}
+
+.article-media {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 75%; /* Aspect ratio for 16:9 videos */
+    overflow: hidden;
+}
+
+.article-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding-bottom: 20px;
+    object-fit: cover; /* Ensures the image covers the area and crops excess */
+}
+
+.article-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the video fills the space */
+}
+
+/* Article Heading */
+.article-heading {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #333333;
+    font-weight: bold;
+    text-align: left; /* Left align the heading */
+}
+
+/* Article Link */
+.article-link {
+    display: inline-flex;
+    align-items: center;
+    font-size: 1.2rem;
+    color: black; /* Black color for the link */
+    text-decoration: none;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: left; /* Left align the link */
+}
+
+.article-link:hover {
+    text-decoration: none; /* Ensure no underline on hover */
+}
+
+.arrow-icon {
+    margin-left: 8px;
+    font-size: 1.5rem;
+    color: #ADD8E6; /* Baby blue color for the arrow */
+}
+
+/* Article Summary (Subtitle) */
+.article-summary {
+    font-size: 1rem;
+    color: #666666;
+    line-height: 1.6;
+    text-align: left; /* Left align the summary text */
+}
+
+
+
+
+/* ========== FOOTER SECTION STYLING ========== */
+footer {
+    color: white;
+    padding: 20px;
+    text-align: center;
+    background-image: url('/images/subtlebackground.jpg'); /* Replace with your pattern image URL */
+    background-repeat: repeat;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: color 0.3s;
+}
+
+footer a:hover {
+    color: #365899;
+}
+
+.facebook-link {
+    color: #A3D8FF; /* Facebook blue color */
+    text-decoration: none;
+    font-size: 1.2em;
+}
+
+.facebook-link:hover {
+    color: #365899; /* Slightly darker on hover */
+}
+
+.facebook-link i {
+    margin-right: 5px; /* Space between icon and text */
+}
+
+/* Our Sponsors Section Styles */
+.sponsors-container {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.sponsors-title {
+    font-size: 2rem;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.sponsors-logos {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.sponsor-logo-container {
+    display: block;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%; /* Circular logos */
+    overflow: hidden; /* Ensures the logos are contained within the circle */
+    transition: transform 0.3s ease;
+}
+
+.sponsor-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%); /* Black and white by default */
+    transition: filter 0.3s ease;
+}
+
+.sponsor-logo-container:hover .sponsor-logo {
+    filter: grayscale(0); /* Return to original colors on hover */
+}
+
+.sponsor-logo-container:hover {
+    transform: scale(1.1); /* Slight zoom effect on hover */
+}

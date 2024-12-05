@@ -3,45 +3,272 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to INTEX</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-        }
-        h1 {
-            font-size: 4rem;
-            color: #333;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-    </style>
+    <title>TSP Landing Page</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" rel="jssheet">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Delius+Unicase:wght@400;700&family=Figtree:ital,wght@0,300..900;1,300..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+
 </head>
 <body>
-    <h1 id="welcome-text">WELCOME TO INTEX (UPDATED)</h1>
-    <p></p>
-    <div>
-    <form action="/volunteerForm" method="GET">
-        <button type="submit">Volunteer Form</button>
-      </form>
 
-    <form action="/eventRequest" method="GET">
-        <button type="submit">Event Request Form</button>
-      </form>
+    <!-- Bootstrap JS & Popper.js (required for some components) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    
+
+<!-- NAVBAR SECTION -->
+<nav class="navbar navbar-expand-lg bg-secondary fixed-top" id="mainNav">
+    <div class="container">
+        <!-- Logo -->
+        <div class="navbar-brand" href="#">
+            <img src="/images/realLogo.jpg" alt="TSPlogo" width="80" height="50" padding="100">
+        </div>
+
+        <!-- Title Text Next to Logo -->
+        <span class="navbar-title">Turtle Shelter Project</span>
+
+        <!-- Navbar Links -->
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto">
+                <form action="/volunteerForm" method="GET" class="nav-item mx-0 mx-lg-1">
+                    <button type="submit">Get Involved</button>
+                </form>
+                <form action="/eventRequest" method="GET" class="nav-item mx-0 mx-lg-1">
+                    <button type="submit">Request an Event</button>
+                </form>
+                <form action="/login" method="post" class="nav-item mx-0 mx-lg-1">
+                    <button type="submit">Login</button>
+                </form>
+                <li class="nav-item mx-0 mx-lg-1"><a href="aboutYESWeek.html" class="nav-link">Donation</a></li>
+                <form action="/admin" method="GET" class="nav-item mx-0 mx-lg-1">
+                    <button type="submit">Admin</button>
+                </form>
+            </ul>
+        </div>
     </div>
-    <script>
-        const colors = ['#FF5733', '#33FF57', '#3357FF', '#F3FF33', '#FF33D1', '#33FFF3'];
-        let colorIndex = 0;
+</nav>
 
-        document.getElementById('welcome-text').addEventListener('click', () => {
-            colorIndex = (colorIndex + 1) % colors.length;
-            document.getElementById('welcome-text').style.color = colors[colorIndex];
-        });
-    </script>
+<!-- HEADER SECTION -->
+<header class="masthead">
+    <div class="photo-container"></div>
+</header>
+
+<script src="/js/script.js"></script> <!-- Link to external JS -->
+
+
+<!-- MAIN SECTION CONTAINER -->
+<section class="all-sections">
+    <h2 class="all-sections-title">Every Life Has Value, Every Person Can Serve</h2>
+    
+    <!-- First Section -->
+    <section class="section">
+        <div class="container">
+            <div class="text-side">
+                <h2 class="section-title">About Turtle Shelter Project</h2>
+                <p class="section-text">We are a non-profit that provides life-saving technology to protect the homeless in freezing scenarios. Our cost-effective insulated foam vests are created through volunteers and donations right here in the U.S. </p>
+                <button class="btn">Learn More</button> 
+            </div>
+            <div class="image-side">
+                <img src="/images/b4653c45-44cb-42f1-b3eb-71fbdc8c515f.jpg" alt="Image for Section One">
+            </div>
+        </div>
+    </section>
+
+    <!-- Second Section -->
+    <section class="section reverse">
+        <div class="container">
+            <div class="image-side">
+                <img src="/images/8ef1d883-d570-4ff8-8839-432f9db2f7bc.png.png" alt="Image for Section Two">
+            </div>
+            <div class="text-side">
+                <h2 class="section-title">About the Founder</h2>
+                <p class="section-text">Struggling with homelessness and addiction, Jen was inspired to create foam-insulated vests to save lives after witnessing the harsh realities of surviving extreme winters. With the help of volunteers and collaborators, the project developed durable, low-cost vests that conserve body heat, providing vital warmth to those living outdoors without access to shelter.</p>
+                <button class="btn">Read More</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Third Section -->
+    <section class="section">
+        <div class="container">
+            <div class="text-side">
+                <h2 class="section-title">Your Role</h2>
+                <p class="section-text">Come join us in saving lives by joining a volunteer event! Help us create high-technology vests for individuals in your community. Our volunteers sow and deliever. There is a place for everyone to help!  </p>
+                <button class="btn">Join Us</button>
+            </div>
+            <div class="image-side">
+                <img src="/images/homelesshug.jpg" alt="Image for Section Three">
+            </div>
+        </div>
+    </section>
+</section>
+
+<section class="statistics">
+    <h2 class="statistics-title">Our Impact</h2>
+    <div class="stat-bar">
+    <div class="stat-block" id="stat1">
+        <div class="stat-content">
+        <p class="stat-number">7</p>
+        <p class="stat-description">Years</p>
+        </div>
+        <div class="stat-hover">
+        <div class="stat-image" style="background-image: url('/images/happyman.jpg');">
+            <div class="stat-text">
+            <h3>7 Years</h3>
+            <p>Founded April 3, 2017, our program has been running for over 7 years</p>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="stat-block" id="stat2">
+        <div class="stat-content">
+        <p class="stat-number">-10&deg;F</p>
+        <p class="stat-description">Weather</p>
+        </div>
+        <div class="stat-hover">
+        <div class="stat-image" style="background-image: url('/images/82865a86-bd8b-4979-ac1a-539c884e1548.jpg.jpg');">
+            <div class="stat-text">
+            <h3>-10&deg;F</h3>
+            <p>Our life-saving vests protect even in extreme cold and wet.</p>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="stat-block" id="stat3">
+        <div class="stat-content">
+        <p class="stat-number">45</p>
+        <p class="stat-description">Seconds</p>
+        </div>
+        <div class="stat-hover">
+        <div class="stat-image" style="background-image: url('/images/fb8d7a1b-9f4c-40f4-924b-742ac5bfb28b.jpg.jpg');">
+            <div class="stat-text">
+            <h3>45 seconds</h3>
+            <p>The high technology of these vests allow them to work in seconds.</p>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="stat-block" id="stat4">
+        <div class="stat-content">
+        <p class="stat-number">5,900+</p>
+        <p class="stat-description">Vests</p>
+        </div>
+        <div class="stat-hover">
+        <div class="stat-image" style="background-image: url('/images/homelessrandom.jpg');">
+            <div class="stat-text">
+            <h3>5,900+ Vests Delievered</h3>
+            <p>Throughout the state of Utah we have been able to deliever thousands of life-saving vests.</p>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+<!-- donation bar -->
+<section class="donation-bar">
+    <div class="donation-container">
+        <div class="donation-text-container">
+            <h2 class="donation-title" >Make a Difference</h2>
+            <p class="donation-subtitle">Your contribution can help us reach our goals and support those in need.</p>
+            <a href="your-donation-page-url" class="donate-button">Donate Now</a>
+        </div>
+    </div>
+</section>
+
+<!-- our work in action page -->
+<div class="our-work-in-action">
+    <div class="our-work-content">
+        <div class="title-container">
+            <div class="our-work-heading">Our Work in Action</div>
+            <div class="title-bar"></div>
+        </div>
+    </div>
+        <div class="articles-wrapper">
+            <div class="article-item">
+                <div class="article-media">
+                    <img src="/images/purplevests.jpg" alt="Article 1 Image" class="article-image">
+                    <!-- Optionally, you can use a <video> tag if you're adding a video -->
+                    <!-- <video src="path_to_video.mp4" class="article-video" controls></video> -->
+                </div>
+                <h3 class="article-heading">Turtle Shelter Project Gives Homeless A Shelter They Can Wear</h3>
+                <a href="https://ksltv.com/425619/turtle-shelter-project-gives-homeless-shelter-they-can-wear/" class="article-link">Read the full article <span class="arrow-icon"> &gt; </span></a>
+                <p class="article-summary">This article highlights the critical features of the vests and includes an interview with our founder Jen.</p>
+            </div>
+            <div class="article-item">
+                <div class="article-media">
+                    <img src="/images/sittinghomeless.jpg" alt="Article 2 Image" class="article-image">
+                    <!-- <video src="path_to_video.mp4" class="article-video" controls></video> -->
+                </div>
+                <h3 class="article-heading">Turtle Shelter Jackets: An Easy Way to Save Lives</h3>
+                <a href="https://star981.com/turtle-shelter-jackets-an-easy-way-to-save-lives/" target="_blank" class="article-link">Read the full article <span class="arrow-icon"> &gt; </span></a>
+                <p class="article-summary">A local station in Utah highlights the reality of homeless deaths throughout Winter and the bold solution we created.</p>
+            </div>
+            <div class="article-item">
+                <div class="article-media">
+                    <!-- Thumbnail image from YouTube -->
+                    <a href="https://www.youtube.com/watch?v=51UNMu5S7Xw" target="_blank">
+                        <img src="https://img.youtube.com/vi/51UNMu5S7Xw/0.jpg" alt="Turtle Shelter Jackets Video" class="article-image">
+                    </a>
+                </div>
+                <h3 class="article-heading">The Turtle Shelter Project | America First Credit Union</h3>
+                <a href="https://www.youtube.com/watch?v=51UNMu5S7Xw" class="article-link" target="_blank">Watch the full video <span class="arrow-icon"> &gt; </span></a>
+                <p class="article-summary">This video highlights a volunteer event with America First Credit Union for an idea of what the volunteer process looks like.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- FOOTER SECTION -->
+<footer class="footer">
+    <!-- Our Sponsors Section -->
+    <div class="sponsors-container">
+        <h3 class="sponsors-title">Our Sponsors</h3>
+        <div class="sponsors-logos">
+            <a href="https://www.softminkyblankets.com/" class="sponsor-logo-container">
+                <img src="/images/minky.jpg" alt="Sponsor 1" class="sponsor-logo">
+            </a>
+            <a href="https://www.goodshepherdogden.org/" class="sponsor-logo-container">
+                <img src="/images/church.jpg" alt="Sponsor 2" class="sponsor-logo">
+            </a>
+            <a href="https://www.futurefoam.com/" class="sponsor-logo-container">
+                <img src="/images/future.jpg" alt="Sponsor 3" class="sponsor-logo">
+            </a>
+            <a href="https://www.owfinc.com/" class="sponsor-logo-container">
+                <img src="/images/outdoor.jpg" alt="Sponsor 4" class="sponsor-logo">
+            </a>
+            <a href="https://designsourceslc.com/" class="sponsor-logo-container">
+                <img src="/images/design.jpg" alt="Sponsor 5" class="sponsor-logo">
+            </a>
+            <a href="http://www.givemeachanceutah.org/" class="sponsor-logo-container">
+                <img src="/images/chance.jpg" alt="Sponsor 6" class="sponsor-logo">
+            </a>
+            <a href="https://www.cheneybrothersconstruction.com/" class="sponsor-logo-container">
+                <img src="/images/cheney.jpg" alt="Sponsor 7" class="sponsor-logo">
+            </a>
+        </div>
+    <br>
+    <p>&copy; Turtle Shelter Project, PO Box 382, Kaysville, UT 84037</p>
+    <p>801-872-3190 | turtleshelterproject@gmail.com</p>
+    
+    <a href="https://www.facebook.com/turtleshelterproject/" target="_blank" class="facebook-link">
+        <i class="fab fa-facebook"></i> Follow us on Facebook 
+    </a>
+    </div>
+</footer>
+
+
 </body>
 </html>
