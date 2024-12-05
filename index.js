@@ -27,9 +27,15 @@ const knex = require("knex") ({ // Connecting to our Postgres Database
     connection : {
         host : process.env.RDS_HOSTNAME || "localhost",
         user : process.env.RDS_USERNAME || "postgres",
+<<<<<<< Updated upstream
         password : process.env.RDS_PASSWORD || "eldonpostgressends", // This would need to change
         // set password to admin and database to intex before committing
         database : process.env.RDS_DB_NAME || "practiceLogin",
+=======
+        password : process.env.RDS_PASSWORD || "sept2201", // This would need to change
+        // set password to admin and database to intex before committing
+        database : process.env.RDS_DB_NAME || "Intex",
+>>>>>>> Stashed changes
         port : process.env.RDS_PORT || 5432,
         ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
     }
@@ -110,6 +116,7 @@ app.get('/admin/manageAdmins', (req, res) => {
 // } else {
 //  res.status(403).send('Access denied. Please log in.');
 // }
+<<<<<<< Updated upstream
 
 app.get('/admin', (req, res) => {
   res.render('admin', {})
@@ -117,6 +124,11 @@ app.get('/admin', (req, res) => {
 
 // app.get('/admin', (req, res) => {
 //   res.render('admin'); 
+=======
+app.get('/admin'), (req, res) => {
+  res.render('admin');
+}
+>>>>>>> Stashed changes
 app.get('/admin/editAdmin/:id', (req, res) => {
   let id = req.params.id;
   // Query the Admin by ID first
@@ -211,6 +223,7 @@ app.post('/admin/deleteAdmin/:id', (req, res) => {
       console.error('Error deleting volunteer:', error);
       res.status(500).send('Internal Server Error');
     });
+<<<<<<< Updated upstream
 });
 
 // Get Add Admin page
@@ -224,6 +237,8 @@ app.get('/admin/addAdmin', (req, res) => {
         console.error('Error fetching usernames:', error);
         res.status(500).send('Internal Server Error');
     });
+=======
+>>>>>>> Stashed changes
 });
 
 
