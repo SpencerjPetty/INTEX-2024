@@ -22,16 +22,6 @@ app.use(
     })
 );
 
-function isAuthenticated(req, res, next) {
-  if (req.session && req.session.loggedIn) {
-      // User is authenticated, proceed to the next middleware or route
-      return next();
-  } else {
-      // User is not authenticated, redirect to login page
-      res.redirect('/login');
-  }
-}
-
 const knex = require("knex") ({ // Connecting to our Postgres Database
     client : "pg",
     connection : {
@@ -88,7 +78,7 @@ app.get("/", (req, res) => {
 res.render("index", { title: "TSP Landing Page" });
 });
 
-app.get('/admin/manageAdmins', isAuthenticated, (req, res) => {
+app.get('/admin/manageAdmins', (req, res) => {
   knex('admin') 
     .join('admin_login', 'admin.contact_id', 'admin_login.contact_id')
     .join('contact', 'admin.contact_id', 'contact.contact_id')// Querying the admin details table
@@ -121,7 +111,7 @@ app.get('/admin/manageAdmins', isAuthenticated, (req, res) => {
 
 
 
-app.get('/admin', isAuthenticated, (req, res) => {
+app.get('/admin', (req, res) => {
   res.render('admin', {})
 });
 
