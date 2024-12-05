@@ -29,6 +29,7 @@ const knex = require("knex") ({ // Connecting to our Postgres Database
         user : process.env.RDS_USERNAME || "postgres",
         password : process.env.RDS_PASSWORD || "Roman$EatLargeT0gas", // This would need to change
         // set password to admin and database to intex before committing
+        password : process.env.RDS_PASSWORD || "Roman$EatLargeT0gas", // This would need to change
         database : process.env.RDS_DB_NAME || "intex",
         port : process.env.RDS_PORT || 5432,
         ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
@@ -69,181 +70,32 @@ app.post('/login', async (req, res) => {
 
 
 app.get("/", (req, res) => {
-res.render("index", { title: "TSP Landing Page" });
+        // Render the index.ejs template and pass the data
+        res.render('index');
 });
 
-app.get('/admin/manageAdmins', (req, res) => {
-  knex('admin') 
-    .join('admin_login', 'admin.contact_id', 'admin_login.contact_id')
-    .join('contact', 'admin.contact_id', 'contact.contact_id')// Querying the admin details table
+// Event management page
+app.get('/manageEvents', (req, res) => {
+  knex('event_details') // Querying the event_details table
     .select(
-      'admin_login.username',
-      'contact.first_name',
-      'contact.last_name',
-      'contact.date_of_birth',
-      'contact.gender',
-      'contact.phone_number',
-      'contact.email_address',
-      'contact.city',
-      'contact.state',
-      'contact.preferred_contact_method',
-      'admin.created_by',
-      'admin.created_date',
-      'admin.contact_id'
+      'event_details.event_id',
+      'event_details.org_name',
+      'event_details.total_attendance_estimate',
+      'event_details.event_type',
+      'event_details.planned_date',
+      'event_details.start_time',
+      'event_details.planned_hour_duration',
+      'event_details.event_status'
     )
-    .orderBy('contact.last_name', 'asc')
-    .orderBy('contact.first_name', 'asc') // Sort by first and last name in ascending order
-    .then(admins => {
-      // Render the manageAdmins.ejs template and pass the data
-      res.render('manageAdmins', { admins });
+    .orderBy('event_details.planned_date', 'asc') // Sort by planned date in ascending order
+    .then(events => {
+      // Render the manageEvents.ejs template and pass the data
+      res.render('manageEvents', { events });
     })
     .catch(error => {
       console.error('Error querying database:', error);
       res.status(500).send('Internal Server Error');
     }); // Error handling for Knex queries
-});
-
-// main admin page 
-// if (req.session.isAuthenticated) {
-//  res.send(`Welcome, ${req.session.username}! This is the internal landing page.`);
-// } else {
-//  res.status(403).send('Access denied. Please log in.');
-// }
-
-app.get('/admin', (req, res) => {
-  res.render('admin', {})
-});
-
-app.get('/admin/editAdmin/:id', (req, res) => {
-  let id = req.params.id;
-  // Query the Admin by ID first
-  knex('admin') 
-    .join('admin_login', 'admin.contact_id', 'admin_login.contact_id')
-    .join('contact', 'admin.contact_id', 'contact.contact_id')
-    .where('admin.contact_id', id)
-    .first()
-    .then(admins => {
-      // Render the adminEditAdmin.ejs template and pass the data
-      res.render('adminEditAdmin', { admins });
-    })
-    .catch(error => {
-      console.error('Error fetching Admin for editing:', error);
-      res.status(500).send('Internal Server Error');
-    });
-});
-
-app.post('/admin/editAdmin/:id', (req, res) => {
-  const id = req.params.id;
-  // Access each value directly from req.body
-  const created_by = req.body.created_by;
-  const created_date = req.body.created_date;
-  const username = req.body.username;
-  const password = req.body.password;
-  const first_name = req.body.first_name;
-  const last_name = req.body.last_name;
-  const date_of_birth = req.body.date_of_birth;
-  const gender = req.body.gender;
-  const phone_number = req.body.phone_number;
-  const email_address = req.body.email_address;
-  const street_address = req.body.street_address;
-  const city = req.body.city;
-  const state = req.body.state;
-  const zip = req.body.zip;
-  const preferred_contact_method = req.body.preferred_contact_method;
-  // Update the admin in the database
-  knex('admin')
-  .where('contact_id', id)
-  .update({
-    created_by: created_by,
-    created_date: created_date
-  })
-  .then(() => {
-    // Update the `admin_login` table
-    return knex('admin_login')
-      .where('contact_id', id)
-      .update({
-        username: username,
-        password: password,
-      });
-  })
-  .then(() => {
-    // Update the `contact` table
-    return knex('contact')
-      .where('contact_id', id)
-      .update({
-        first_name: first_name,
-        last_name: last_name,
-        date_of_birth: date_of_birth,
-        gender: gender,
-        phone_number: phone_number,
-        email_address: email_address,
-        street_address: street_address,
-        city: city,
-        state: state,
-        zip: zip,
-        preferred_contact_method: preferred_contact_method
-      });
-  })
-  .then(() => {
-    res.redirect('/admin/manageAdmins');
-  })
-  .catch(error => {
-    console.error('Error updating Admin:', error);
-    res.status(500).send('Internal Server Error');
-  });
-});
-
-// Route to Delete admin account
-app.post('/admin/deleteAdmin/:id', (req, res) => {
-  const id = req.params.id; // Extract the id from the URL parameter
-
-  knex.transaction(trx => {
-    // Step 1: Delete from admin_login table
-    return trx('admin_login')
-      .where('contact_id', id)
-      .del()
-      .then(() => {
-        // Step 2: Delete from admin table
-        return trx('admin')
-          .where('contact_id', id)
-          .del();
-      })
-      .then(() => {
-        // Step 3: Delete from contact table
-        return trx('contact')
-          .where('contact_id', id)
-          .del();
-      });
-  })
-  .then(() => {
-    res.redirect('/admin/manageAdmins'); // Redirect after successful deletion
-  })
-  .catch(error => {
-    console.error('Error deleting admin record:', error);
-    res.status(500).send('Internal Server Error');
-  });
-});
-
-
-
-
-
-// Get Add Admin page
-app.get('/admin/addAdmin', (req, res) => {
-  knex('admin_login') // Fetch any necessary data (if needed)
-    .select('username', 'contact_id')
-    .then(usernames => {
-    res.render('adminAddAdmin', { usernames });
-    })
-    .catch(error => {
-        console.error('Error fetching usernames:', error);
-        res.status(500).send('Internal Server Error');
-    });
-});
-
-//Redirect Route
-app.get('/manageEvents', (req, res) => {
-  res.redirect('/admin/manageEvents'); 
 });
 
 // Display the Event Request Form
