@@ -122,6 +122,7 @@
       <th>Start Time</th>
       <th>Duration (hrs)</th>
       <th>Status</th>
+      <th>Time Submitted</th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -135,6 +136,7 @@
         <td><%= event.start_time %></td>
         <td><%= event.planned_hour_duration %></td>
         <td><%= event.event_status == 'A' ? 'Approved' : event.event_status == 'D' ? 'Declined' : event.event_status == 'C' ? 'Completed' : 'Pending'  %></td>
+        <td><%= event.time_submitted.toLocaleString() %></td>
         <td>
           <form action="/admin/editEvent/<%= event.event_id %>" method="GET">
             <button type="submit">View/Edit Details</button>

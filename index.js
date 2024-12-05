@@ -237,101 +237,102 @@ app.get('/admin/addAdmin', (req, res) => {
     });
 });
 
-// Event management page
-app.post('/admin/addAdmin', (req, res) => {
-  const {
-    created_by,
-    username,
-    password,
-    first_name,
-    last_name,
-    date_of_birth,
-    gender,
-    phone_number,
-    email_address,
-    street_address,
-    city,
-    state,
-    zip,
-    preferred_contact_method
-  } = req.body; 
-  // Prepare Contact data
-  const newAdminContact = {
-    first_name: first_name,
-    last_name: last_name,
-    date_of_birth: date_of_birth,
-    gender: gender || 'N',
-    phone_number: phone_number,
-    email_address: email_address,
-    street_address: street_address || null,
-    city: city || null,
-    state: state || null,
-    zip: zip || null,
-    preferred_contact_method: preferred_contact_method || 'E',
-    volunteer_flag: false // Default to 'E' if not provided
-  };
-  // Insert into Contact table and retrieve contact_id
-  knex('contact')
-    .insert(newAdminContact)
-    .returning('contact_id')
-    .then(contactIdArray => {
-      const contact_id = contactIdArray[0].contact_id; // Explicitly extract the contact_id field
+// // Event management page
+// app.post('/admin/addAdmin', (req, res) => {
+//   const {
+//     created_by,
+//     username,
+//     password,
+//     first_name,
+//     last_name,
+//     date_of_birth,
+//     gender,
+//     phone_number,
+//     email_address,
+//     street_address,
+//     city,
+//     state,
+//     zip,
+//     preferred_contact_method
+//   } = req.body; 
+//   // Prepare Contact data
+//   const newAdminContact = {
+//     first_name: first_name,
+//     last_name: last_name,
+//     date_of_birth: date_of_birth,
+//     gender: gender || 'N',
+//     phone_number: phone_number,
+//     email_address: email_address,
+//     street_address: street_address || null,
+//     city: city || null,
+//     state: state || null,
+//     zip: zip || null,
+//     preferred_contact_method: preferred_contact_method || 'E',
+//     volunteer_flag: false // Default to 'E' if not provided
+//   };
+//   // Insert into Contact table and retrieve contact_id
+//   knex('contact')
+//     .insert(newAdminContact)
+//     .returning('contact_id')
+//     .then(contactIdArray => {
+//       const contact_id = contactIdArray[0].contact_id; // Explicitly extract the contact_id field
 
-      // Prepare Admin Login data
-      const newAdminLogin = {
-        contact_id: contact_id,
-        username: username,
-        password: password,
-      };
+//       // Prepare Admin Login data
+//       const newAdminLogin = {
+//         contact_id: contact_id,
+//         username: username,
+//         password: password,
+//       };
 
-      // Insert into Admin Login table
-      return knex('admin_login')
-        .insert(newAdminLogin)
-        .then(() => {
-          // Prepare Admin data
-          const newAdmin = {
-            contact_id: contact_id,
-            created_by: created_by,
-            created_date: new Date() // Automatically capture the timestamp when the form is submitted
-          };
+//       // Insert into Admin Login table
+//       return knex('admin_login')
+//         .insert(newAdminLogin)
+//         .then(() => {
+//           // Prepare Admin data
+//           const newAdmin = {
+//             contact_id: contact_id,
+//             created_by: created_by,
+//             created_date: new Date() // Automatically capture the timestamp when the form is submitted
+//           };
 
-          // Insert into Admin table
-          return knex('admin')
-            .insert(newAdmin);
-        });
-    })
-    .then(() => {
-        res.redirect('/admin/manageAdmins'); // Redirect to manage events after successful insertion
-    })
-    .catch(error => {
-        console.error('Error submitting admin form:', error);
-      res.status(500).send('Internal Server Error');
-    });
-});
+//           // Insert into Admin table
+//           return knex('admin')
+//             .insert(newAdmin);
+//         });
+//     })
+//     .then(() => {
+//         res.redirect('/admin/manageAdmins'); // Redirect to manage events after successful insertion
+//     })
+//     .catch(error => {
+//         console.error('Error submitting admin form:', error);
+//       res.status(500).send('Internal Server Error');
+//     });
+// });
 
-// test
-app.get('/manageEvents', (req, res) => {
-  knex('event_details') // Querying the event_details table
-    .select(
-      'event_details.event_id',
-      'event_details.org_name',
-      'event_details.total_attendance_estimate',
-      'event_details.event_type',
-      'event_details.planned_date',
-      'event_details.start_time',
-      'event_details.planned_hour_duration',
-      'event_details.event_status'
-    )
-    .orderBy('event_details.planned_date', 'asc') // Sort by planned date in ascending order
-    .then(events => {
-      // Render the manageEvents.ejs template and pass the data
-      res.render('manageEvents', { events });
-    })
-    .catch(error => {
-      console.error('Error querying database:', error);
-      res.status(500).send('Internal Server Error');
-    }); // Error handling for Knex queries
-});
+// // test
+// app.get('/manageEvents', (req, res) => {
+//   knex('event_details') // Querying the event_details table
+//     .select(
+//       'event_details.event_id',
+//       'event_details.org_name',
+//       'event_details.total_attendance_estimate',
+//       'event_details.event_type',
+//       'event_details.planned_date',
+//       'event_details.start_time',
+//       'event_details.planned_hour_duration',
+//       'event_details.event_status',
+//       'event_details.time_submitted'
+//     )
+//     .orderBy('event_details.planned_date', 'asc') // Sort by planned date in ascending order
+//     .then(events => {
+//       // Render the manageEvents.ejs template and pass the data
+//       res.render('manageEvents', { events });
+//     })
+//     .catch(error => {
+//       console.error('Error querying database:', error);
+//       res.status(500).send('Internal Server Error');
+//     }); // Error handling for Knex queries
+// });
 
 // Display the Event Request Form
 app.get('/eventRequest', (req, res) => {
@@ -1169,7 +1170,8 @@ app.get('/admin/manageEvents', (req, res) => {
       'event_details.planned_date',
       'event_details.start_time',
       'event_details.planned_hour_duration',
-      'event_details.event_status'
+      'event_details.event_status',
+      'event_details.time_submitted'
     )
     .orderBy('event_details.planned_date', 'asc') // Sort by planned date in ascending order
     .then(events => {
