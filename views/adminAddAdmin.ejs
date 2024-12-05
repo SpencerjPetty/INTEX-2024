@@ -4,44 +4,44 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Add Admin</title>
-  <style>
-    /* Include your CSS styles from the template */
-  </style>
+  <link rel="stylesheet" href="/css/addAdmin.css">
 </head>
 <body>
   <h1>Add Admin</h1>
   <form action="/admin/addAdmin" method="POST">
-    <!-- = created_by -->
-<label for="created_by">Who is creating the new account:</label>
-<select id="created_by" name="created_by" required>
-  <% usernames.forEach(username => { %>
-    <option value="<%= username.username %>"><%= username.username %></option>
-  <% }) %>
-</select><br>
-
+    <!-- Created by -->
+    <div class="required-info">
+      <span class="required">*</span> <span class="required-text" color="dark green">Required</span>
+    </div>
+    <label for="created_by">Who is creating the new account:<span class="required">*</span></label>
+    <select id="created_by" name="created_by" required>
+      <% usernames.forEach(username => { %>
+        <option value="<%= username.username %>"><%= username.username %></option>
+      <% }) %>
+    </select><br>
     
-    <!-- username -->
-    <label for="username">Usersname:</label>
+    <!-- Username -->
+    <label for="username">Username:<span class="required">*</span></label>
     <input type="text" id="username" name="username" required><br>
 
-    <!-- password -->
-    <label for="password">Password:</label>
+    <!-- Password -->
+    <label for="password">Password:<span class="required">*</span></label>
     <input type="text" id="password" name="password" required><br>
 
-    <!-- first name -->
-    <label for="first_name">First name:</label>
+    <!-- First name -->
+    <label for="first_name">First name:<span class="required">*</span></label>
     <input type="text" id="first_name" name="first_name" required><br>
 
-    <!-- last_name -->
-    <label for="last_name">Last name:</label>
+    <!-- Last name -->
+    <label for="last_name">Last name:<span class="required">*</span></label>
     <input type="text" id="last_name" name="last_name" required><br>
 
-    <!-- date of birth -->
-    <label for="date_of_birth">Date of birth:</label>
+    <!-- Date of birth -->
+    <label for="date_of_birth">Date of birth:<span class="required">*</span></label>
     <input type="date" id="date_of_birth" name="date_of_birth" required><br>
 
-    <!-- gender -->
-    <label for="gender">Gender:</label>
+    <!-- Gender -->
+    <label for="gender">Gender:<span class="required">*</span></label>
     <select id="gender" name="gender" required>
       <option value="" disabled selected hidden>Select gender</option>
       <option value="M">Male</option>
@@ -50,24 +50,24 @@
       <option value="N">Prefer not to say</option>
     </select><br>
   
-    <!-- phone number -->
-    <label for="phone_number">Phone number:</label>
+    <!-- Phone number -->
+    <label for="phone_number">Phone number:<span class="required">*</span></label>
     <input type="number" id="phone_number" name="phone_number" required><br>
 
-    <!-- email address -->
-    <label for="email_address">Email address:</label>
+    <!-- Email address -->
+    <label for="email_address">Email address:<span class="required">*</span></label>
     <input type="text" id="email_address" name="email_address" required><br>
   
-    <!-- street address -->
+    <!-- Street address -->
     <label for="street_address">Street Address:</label>
-    <input type="text" id="street_address" name="street_address" ><br>
+    <input type="text" id="street_address" name="street_address"><br>
   
-    <!-- city -->
-    <label for="city">City:</label>
+    <!-- City -->
+    <label for="city">City:<span class="required">*</span></label>
     <input type="text" id="city" name="city" required><br>
   
-    <!-- state -->
-    <label for="state">State:</label>
+    <!-- State -->
+    <label for="state">State:<span class="required">*</span></label>
     <select id="state" name="state" required>
       <option value="" disabled selected hidden>Select state</option>
       <option value="AL">Alabama</option>
@@ -122,12 +122,12 @@
       <option value="WY">Wyoming</option>
     </select><br>
   
-    <!-- zip -->
-    <label for="zip">Zipcode:</label>
-    <input type="text" id="zip" name="event_zip" required pattern="\d{5}(-\d{4})?" title="Valid ZIP: 12345 or 12345-6789" required><br>
+    <!-- Zip -->
+    <label for="zip">Zipcode:<span class="required">*</span></label>
+    <input type="text" id="zip" name="event_zip" required pattern="\d{5}(-\d{4})?" title="Valid ZIP: 12345 or 12345-6789"><br>
     
-    <!-- preferred contact method -->
-    <label for="preferred_contact_method">Preferred contact method:</label>
+    <!-- Preferred contact method -->
+    <label for="preferred_contact_method">Preferred contact method:<span class="required">*</span></label>
     <select id="preferred_contact_method" name="preferred_contact_method" required>
       <option value="" disabled selected hidden>Select contact method</option>
       <option value="E">Email</option>
