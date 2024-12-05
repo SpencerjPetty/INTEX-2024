@@ -456,7 +456,8 @@ app.post('/admin/editEvent/:id', (req, res) => {
     story_length_minutes,
     donation_flag,
     donation_amount,
-    event_status
+    event_status,
+    num_volunteers
   } = req.body;
 
   // Prepare data for update
@@ -487,7 +488,8 @@ app.post('/admin/editEvent/:id', (req, res) => {
     story_length_minutes: parseInt(story_length_minutes, 10) || null,
     donation_flag: donation_flag === 'true',
     donation_amount: donation_flag === 'true' ? parseInt(donation_amount, 10) || null : null,
-    event_status: event_status || 'P'
+    event_status: event_status || 'P',
+    num_volunteers: num_volunteers || 1
   };
 
   // Update the database record
@@ -1032,6 +1034,23 @@ app.post('/admin/editVolunteer/:id', (req, res) => {
 // });
 
 
+app.get('/admin/adminUpcoming', (req, res) => {
+  knex('event_details')
+    .select('org_name', 'total_attendance_estimate', 'event_type', 'planned_date', 'event_city', 'start_time', 'planned_hour_duration', 'num_volunteers')
+    .where('planned_date', '>', new Date()) // Get events that are in the future
+    .where('event_status', '=', 'A')
+    .orderBy('planned_date', 'asc') // Order events by the planned date
+    .then(events => {
+      res.render('adminUpcoming', { events }); // Render the ejs page with the events data
+    })
+    .catch(error => {
+      console.error('Error fetching events:', error);
+      res.status(500).send('Internal Server Error');
+    });
+});
+
+
+
 app.get('/admin/manageEvents', (req, res) => {
   knex('event_details') // Querying the event_details table
     .select(
@@ -1042,7 +1061,8 @@ app.get('/admin/manageEvents', (req, res) => {
       'event_details.planned_date',
       'event_details.start_time',
       'event_details.planned_hour_duration',
-      'event_details.event_status'
+      'event_details.event_status',
+      'event_details.num_volunteers'
     )
     .orderBy('event_details.planned_date', 'asc') // Sort by planned date in ascending order
     .then(events => {

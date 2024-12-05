@@ -16,7 +16,11 @@
 <div class="sidebar">
     <ul>
     <li><a href="#dashboard"><span class="icon">🏠</span> Dashboard</a></li>
-    <li><a href="#administration">Upcoming Events</a></li>
+    <li>
+      <form action="/admin/adminUpcoming" method="GET" style="display: inline;">
+        <button type="submit" class="sidebar-button">Upcoming Events</button>
+      </form>
+    </li>
     <li>
       <form action="/admin/manageEvents" method="GET" style="display: inline;">
         <button type="submit" class="sidebar-button">Event Management</button>
