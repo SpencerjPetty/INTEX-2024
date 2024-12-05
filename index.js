@@ -439,6 +439,7 @@ app.post('/admin/editEvent/:id', isAuthenticated, (req, res) => {
     donation_flag,
     donation_amount,
     event_status, // CHAR(1), no transformation
+    num_volunteers
   } = req.body;
 
   // Prepare data for update
@@ -472,6 +473,7 @@ app.post('/admin/editEvent/:id', isAuthenticated, (req, res) => {
     donation_flag: donation_flag === 'true', // BOOLEAN
     donation_amount: donation_flag === 'true' ? parseInt(donation_amount, 10) || null : null, // INT or null
     event_status: event_status || 'P', // CHAR(1), default to 'P'
+    num_volunteers: num_volunteers || 1
   };
 
   // Update the database record
@@ -1066,29 +1068,21 @@ app.post('/admin/addEvent', isAuthenticated, (req, res) => {
     });
 });
 
+app.get('/admin/adminUpcoming', (req, res) => {
+  knex('event_details')
+    .select('org_name', 'total_attendance_estimate', 'event_type', 'planned_date', 'event_city', 'start_time', 'planned_hour_duration', 'num_volunteers')
+    .where('planned_date', '>', new Date()) // Get events that are in the future
+    .where('event_status', '=', 'A')
+    .orderBy('planned_date', 'asc') // Order events by the planned date
+    .then(events => {
+      res.render('adminUpcoming', { events }); // Render the ejs page with the events data
+    })
+    .catch(error => {
+      console.error('Error fetching events:', error);
+      res.status(500).send('Internal Server Error');
+    });
+});
 
-
-
-
-// // Admin Landing Page (Protected)
-// app.get('/admin', (req, res) => {
-//   if (!req.isAuthenticated()) { // Assuming `req.isAuthenticated()` checks login status
-//     return res.redirect('/login'); // Redirect to login page if not authenticated
-//   }
-
-//   // Fetch Event Requests and Volunteer Submissions for Admin Dashboard
-//   Promise.all([
-//     knex('event_request').select('*'),
-//     knex('volunteers').select('*')
-//   ])
-//     .then(([eventRequests, volunteers]) => {
-//       res.render('adminDashboard', { eventRequests, volunteers });
-//     })
-//     .catch(error => {
-//       console.error('Error fetching admin data:', error);
-//       res.status(500).send('Internal Server Error');
-//     });
-// });
 
 // Manage Events Page
 app.get('/admin/manageEvents', isAuthenticated, (req, res) => {
@@ -1102,7 +1096,8 @@ app.get('/admin/manageEvents', isAuthenticated, (req, res) => {
       'event_details.start_time',
       'event_details.planned_hour_duration',
       'event_details.event_status',
-      'event_details.time_submitted'
+      'event_details.time_submitted',
+      'event_details.num_volunteers'
     )
     .orderBy('event_details.planned_date', 'asc') // Sort by planned date in ascending order
     .then(events => {
