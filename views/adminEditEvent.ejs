@@ -126,6 +126,12 @@
 
       <label for="altDate2">Alternate Date Option 2:</label>
       <input type="date" id="altDate2" name="alt_date_2" value="<%= event.alt_date_2 ? event.alt_date_2.toISOString().split('T')[0] : null %>">
+      
+      <label for="startTime">Start Time: <span class="required">*</span></label>
+      <input type="time" id="startTime" name="start_time" value="<%= event.start_time %>" required><br>
+
+      <label for="duration">Planned Duration of Event (hours): <span class="required">*</span></label>
+      <input type="number" id="duration" name="planned_hour_duration" min="1" value="<%= event.planned_hour_duration %>" required><br>
     </div>
     <!-- Event Location Group -->
     <div class="form-group">

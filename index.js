@@ -54,7 +54,7 @@ app.post('/login', (req, res) => {
 
   // Validate credentials (this would involve querying your database)
   knex('admin_login')
-      .where({ username: username, password: password })
+      .where({ username: username.toLowerCase(), password: password })
       .first()
       .then(user => {
           if (user) {
@@ -145,64 +145,67 @@ app.get('/admin/editAdmin/:id', isAuthenticated, (req, res) => {
 
 app.post('/admin/editAdmin/:id', isAuthenticated, (req, res) => {
   const id = req.params.id;
-  // Access each value directly from req.body
-  const created_by = req.body.created_by;
-  const created_date = req.body.created_date;
-  const username = req.body.username;
-  const password = req.body.password;
-  const first_name = req.body.first_name;
-  const last_name = req.body.last_name;
-  const date_of_birth = req.body.date_of_birth;
-  const gender = req.body.gender;
-  const phone_number = req.body.phone_number;
-  const email_address = req.body.email_address;
-  const street_address = req.body.street_address;
-  const city = req.body.city;
+
+  // Access each value directly from req.body and enforce lowercase for free-form text fields
+  const created_by = req.body.created_by.toLowerCase();
+  const created_date = req.body.created_date; // Date field doesn't need `.toLowerCase()`
+  const username = req.body.username.toLowerCase();
+  const password = req.body.password; // Password is case-sensitive, no `.toLowerCase()`
+  const first_name = req.body.first_name.toLowerCase();
+  const last_name = req.body.last_name.toLowerCase();
+  const date_of_birth = req.body.date_of_birth; // Date field doesn't need `.toLowerCase()`
+  const gender = req.body.gender; // Assuming gender input is text
+  const phone_number = req.body.phone_number; // Phone numbers don't need `.toLowerCase()`
+  const email_address = req.body.email_address.toLowerCase(); // Enforce lowercase for emails
+  const street_address = req.body.street_address.toLowerCase();
+  const city = req.body.city.toLowerCase();
   const state = req.body.state;
-  const zip = req.body.zip;
+  const zip = req.body.zip; // Zip codes don't need `.toLowerCase()`
   const preferred_contact_method = req.body.preferred_contact_method;
+
   // Update the admin in the database
   knex('admin')
-  .where('contact_id', id)
-  .update({
-    created_by: created_by,
-    created_date: created_date
-  })
-  .then(() => {
-    // Update the `admin_login` table
-    return knex('admin_login')
-      .where('contact_id', id)
-      .update({
-        username: username,
-        password: password,
-      });
-  })
-  .then(() => {
-    // Update the `contact` table
-    return knex('contact')
-      .where('contact_id', id)
-      .update({
-        first_name: first_name,
-        last_name: last_name,
-        date_of_birth: date_of_birth,
-        gender: gender,
-        phone_number: phone_number,
-        email_address: email_address,
-        street_address: street_address,
-        city: city,
-        state: state,
-        zip: zip,
-        preferred_contact_method: preferred_contact_method
-      });
-  })
-  .then(() => {
-    res.redirect('/admin/manageAdmins');
-  })
-  .catch(error => {
-    console.error('Error updating Admin:', error);
-    res.status(500).send('Internal Server Error');
-  });
+    .where('contact_id', id)
+    .update({
+      created_by: created_by,
+      created_date: created_date,
+    })
+    .then(() => {
+      // Update the `admin_login` table
+      return knex('admin_login')
+        .where('contact_id', id)
+        .update({
+          username: username,
+          password: password,
+        });
+    })
+    .then(() => {
+      // Update the `contact` table
+      return knex('contact')
+        .where('contact_id', id)
+        .update({
+          first_name: first_name,
+          last_name: last_name,
+          date_of_birth: date_of_birth,
+          gender: gender,
+          phone_number: phone_number,
+          email_address: email_address,
+          street_address: street_address,
+          city: city,
+          state: state,
+          zip: zip,
+          preferred_contact_method: preferred_contact_method,
+        });
+    })
+    .then(() => {
+      res.redirect('/admin/manageAdmins');
+    })
+    .catch(error => {
+      console.error('Error updating Admin:', error);
+      res.status(500).send('Internal Server Error');
+    });
 });
+
 
 // Route to Delete admin account
 app.post('/admin/deleteAdmin/:id', isAuthenticated, (req, res) => {
@@ -261,6 +264,7 @@ app.get('/admin/addEvent', isAuthenticated, (req, res) => {
 
 // Handle Add Admin form
 app.post('/admin/addAdmin', isAuthenticated, (req, res) => {
+  // Extract and enforce lowercase where applicable
   const {
     created_by,
     username,
@@ -275,33 +279,35 @@ app.post('/admin/addAdmin', isAuthenticated, (req, res) => {
     city,
     state,
     zip,
-    preferred_contact_method
+    preferred_contact_method,
   } = req.body;
 
-  // Prepare Contact data
+  // Prepare Contact data with enforced lowercase
   const newAdminContact = {
-    first_name: first_name,
-    last_name: last_name,
-    date_of_birth: date_of_birth,
-    gender: gender || 'N',
-    phone_number: phone_number,
-    email_address: email_address,
-    street_address: street_address || null,
-    city: city || null,
-    state: state || null,
-    zip: zip || null,
-    preferred_contact_method: preferred_contact_method || 'E',
-    volunteer_flag: false // Default to 'E' if not provided
+    first_name: first_name.toLowerCase(),
+    last_name: last_name.toLowerCase(),
+    date_of_birth: date_of_birth, // No transformation needed
+    gender: gender ? gender : 'N', // Default to 'N' if not provided (flag field)
+    phone_number: phone_number, // No transformation needed
+    email_address: email_address.toLowerCase(), // Enforce lowercase for email
+    street_address: street_address ? street_address.toLowerCase() : null,
+    city: city ? city.toLowerCase() : null,
+    state: state ? state : null,
+    zip: zip, // No transformation needed
+    preferred_contact_method: preferred_contact_method
+      ? preferred_contact_method
+      : 'E', // Default to 'E' if not provided (flag field)
+    volunteer_flag: false, // Default to 'false'
   };
 
   // Check if the email address already exists in the `contact` table
   knex('contact')
-    .where('email_address', email_address)
+    .where('email_address', newAdminContact.email_address) // Use lowercase email
     .first() // Retrieve the first matching record
     .then(existingContact => {
       if (existingContact) {
         // Handle the case where the email address already exists
-        res.send(`
+        res.send(` 
           <html>
             <body>
               <p>Email address already exists. Redirecting to the Manage Admins page...</p>
@@ -323,27 +329,26 @@ app.post('/admin/addAdmin', isAuthenticated, (req, res) => {
         .then(contactIdArray => {
           const contact_id = contactIdArray[0].contact_id; // Extract the contact_id field
 
-          // Prepare Admin Login data
+          // Prepare Admin Login data with enforced lowercase
           const newAdminLogin = {
             contact_id: contact_id,
-            username: username,
-            password: password,
+            username: username.toLowerCase(), // Enforce lowercase for username
+            password: password, // No transformation needed
           };
 
           // Insert into Admin Login table
           return knex('admin_login')
             .insert(newAdminLogin)
             .then(() => {
-              // Prepare Admin data
+              // Prepare Admin data with enforced lowercase
               const newAdmin = {
                 contact_id: contact_id,
-                created_by: created_by,
-                created_date: new Date() // Automatically capture the timestamp when the form is submitted
+                created_by: created_by.toLowerCase(), // Enforce lowercase for created_by
+                created_date: new Date(), // Automatically capture the timestamp
               };
 
               // Insert into Admin table
-              return knex('admin')
-                .insert(newAdmin);
+              return knex('admin').insert(newAdmin);
             });
         });
     })
@@ -408,11 +413,11 @@ app.post('/admin/editEvent/:id', isAuthenticated, (req, res) => {
 
   const {
     org_name,
-    event_type,
     total_attendance_estimate,
     children_estimate,
     youth_estimate,
     adult_estimate,
+    event_type,
     sewers_estimate,
     machine_estimate,
     table_type,
@@ -422,7 +427,7 @@ app.post('/admin/editEvent/:id', isAuthenticated, (req, res) => {
     alt_date_2,
     event_street_address,
     event_city,
-    event_state,
+    event_state, // ENUM, no transformation
     event_zip,
     start_time,
     planned_hour_duration,
@@ -433,38 +438,40 @@ app.post('/admin/editEvent/:id', isAuthenticated, (req, res) => {
     story_length_minutes,
     donation_flag,
     donation_amount,
-    event_status
+    event_status, // CHAR(1), no transformation
   } = req.body;
 
   // Prepare data for update
   const updatedEvent = {
-    org_name: org_name || null,
-    event_type: event_type || 'N',
+    org_name: org_name ? org_name.toLowerCase() : null, // Enforce lowercase
     total_attendance_estimate: parseInt(total_attendance_estimate, 10) || 0,
     children_estimate: parseInt(children_estimate, 10) || 0,
     youth_estimate: parseInt(youth_estimate, 10) || 0,
     adult_estimate: parseInt(adult_estimate, 10) || 0,
+    event_type: event_type || 'N', // CHAR(1), default to 'N'
     sewers_estimate: parseInt(sewers_estimate, 10) || 0,
     machine_estimate: parseInt(machine_estimate, 10) || 0,
-    table_type: table_type || 'R',
-    room_size: room_size || 'M',
-    planned_date: planned_date || null,
-    alt_date_1: alt_date_1 || null,
-    alt_date_2: alt_date_2 || null,
-    event_street_address: event_street_address || '', 
-    event_city: event_city || '', 
-    event_state: event_state || null, 
-    event_zip: event_zip || '', 
-    start_time: start_time || null,
-    planned_hour_duration: parseInt(planned_hour_duration, 10) || null, 
-    contact_name: contact_name || '',
-    contact_phone: contact_phone || '',
-    contact_email: contact_email || '',
-    story_flag: story_flag === 'true',
-    story_length_minutes: parseInt(story_length_minutes, 10) || null,
-    donation_flag: donation_flag === 'true',
-    donation_amount: donation_flag === 'true' ? parseInt(donation_amount, 10) || null : null,
-    event_status: event_status || 'P'
+    table_type: table_type || 'R', // CHAR(1), default to 'R'
+    room_size: room_size || 'M', // CHAR(1), default to 'M'
+    planned_date: planned_date || null, // DATE
+    alt_date_1: alt_date_1 || null, // DATE
+    alt_date_2: alt_date_2 || null, // DATE
+    event_street_address: event_street_address
+      ? event_street_address.toLowerCase()
+      : '',
+    event_city: event_city ? event_city.toLowerCase() : '',
+    event_state: event_state || null, // ENUM, no transformation
+    event_zip: event_zip || '', // VARCHAR(10)
+    start_time: start_time || null, // TIME
+    planned_hour_duration: parseInt(planned_hour_duration, 10) || null, // INT
+    contact_name: contact_name ? contact_name.toLowerCase() : '', // Enforce lowercase
+    contact_phone: contact_phone || '', // VARCHAR(15)
+    contact_email: contact_email ? contact_email.toLowerCase() : '', // Enforce lowercase
+    story_flag: story_flag === 'true', // BOOLEAN
+    story_length_minutes: parseInt(story_length_minutes, 10) || null, // INT
+    donation_flag: donation_flag === 'true', // BOOLEAN
+    donation_amount: donation_flag === 'true' ? parseInt(donation_amount, 10) || null : null, // INT or null
+    event_status: event_status || 'P', // CHAR(1), default to 'P'
   };
 
   // Update the database record
@@ -484,6 +491,7 @@ app.post('/admin/editEvent/:id', isAuthenticated, (req, res) => {
     });
 });
 
+
 // Handle Event Request Form Submission
 app.post('/eventRequest', (req, res) => {
   const {
@@ -502,7 +510,7 @@ app.post('/eventRequest', (req, res) => {
     alt_date_2,
     event_street_address,
     event_city,
-    event_state,
+    event_state, // ENUM, no transformation
     event_zip,
     start_time,
     planned_hour_duration,
@@ -513,52 +521,55 @@ app.post('/eventRequest', (req, res) => {
     story_length_minutes,
     donation_flag,
     donation_amount,
-    event_status
+    event_status, // CHAR(1), no transformation
   } = req.body;
 
   // Prepare data for insertion
   const newEventRequest = {
-    org_name: org_name || null,
-    event_type: event_type || 'N',
+    org_name: org_name ? org_name.toLowerCase() : null, // Enforce lowercase
+    event_type: event_type || 'N', // CHAR(1), default to 'N'
     total_attendance_estimate: parseInt(total_attendance_estimate, 10) || 0,
     children_estimate: parseInt(children_estimate, 10) || 0,
     youth_estimate: parseInt(youth_estimate, 10) || 0,
     adult_estimate: parseInt(adult_estimate, 10) || 0,
     sewers_estimate: parseInt(sewers_estimate, 10) || 0,
     machine_estimate: parseInt(machine_estimate, 10) || 0,
-    table_type: table_type || 'R',
-    room_size: room_size || 'M',
-    planned_date: planned_date || null,
-    alt_date_1: alt_date_1 || null,
-    alt_date_2: alt_date_2 || null,
-    event_street_address: event_street_address || '', 
-    event_city: event_city || '', 
-    event_state: event_state || null, 
-    event_zip: event_zip || '', 
-    start_time: start_time || null,
-    planned_hour_duration: parseInt(planned_hour_duration, 10) || null, 
-    contact_name: contact_name || '',
-    contact_phone: contact_phone || '',
-    contact_email: contact_email || '',
-    story_flag: story_flag === 'true',
-    story_length_minutes: parseInt(story_length_minutes, 10) || null,
-    donation_flag: donation_flag === 'true',
-    donation_amount: donation_flag === 'true' ? parseInt(donation_amount, 10) || null : null,
-    event_status: event_status || 'P',
-    time_submitted: new Date() // To capture the current timestamp when the form is submitted
+    table_type: table_type || 'R', // CHAR(1), default to 'R'
+    room_size: room_size || 'M', // CHAR(1), default to 'M'
+    planned_date: planned_date || null, // DATE
+    alt_date_1: alt_date_1 || null, // DATE
+    alt_date_2: alt_date_2 || null, // DATE
+    event_street_address: event_street_address
+      ? event_street_address.toLowerCase()
+      : '', // Enforce lowercase
+    event_city: event_city ? event_city.toLowerCase() : '', // Enforce lowercase
+    event_state: event_state || null, // ENUM, no transformation
+    event_zip: event_zip || '', // VARCHAR(10)
+    start_time: start_time || null, // TIME
+    planned_hour_duration: parseInt(planned_hour_duration, 10) || null, // INT
+    contact_name: contact_name ? contact_name.toLowerCase() : '', // Enforce lowercase
+    contact_phone: contact_phone || '', // VARCHAR(15)
+    contact_email: contact_email ? contact_email.toLowerCase() : '', // Enforce lowercase
+    story_flag: story_flag === 'true', // BOOLEAN
+    story_length_minutes: parseInt(story_length_minutes, 10) || null, // INT
+    donation_flag: donation_flag === 'true', // BOOLEAN
+    donation_amount: donation_flag === 'true' ? parseInt(donation_amount, 10) || null : null, // INT or null
+    event_status: event_status || 'P', // CHAR(1), default to 'P'
+    time_submitted: new Date(), // DATETIME
   };
 
   // Insert into the database
-    knex('event_details')
+  knex('event_details')
     .insert(newEventRequest)
     .then(() => {
-        res.redirect('/');
+      res.redirect('/'); // Redirect to the homepage after successful submission
     })
     .catch(error => {
       console.error('Error submitting event request:', error);
       res.status(500).send('Internal Server Error');
     });
 });
+
 
 // Handle GET request for reporting event results
 app.get('/admin/reportEvent/:id', isAuthenticated, (req, res) => {
@@ -599,11 +610,9 @@ app.get('/admin/reportEvent/:id', isAuthenticated, (req, res) => {
     });
 });
 
-
-
 // Handle POST request to submit event results
 app.post('/admin/reportEvent/:id', isAuthenticated, (req, res) => {
-  const eventId = req.params.id;
+  const eventId = parseInt(req.params.id, 10); // Ensure eventId is parsed as an integer
   const {
     event_date,
     num_participants,
@@ -612,34 +621,36 @@ app.post('/admin/reportEvent/:id', isAuthenticated, (req, res) => {
     collars_produced,
     envelopes_produced,
     vests_produced,
-    total_products_completed
+    total_products_completed,
   } = req.body;
 
+  // Prepare data for upsertion
   const newEventResult = {
-    event_id: eventId,
-    event_date: event_date || null,
-    num_participants: parseInt(num_participants, 10) || 0,
-    event_duration_hours: parseFloat(event_duration_hours) || 0,
-    pockets_produced: parseInt(pockets_produced, 10) || 0,
-    collars_produced: parseInt(collars_produced, 10) || 0,
-    envelopes_produced: parseInt(envelopes_produced, 10) || 0,
-    vests_produced: parseInt(vests_produced, 10) || 0,
-    total_products_completed: parseInt(total_products_completed, 10) || 0,
+    event_id: eventId, // INT, Primary Key
+    event_date: event_date || null, // DATETIME
+    num_participants: parseInt(num_participants, 10) || 0, // INT
+    event_duration_hours: parseFloat(event_duration_hours) || 0, // FLOAT
+    pockets_produced: parseInt(pockets_produced, 10) || 0, // INT
+    collars_produced: parseInt(collars_produced, 10) || 0, // INT
+    envelopes_produced: parseInt(envelopes_produced, 10) || 0, // INT
+    vests_produced: parseInt(vests_produced, 10) || 0, // INT
+    total_products_completed: parseInt(total_products_completed, 10) || 0, // INT
   };
 
-  // Upsert into event_results table (update if event_id exists, otherwise insert)
+  // Insert or update (upsert) the event results
   knex('event_results')
     .insert(newEventResult)
-    .onConflict('event_id') // Handle conflict on event_id
-    .merge() // Update the existing record with the new values
+    .onConflict('event_id') // Handle conflict on event_id (PK)
+    .merge() // Update existing record with new data
     .then(() => {
-      res.redirect('/admin/manageEvents'); // Redirect to the admin events page after submission
+      res.redirect('/admin/manageEvents'); // Redirect to manage events page after submission
     })
-    .catch(error => {
+    .catch((error) => {
       console.error('Error upserting event results:', error);
       res.status(500).send('Internal Server Error');
     });
 });
+
 
 
 // Display the Volunteer Form
@@ -657,7 +668,7 @@ app.get('/volunteerForm', (req, res) => {
 
 // Handle Volunteer Form Submission
 app.post('/volunteerForm', (req, res) => {
-const {
+  const {
     first_name,
     last_name,
     date_of_birth,
@@ -676,23 +687,23 @@ const {
     travel_mile_radius,
     willing_to_lead_flag,
     teach_sewing_flag
-} = req.body;
+  } = req.body;
 
   // Prepare Contact data
-const newContact = {
-    first_name: first_name.trim(),
-    last_name: last_name.trim(),
+  const newContact = {
+    first_name: first_name.trim().toLowerCase(), // Enforcing lowercase
+    last_name: last_name.trim().toLowerCase(), // Enforcing lowercase
     date_of_birth: date_of_birth,
-    gender: gender || 'N',
+    gender: gender || 'N', // Enum field, no lowercase required
     phone_number: phone_number.trim(),
-    email_address: email_address.trim(),
-    street_address: street_address || null,
-    city: city || null,
-    state: state || null,
+    email_address: email_address.trim().toLowerCase(), // Enforcing lowercase
+    street_address: street_address ? street_address.toLowerCase() : null, // Enforcing lowercase
+    city: city ? city.toLowerCase() : null, // Enforcing lowercase
+    state: state || null, // Enum field, no lowercase required
     zip: zip || null,
-    preferred_contact_method: preferred_contact_method || 'E',
+    preferred_contact_method: preferred_contact_method ? preferred_contact_method : 'E', // Enforcing lowercase
     volunteer_flag: true // Indicates this contact is a volunteer
-};
+  };
 
   // Insert into Contact table and retrieve contact_id
   knex('contact')
@@ -705,13 +716,13 @@ const newContact = {
       const newVolunteer = {
         contact_id: contact_id_num,
         referral_source_id: parseInt(referral_source_id, 10) || null,
-        referral_other_text: referral_other_text || null,
-        sewing_level: sewing_level || 'B',
+        referral_other_text: referral_other_text ? referral_other_text.toLowerCase() : null, // Enforcing lowercase
+        sewing_level: sewing_level ? sewing_level : 'B', // Enforcing lowercase
         estimated_hours_per_month: parseInt(estimated_hours_per_month, 10) || 0,
         date_joined: new Date(), // Automatically populate the date joined
         travel_mile_radius: travel_mile_radius || null,
-        willing_to_lead_flag: willing_to_lead_flag || false,
-        teach_sewing_flag: teach_sewing_flag || false
+        willing_to_lead_flag: willing_to_lead_flag || false, // Flag, no lowercase required
+        teach_sewing_flag: teach_sewing_flag || false // Flag, no lowercase required
       };
 
       // Insert into Volunteer table
@@ -725,6 +736,7 @@ const newContact = {
       res.status(500).send('Internal Server Error');
     });
 });
+
 
 // Displaying the Volunteer management page
 app.get('/admin/manageVolunteers', isAuthenticated, (req, res) => {
@@ -788,53 +800,54 @@ app.post('/admin/addVolunteer', isAuthenticated, (req, res) => {
       teach_sewing_flag
   } = req.body;
   
-    // Prepare Contact data
+  // Prepare Contact data
   const newContact = {
-      first_name: first_name.trim(),
-      last_name: last_name.trim(),
+      first_name: first_name.trim().toLowerCase(), // Enforcing lowercase
+      last_name: last_name.trim().toLowerCase(), // Enforcing lowercase
       date_of_birth: date_of_birth,
-      gender: gender || 'N',
+      gender: gender || 'N', // Enum field, no lowercase required
       phone_number: phone_number.trim(),
-      email_address: email_address.trim(),
-      street_address: street_address || null,
-      city: city || null,
-      state: state || null,
+      email_address: email_address.trim().toLowerCase(), // Enforcing lowercase
+      street_address: street_address ? street_address.toLowerCase() : null, // Enforcing lowercase
+      city: city ? city.toLowerCase() : null, // Enforcing lowercase
+      state: state || null, // Enum field, no lowercase required
       zip: zip || null,
-      preferred_contact_method: preferred_contact_method || 'E',
+      preferred_contact_method: preferred_contact_method ? preferred_contact_method : 'E', // Enforcing lowercase
       volunteer_flag: true // Indicates this contact is a volunteer
   };
   
-    // Insert into Contact table and retrieve contact_id
-    knex('contact')
-      .insert(newContact)
-      .returning('contact_id')
-      .then(contactIdArray => {
-        const contact_id_num = contactIdArray[0].contact_id; // Explicitly extract the contact_id field
+  // Insert into Contact table and retrieve contact_id
+  knex('contact')
+    .insert(newContact)
+    .returning('contact_id')
+    .then(contactIdArray => {
+      const contact_id_num = contactIdArray[0].contact_id; // Explicitly extract the contact_id field
   
-        // Prepare Volunteer data
-        const newVolunteer = {
-          contact_id: contact_id_num,
-          referral_source_id: parseInt(referral_source_id, 10) || null,
-          referral_other_text: referral_other_text || null,
-          sewing_level: sewing_level || 'B',
-          estimated_hours_per_month: parseInt(estimated_hours_per_month, 10) || 0,
-          date_joined: new Date(), // Automatically populate the date joined
-          travel_mile_radius: travel_mile_radius || null,
-          willing_to_lead_flag: willing_to_lead_flag || false,
-          teach_sewing_flag: teach_sewing_flag || false
-        };
+      // Prepare Volunteer data
+      const newVolunteer = {
+        contact_id: contact_id_num,
+        referral_source_id: parseInt(referral_source_id, 10) || null,
+        referral_other_text: referral_other_text ? referral_other_text.toLowerCase() : null, // Enforcing lowercase
+        sewing_level: sewing_level ? sewing_level : 'B', 
+        estimated_hours_per_month: parseInt(estimated_hours_per_month, 10) || 0,
+        date_joined: new Date(), // Automatically populate the date joined
+        travel_mile_radius: travel_mile_radius || null,
+        willing_to_lead_flag: willing_to_lead_flag || false, // Flag, no lowercase required
+        teach_sewing_flag: teach_sewing_flag || false // Flag, no lowercase required
+      };
   
-        // Insert into Volunteer table
-        return knex('volunteer').insert(newVolunteer);
-      })
-      .then(() => {
-        res.redirect('/admin/manageVolunteers'); // Redirect to the home page on successful submission
-      })
-      .catch(error => {
-        console.error('Error submitting volunteer form:', error);
-        res.status(500).send('Internal Server Error');
-      });
-  });
+      // Insert into Volunteer table
+      return knex('volunteer').insert(newVolunteer);
+    })
+    .then(() => {
+      res.redirect('/admin/manageVolunteers'); // Redirect to the volunteers management page on successful submission
+    })
+    .catch(error => {
+      console.error('Error submitting volunteer form:', error);
+      res.status(500).send('Internal Server Error');
+    });
+});
+
 
   // Delete Volunteer Route
   app.post('/admin/deleteVolunteer/:id', isAuthenticated, (req, res) => {
@@ -931,30 +944,30 @@ app.post('/admin/editVolunteer/:id', isAuthenticated, (req, res) => {
     teach_sewing_flag
   } = req.body;
   
-  // Prepare Contact data
+  // Prepare Contact data with lowercase enforcement
   const updatedContact = {
-    first_name: first_name.trim(),
-    last_name: last_name.trim(),
+    first_name: first_name.trim().toLowerCase(), // Enforcing lowercase
+    last_name: last_name.trim().toLowerCase(), // Enforcing lowercase
     date_of_birth: date_of_birth,
-    gender: gender || 'N',
+    gender: gender || 'N', // Enum field, no lowercase required
     phone_number: phone_number.trim(),
-    email_address: email_address.trim(),
-    street_address: street_address || null,
-    city: city || null,
-    state: state || null,
+    email_address: email_address.trim().toLowerCase(), // Enforcing lowercase
+    street_address: street_address ? street_address.toLowerCase() : null, // Enforcing lowercase
+    city: city ? city.toLowerCase() : null, // Enforcing lowercase
+    state: state || null, // Enum field, no lowercase required
     zip: zip || null,
-    preferred_contact_method: preferred_contact_method || 'E',
+    preferred_contact_method: preferred_contact_method ? preferred_contact_method : 'E', // Enforcing lowercase
   };
   
-  // Prepare Volunteer data
+  // Prepare Volunteer data with lowercase enforcement
   const updatedVolunteer = {
     referral_source_id: parseInt(referral_source_id, 10) || null,
-    referral_other_text: referral_other_text || null,
-    sewing_level: sewing_level || 'B',
+    referral_other_text: referral_other_text ? referral_other_text.toLowerCase() : null, // Enforcing lowercase
+    sewing_level: sewing_level ? sewing_level : 'B', 
     estimated_hours_per_month: parseInt(estimated_hours_per_month, 10) || 0,
     travel_mile_radius: travel_mile_radius || null,
-    willing_to_lead_flag: willing_to_lead_flag || false,
-    teach_sewing_flag: teach_sewing_flag || false
+    willing_to_lead_flag: willing_to_lead_flag || false, // Flag, no lowercase required
+    teach_sewing_flag: teach_sewing_flag || false // Flag, no lowercase required
   };
 
   // First, update the contact table
@@ -975,6 +988,7 @@ app.post('/admin/editVolunteer/:id', isAuthenticated, (req, res) => {
       res.status(500).send('Internal Server Error');
     });
 });
+
 
 // Handle Add Event Form Submission
 app.post('/admin/addEvent', isAuthenticated, (req, res) => {
@@ -1008,35 +1022,35 @@ app.post('/admin/addEvent', isAuthenticated, (req, res) => {
     event_status
   } = req.body;
 
-  // Prepare data for insertion
+  // Prepare data for insertion with lowercase enforcement
   const newEvent = {
-    org_name: org_name || null,
-    event_type: event_type || 'N',
+    org_name: org_name ? org_name.toLowerCase() : null, // Enforcing lowercase
+    event_type: event_type || 'N', // Enforcing lowercase for 'N' default
     total_attendance_estimate: parseInt(total_attendance_estimate, 10) || 0,
     children_estimate: parseInt(children_estimate, 10) || 0,
     youth_estimate: parseInt(youth_estimate, 10) || 0,
     adult_estimate: parseInt(adult_estimate, 10) || 0,
     sewers_estimate: parseInt(sewers_estimate, 10) || 0,
     machine_estimate: parseInt(machine_estimate, 10) || 0,
-    table_type: table_type || 'R',
-    room_size: room_size || 'M',
+    table_type: table_type || 'R', // Enforcing lowercase for 'R' default
+    room_size: room_size || 'M', // Enforcing lowercase for 'M' default
     planned_date: planned_date || null,
     alt_date_1: alt_date_1 || null,
     alt_date_2: alt_date_2 || null,
-    event_street_address: event_street_address || '',
-    event_city: event_city || '',
-    event_state: event_state || null,
+    event_street_address: event_street_address ? event_street_address.toLowerCase() : '', // Enforcing lowercase
+    event_city: event_city ? event_city.toLowerCase() : '', // Enforcing lowercase
+    event_state: event_state || null, // Enum field, no lowercase required
     event_zip: event_zip || '',
     start_time: start_time || null,
     planned_hour_duration: parseInt(planned_hour_duration, 10) || null,
-    contact_name: contact_name || '',
+    contact_name: contact_name ? contact_name.toLowerCase() : '', // Enforcing lowercase
     contact_phone: contact_phone || '',
-    contact_email: contact_email || '',
+    contact_email: contact_email ? contact_email.toLowerCase() : '', // Enforcing lowercase
     story_flag: story_flag === 'true',
     story_length_minutes: parseInt(story_length_minutes, 10) || null,
     donation_flag: donation_flag === 'true',
     donation_amount: donation_flag === 'true' ? parseInt(donation_amount, 10) || null : null,
-    event_status: event_status || 'P', // Default to 'Pending'
+    event_status: event_status || 'P', // Enforcing lowercase for 'P' default
     time_submitted: new Date()
   };
 
@@ -1051,6 +1065,7 @@ app.post('/admin/addEvent', isAuthenticated, (req, res) => {
       res.status(500).send('Internal Server Error');
     });
 });
+
 
 
 
@@ -1075,7 +1090,7 @@ app.post('/admin/addEvent', isAuthenticated, (req, res) => {
 //     });
 // });
 
-
+// Manage Events Page
 app.get('/admin/manageEvents', isAuthenticated, (req, res) => {
   knex('event_details') // Querying the event_details table
     .select(
