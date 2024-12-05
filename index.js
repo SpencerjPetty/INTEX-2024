@@ -114,12 +114,7 @@ app.get('/admin/manageAdmins', (req, res) => {
     }); // Error handling for Knex queries
 });
 
-// main admin page 
-// if (req.session.isAuthenticated) {
-//  res.send(`Welcome, ${req.session.username}! This is the internal landing page.`);
-// } else {
-//  res.status(403).send('Access denied. Please log in.');
-// }
+
 
 app.get('/admin', (req, res) => {
   res.render('admin', {})
