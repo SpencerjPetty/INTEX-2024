@@ -5,6 +5,8 @@ let path = require("path"); // Importing the path class/library
 
 const port = process.env.PORT || 4444; // This port can change
 
+
+
 app.set("view engine", "ejs"); // Telling the server that our web files will be EJS files
 app.set("views", path.join(__dirname, "views")); // Telling the server where to find the views (web pages)
 app.use(express.urlencoded({extended: true})); // Allows the server to work with the requests that are submitted
