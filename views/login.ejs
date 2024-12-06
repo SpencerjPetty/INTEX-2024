@@ -18,6 +18,10 @@
                 <input type="password" id="password" name="password" placeholder="Enter your password" required>
                 <!-- Submit Button -->
                 <button type="submit">Submit</button>
+                <!-- Display Invalid Login Message -->
+                <% if (invalidLogin) { %>
+                    <p class="error-message"><%= invalidLogin %></p>
+                <% } %>
             </form>
         </div>
     </body>

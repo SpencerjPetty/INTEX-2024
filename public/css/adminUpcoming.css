@@ -1,0 +1,105 @@
+/* Importing Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap');
+
+/* Overall Page Styles */
+body {
+    background-color: #f8f8f8 !important; /* Very slightly off-white background */
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 40px; /* Added more padding around the whole content */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Page Header */
+h1 {
+    font-size: 3em;
+    font-weight: bold;
+    color: rgb(120, 140, 130); /* Green border color */
+    background-color: white;
+    padding: 20px; /* Increased padding for the title block */
+    border: 3px solid rgb(120, 140, 130); /* Green border */
+    text-align: center;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 1000px; /* Match the table block width */
+    box-sizing: border-box; /* Ensure padding and border are included in width */
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    max-width: 1000px; /* Adjusted table width */
+    margin-bottom: 40px; /* Added spacing below the table */
+    border-collapse: collapse; /* Collapse borders */
+    background-color: rgb(120, 140, 130); /* Green background for table */
+    box-sizing: border-box; 
+}
+
+th, td {
+    padding: 15px;
+    border: 2px solid #2b4a3f; /* Dark green border */
+    text-align: left;
+    color: white; /* White text color */
+    font-size: 1.2rem; /* Font size for table text */
+}
+
+th {
+    background-color: rgb(41, 77, 74); /* Darker green background for table header */
+    color: white; /* White text color for header */
+    font-weight: bold;
+    text-align: center;
+}
+
+td {
+    background-color: rgb(120, 140, 130); /* Green background for table cells */
+    color: white; /* White text color */
+}
+
+/* Form Styles */
+form {
+    width: 100%;
+    max-width: 1000px; /* Match the table block width */
+    padding: 20px; /* Reduced padding around the form */
+    background: none; /* Remove background color */
+    box-sizing: border-box;
+    text-align: center; /* Center align form content */
+}
+
+button[type="submit"] {
+    background-color: rgb(41, 77, 74); /* Button color */
+    color: white;
+    font-size: 1.5rem;
+    padding: 15px 30px; /* Increased padding for wider button */
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+    margin-top: 20px; /* Spacing above the button */
+}
+
+button[type="submit"]:hover {
+    background-color: rgb(31, 59, 57);
+}
+
+/* Back Home Button Styles */
+.back-home-btn {
+    color: #2b4a3f; /* Dark green color */
+    font-size: 0.9rem; /* Small size */
+    text-decoration: none; /* Remove underline */
+    padding: 5px 10px; /* Small padding */
+    border: 2px solid #2b4a3f; /* Dark green border */
+    display: inline-block; /* Keep button inline with text */
+    border-radius: 5px; /* Optional: Adds slightly rounded corners */
+    position: absolute; /* Positioning */
+    top: 20px; /* Distance from the top */
+    left: 20px; /* Distance from the left */
+}
+
+.back-home-btn:hover {
+    background-color: #2b4a3f; /* Dark green background on hover */
+    color: white; /* White text on hover */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+}

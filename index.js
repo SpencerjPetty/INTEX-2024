@@ -5,6 +5,8 @@ let path = require("path"); // Importing the path class/library
 
 const port = process.env.PORT || 4444; // This port can change
 
+
+
 app.set("view engine", "ejs"); // Telling the server that our web files will be EJS files
 app.set("views", path.join(__dirname, "views")); // Telling the server where to find the views (web pages)
 app.use(express.urlencoded({extended: true})); // Allows the server to work with the requests that are submitted
@@ -45,8 +47,14 @@ const knex = require("knex") ({ // Connecting to our Postgres Database
     }
 });
 
+app.get('/thankYou', (req, res) => {
+  res.render('thankYou', {})
+  });
+
+
 app.get('/login', (req, res) => {
-res.render('login', {})
+const invalidLogin = null;
+res.render('login', {invalidLogin})
 });
 
 app.post('/login', (req, res) => {
@@ -62,7 +70,9 @@ app.post('/login', (req, res) => {
               req.session.loggedIn = true;
               res.redirect('/'); // Redirect to admin landing page
           } else {
-              res.status(401).send('Invalid credentials');
+              // Pass invalid login message when credentials are incorrect
+              const invalidLogin = 'Username/password combination is incorrect.';
+              res.render('login', { invalidLogin }); // Render login page with message
           }
       })
       .catch(error => {
@@ -70,6 +80,7 @@ app.post('/login', (req, res) => {
           res.status(500).send('Internal Server Error');
       });
 });
+
 
 
 app.post('/admin/logout', isAuthenticated, (req, res) => {
@@ -564,7 +575,7 @@ app.post('/eventRequest', (req, res) => {
   knex('event_details')
     .insert(newEventRequest)
     .then(() => {
-      res.redirect('/'); // Redirect to the homepage after successful submission
+      res.redirect('/thankYou'); // Redirect to the homepage after successful submission
     })
     .catch(error => {
       console.error('Error submitting event request:', error);
@@ -624,6 +635,10 @@ app.post('/admin/reportEvent/:id', isAuthenticated, (req, res) => {
     envelopes_produced,
     vests_produced,
     total_products_completed,
+    pockets_max_possible,
+    collars_max_possible,
+    envelopes_max_possible,
+    vests_max_possible
   } = req.body;
 
   // Prepare data for upsertion
@@ -637,6 +652,10 @@ app.post('/admin/reportEvent/:id', isAuthenticated, (req, res) => {
     envelopes_produced: parseInt(envelopes_produced, 10) || 0, // INT
     vests_produced: parseInt(vests_produced, 10) || 0, // INT
     total_products_completed: parseInt(total_products_completed, 10) || 0, // INT
+    pockets_max_possible: parseInt(pockets_max_possible, 10) || 0,
+    collars_max_possible: parseInt(collars_max_possible, 10) || 0,
+    envelopes_max_possible: parseInt(envelopes_max_possible, 10) || 0,
+    vests_max_possible: parseInt(vests_max_possible, 10) || 0
   };
 
   // Insert or update (upsert) the event results
