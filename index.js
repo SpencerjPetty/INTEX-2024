@@ -750,7 +750,7 @@ app.post('/volunteerForm', (req, res) => {
       return knex('volunteer').insert(newVolunteer);
     })
     .then(() => {
-      res.redirect('/'); // Redirect to the home page on successful submission
+      res.redirect('/thankYou'); // Redirect to the thank you on successful submission
     })
     .catch(error => {
       console.error('Error submitting volunteer form:', error);
