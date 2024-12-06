@@ -55,7 +55,7 @@ label {
     font-family: 'Open Sans', serif;
 }
 
-input, select, button {
+input, select {
     width: calc(100% - 20px); /* Ensure width fits within form group with even padding */
     padding: 12px; /* Increased padding for larger space */
     margin-bottom: 15px;
@@ -81,8 +81,10 @@ button[type="submit"] {
     border: none;
     cursor: pointer;
     display: block;
-    margin: 0 auto; /* Center align button */
+    margin: 20px auto; /* Center align button with space around it */
     transition: background-color 0.3s ease;
+    width: auto; /* Ensure button is not too wide */
+    max-width: 200px; /* Set a maximum width for the button */
 }
 
 button[type="submit"]:hover {
@@ -108,20 +110,19 @@ button[type="submit"]:hover {
 .required-info {
     margin-top: 0px;
     font-size: 0.9em; /* Slightly smaller text */
-  }
-  
-  .required {
+}
+
+.required {
     color: #D32F2F;
     font-size: .9em; /* Larger red star */
-  }
-  
-  .required-text {
-    /* font-style: italic; */
-    margin-left: 0px;
-    color: #013220
-  }
+}
 
-  .back-home-btn {
+.required-text {
+    margin-left: 0px;
+    color: #013220;
+}
+
+.back-home-btn {
     color: #2b4a3f; /* Dark green color */
     font-size: 0.9rem; /* Small size */
     text-decoration: none; /* Remove underline */
@@ -134,8 +135,8 @@ button[type="submit"]:hover {
     left: 20px; /* Distance from the left */
 }
 
-  .back-home-btn:hover {
-      background-color: #2b4a3f; /* Dark green background on hover */
-      color: white; /* White text on hover */
-      transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
-  }
+.back-home-btn:hover {
+    background-color: #2b4a3f; /* Dark green background on hover */
+    color: white; /* White text on hover */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+}

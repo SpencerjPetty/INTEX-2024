@@ -551,6 +551,67 @@ h2,p {
 }
 
 
+/* ========== NEWSLETTER ========== */
+
+/* Overall Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Questrial', sans-serif;
+}
+
+/* Signup Bar Styles */
+.signup-bar {
+    background-color: #5E8C61;
+    /* background-image: url('/images/subtlebackground.jpg'); */
+    padding: 40px;
+    text-align: center;
+
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.signup-bar h2 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.signup-bar h3 {
+    font-size: 1em;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.signup-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signup-form input[type="email"] {
+    padding: 10px;
+    font-size: 1em;
+    border: 2px solid #2b4a3f;
+    border-radius: 5px;
+    margin-right: 10px;
+    width: 250px; /* Adjust width as needed */
+}
+
+.signup-form button {
+    padding: 10px 20px;
+    font-size: 1em;
+    color: white;
+    background-color: #2b4a3f;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.signup-form button:hover {
+    background-color: #1f362d;
+}
+
 
 
 /* ========== FOOTER SECTION STYLING ========== */

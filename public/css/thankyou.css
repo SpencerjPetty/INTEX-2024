@@ -1,0 +1,64 @@
+/* Importing Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap');
+
+body {
+    background-color: #f4f4f4;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full screen height */
+    text-align: center;
+}
+
+.confirmation-container {
+    background-color: #2b4a3f;
+    border: 3px solid rgb(120, 140, 130);
+    padding: 40px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    max-width: 500px; /* Set maximum width */
+    width: 100%; /* Ensure it takes full width up to max width */
+}
+
+h1 {
+    font-size: 3em;
+    color: #f4f4f4;
+    font-weight: normal;
+    margin-bottom: 20px;
+    word-wrap: break-word; /* Ensure words wrap properly */
+}
+
+h2 {
+    font-size: 2em;
+    color: #f4f4f4;
+    font-weight: normal;
+    margin-bottom: 20px;
+    word-wrap: break-word; /* Ensure words wrap properly */
+}
+
+.circular-image img {
+    width: 150px; /* Adjust size as needed */
+    height: 150px;
+    object-fit: cover;
+}
+
+.back-home-btn {
+    color: #2b4a3f; /* Dark green color */
+    font-size: 0.9rem; /* Small size */
+    text-decoration: none; /* Remove underline */
+    padding: 5px 10px; /* Small padding */
+    border: 2px solid #2b4a3f; /* Dark green border */
+    display: inline-block; /* Keep button inline with text */
+    border-radius: 5px; /* Optional: Adds slightly rounded corners */
+    position: absolute; /* Positioning */
+    bottom: 20px; /* Distance from the bottom */
+    right: 20px; /* Distance from the right */
+}
+
+.back-home-btn:hover {
+    background-color: #2b4a3f; /* Dark green background on hover */
+    color: white; /* White text on hover */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+}
