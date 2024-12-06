@@ -32,7 +32,6 @@
       <% ref_types.forEach(refs => { %>
         <option value="<%= refs.referral_source_id %>"><%= refs.referral_description %></option>
       <% }) %>
-      <option value="O">Other</option>
     </select>
     <input type="text" id="referralOtherText" name="referral_other_text" placeholder="Other" hidden><br>
 
