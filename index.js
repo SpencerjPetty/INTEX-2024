@@ -484,7 +484,7 @@ app.post('/admin/editEvent/:id', isAuthenticated, (req, res) => {
     donation_flag: donation_flag === 'true', // BOOLEAN
     donation_amount: donation_flag === 'true' ? parseInt(donation_amount, 10) || null : null, // INT or null
     event_status: event_status || 'P', // CHAR(1), default to 'P'
-    num_volunteers: num_volunteers || 1
+    num_volunteers: num_volunteers || null
   };
 
   // Update the database record
