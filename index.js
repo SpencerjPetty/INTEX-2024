@@ -1118,7 +1118,7 @@ app.get('/admin/manageEvents', isAuthenticated, (req, res) => {
       'event_details.time_submitted',
       'event_details.num_volunteers'
     )
-    .orderBy('event_details.planned_date', 'asc') // Sort by planned date in ascending order
+    .orderBy('event_details.planned_date', 'desc') // Sort by planned date in descending order
     .then(events => {
       // Render the manageEvents.ejs template and pass the data
       res.render('manageEvents', { events });
