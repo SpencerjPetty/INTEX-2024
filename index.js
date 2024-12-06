@@ -628,6 +628,10 @@ app.post('/admin/reportEvent/:id', isAuthenticated, (req, res) => {
     envelopes_produced,
     vests_produced,
     total_products_completed,
+    pockets_max_possible,
+    collars_max_possible,
+    envelopes_max_possible,
+    vests_max_possible
   } = req.body;
 
   // Prepare data for upsertion
@@ -641,6 +645,10 @@ app.post('/admin/reportEvent/:id', isAuthenticated, (req, res) => {
     envelopes_produced: parseInt(envelopes_produced, 10) || 0, // INT
     vests_produced: parseInt(vests_produced, 10) || 0, // INT
     total_products_completed: parseInt(total_products_completed, 10) || 0, // INT
+    pockets_max_possible: parseInt(pockets_max_possible, 10) || 0,
+    collars_max_possible: parseInt(collars_max_possible, 10) || 0,
+    envelopes_max_possible: parseInt(envelopes_max_possible, 10) || 0,
+    vests_max_possible: parseInt(vests_max_possible, 10) || 0
   };
 
   // Insert or update (upsert) the event results
