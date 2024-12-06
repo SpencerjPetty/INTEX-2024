@@ -12,6 +12,15 @@ body {
     align-items: center;
 }
 
+#togglePassword {
+    right: 100;
+    top: 0;
+    height: 100%;
+    border: none;
+    background: gray;
+    cursor: pointer;
+}
+
 /* Page Header */
 h1 {
     font-size: 3em;
