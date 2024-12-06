@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Upcoming Events</title>
+    <link rel="stylesheet" href="/css/adminUpcoming.css">
 </head>
 <body>
+<a href="/admin" class="back-home-btn">Back to Admin Home Page</a>
 <h1>Upcoming Events</h1>
 <table>
   <thead>
@@ -17,7 +19,6 @@
       <th>City</th>
       <th>Start Time</th>
       <th>Duration (hrs)</th>
-      <th></th>
       <th>Volunteers Needed</th>
     </tr>
   </thead>
@@ -33,11 +34,11 @@
             <td><%= event.planned_hour_duration %></td>
             <td><%= event.num_volunteers %></td>
         </tr>
-        <% }); %>
-    </tbody>
+    <% }); %>
+  </tbody>
 </table>
 <form action="/admin/manageEvents" method="GET">
     <button type="submit">Manage Events Page</button>
-        
+</form>
 </body>
 </html>

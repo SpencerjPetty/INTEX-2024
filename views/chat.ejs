@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Website</title>
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/chat.css">
+</head>
+<body>
+    <!-- Your existing website content -->
+    <header>
+        <h1>Welcome to My Website</h1>
+        <!-- Add more content here -->
+        
+        <!-- Conditionally Render Login or Admin Button -->
+        <% if (!loggedIn) { %>
+            <!-- Login Button -->
+            <form action="/login" method="GET" class="nav-item mx-0 mx-lg-1">
+                <button type="submit">Login</button>
+            </form>
+        <% } else { %>
+            <!-- Admin Button -->
+            <form action="/admin" method="GET" class="nav-item mx-0 mx-lg-1">
+                <button type="submit">Admin</button>
+            </form>
+        <% } %>
+    </header>
+    
+    <!-- Chatbot Elements -->
+    <div id="chatbot-container">
+        <div id="chatbot-header">
+            <h2>Chatbot</h2>
+            <button id="close-chatbot">x</button>
+        </div>
+        <div id="chatbot-body">
+            <div id="messages"></div>
+            <input type="text" id="user-input" placeholder="Type your message here...">
+            <button id="send-message">Send</button>
+        </div>
+    </div>
+    <button id="open-chatbot">Chat with us!</button>
+
+    <script src="/scripts/chat.js"></script>
+</body>
+</html>
