@@ -1,3 +1,5 @@
+// Intex group 2-2
+
 let express = require("express"); // Importing the express class/library
 let session = require('express-session'); // Middleware for session management
 let app = express(); // Creating an express object
@@ -1009,7 +1011,6 @@ app.post('/admin/editVolunteer/:id', isAuthenticated, (req, res) => {
       res.status(500).send('Internal Server Error');
     });
 });
-
 
 // Handle Add Event Form Submission
 app.post('/admin/addEvent', isAuthenticated, (req, res) => {
